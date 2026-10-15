@@ -2,19 +2,21 @@
 import pathlib
 import shutil
 import zipfile
+from check_reference import PROFILES, verify
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 DOWNLOADS = ROOT / "site/downloads"
 
 def package(downloads=DOWNLOADS):
+    verify()
     names = ["docker", "docker-arm64", "helm"]
     names.extend(name for name in ("docker-playground", "docker-playground-arm64") if (downloads / name).is_dir())
     for name in names:
         folder = downloads / name
         for source, target in (("seccomp.json", "seccomp.json"), ("NOTICE", "NOTICE"), ("licenses/APACHE-2.0.txt", "LICENSE"), ("nuaforma.apparmor", "nuaforma.apparmor")):
-            shutil.copyfile(ROOT / "deployment/pdf-runtime" / source, folder / target)
+            shutil.copyfile(PROFILES / source, folder / target)
         if name.startswith("docker"):
-            shutil.copyfile(ROOT / "deployment/pdf-runtime/compose.apparmor.yaml", folder / "compose.apparmor.yaml")
+            shutil.copyfile(PROFILES / "compose.apparmor.yaml", folder / "compose.apparmor.yaml")
         with zipfile.ZipFile(downloads / (name + "-kit.zip"), "w", zipfile.ZIP_DEFLATED) as archive:
             for file in sorted(folder.rglob("*")):
                 if file.is_file():

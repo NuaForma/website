@@ -1,32 +1,6 @@
-# Local configuration and secrets
-.env
-.env.*
-!.env.example
-
-# Personal agent agreements; shared project rules live in AGENTS.md.
-/AGENTS.local.md
-
-# Operating system files
-.DS_Store
-Thumbs.db
-Desktop.ini
-
-# Local design explorations and generated previews
-# Publish selected branding assets separately when ready.
-/output/
-
-# Gradle and Kotlin build output
-.gradle/
-.kotlin/
+AGENTS.local.md
 build/
-target/
-/tools/release/__pycache__/
-/deployment/pdf-runtime/custom-fonts/
-/deployment/pdf-runtime/extensions/
-/tools/container/__pycache__/
-/tools/site/__pycache__/
-/tools/sbom/__pycache__/
-
-# IDE-local configuration
-.idea/
-*.iml
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store

@@ -1,17 +1,15 @@
 ## Summary
 
-Describe the behavior change, compatibility impact and any non-obvious trade-offs.
+Describe the website/download change and product-release compatibility.
 
 ## Related issue
 
-Refs #
-
-Use a closing reference only when the issue's full acceptance criteria are satisfied.
+Refs NuaForma/NuaForma#88
 
 ## Verification
 
-- [ ] The required Build (Java 17) check passes.
-- [ ] Relevant regression and integration tests are included, or their absence is explained.
-- [ ] Public contract, architecture, security and document-fidelity impact has been reviewed where applicable.
-- [ ] Documentation impact is recorded: relevant guides, examples, API/deployment documentation and architecture are updated, or no change is needed with an explanation. Source/release claims reflect implemented and verified behavior.
-- [ ] Playground impact is recorded: update controls, capability/schema interpretation, exports, warnings and tests, or explain why no change is needed.
+- [ ] Website checks pass and all modified ZIP members match their source files.
+- [ ] Existing public URLs and the actual released image/library versions remain correct.
+- [ ] Documentation and Playground impact assessed; necessary instructions/warnings/examples are updated.
+- [ ] No private data/secrets/fonts or changes to product runtime security policy.
+- [ ] Structural versus rendered/client verification scope is recorded honestly.

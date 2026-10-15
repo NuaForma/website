@@ -1,0 +1,418 @@
+{
+  "repository": "NuaForma/NuaForma",
+  "sourceCommit": "00e363fb3760a79c19c1e046bd42e2dcb48a62f5",
+  "files": {
+    "README.md": {
+      "sha256": "932a15b15472d19a314860ae311c915a7fb6ea4ecc87049edb9cc1874571d6c6",
+      "bytes": 4969
+    },
+    "app.js": {
+      "sha256": "7536b77e1922a40c5d375f55a6d884a213b101d821d6216957e1fd7cba359bdb",
+      "bytes": 7167
+    },
+    "assets/README.md": {
+      "sha256": "65ba60032336bda7083bc3a5ca90abb62f1ef981d9c9aefc0d059187e9ea4b9d",
+      "bytes": 1073
+    },
+    "assets/nuaforma-dark-transparent.png": {
+      "sha256": "ba57342403ea17a31546a029a16266f7eba08c1b523f3adf1da7536d88660464",
+      "bytes": 462489
+    },
+    "assets/nuaforma-dark.png": {
+      "sha256": "9e83626e4f64c3895d39766d388d8e350c3429bad06ba5be7480d3922c77e273",
+      "bytes": 1234152
+    },
+    "assets/nuaforma-icon.png": {
+      "sha256": "3c95af0cba08cca5396484913504f607ae0af1fa68e15d56506bd062782803a2",
+      "bytes": 1082312
+    },
+    "assets/nuaforma-light.png": {
+      "sha256": "9ad3bb30876100372c3a7fda228a3ce667fa4835ad5bb6a6fa82e2d33ca0fb83",
+      "bytes": 1109009
+    },
+    "downloads/01-final-pdfa3b.json": {
+      "sha256": "704860679a412b1693f5b20a352bf83b991141c5caebe3ee37fc8846b65f27ff",
+      "bytes": 2080
+    },
+    "downloads/02-draft-watermark.json": {
+      "sha256": "2db7bdd5e0317e911eeb360c466dc5c195c3f8944f2f2ca65a12b3a6b7e125fe",
+      "bytes": 2330
+    },
+    "downloads/03-null-empty-standard.json": {
+      "sha256": "021e2dbd3ee5f580e08548bee2ee41e57eb85374336cbffd56558605f9d05d5d",
+      "bytes": 1623
+    },
+    "downloads/04-opaque-pdfa1b.json": {
+      "sha256": "eecca79e93fa13e4c2aeaa0c5bbe7be779c1d3e348c1c41a689b918bf19b664b",
+      "bytes": 2271
+    },
+    "downloads/05-editable-word.json": {
+      "sha256": "2acc504295d36b485751f29d4c4f6015a22b7b13904a52a288fa80623476a773",
+      "bytes": 2277
+    },
+    "downloads/06-empty-projects-pdfa2b.json": {
+      "sha256": "2db67fd9bac2effc81bf00e689c2ae276f40e35c69482795164bff79239e3a47",
+      "bytes": 1217
+    },
+    "downloads/07-base64-image-pdfa3b.json": {
+      "sha256": "740a4ed84a5e6cf6cd403ee14712c04af7b2ed90f882d2fb3057bcd6367ef953",
+      "bytes": 13870
+    },
+    "downloads/EXAMPLES.md": {
+      "sha256": "d65c0e4e49fd1bb04538c1c8c379be670e79caaff5126461300d9d8c06ab5c4e",
+      "bytes": 7094
+    },
+    "downloads/START-HERE.md": {
+      "sha256": "668007c47be1b3ef32503bd0543b6efa9b91eb36e5ea74246b4be60fa0075d75",
+      "bytes": 3347
+    },
+    "downloads/bruno-kit.zip": {
+      "sha256": "678bf20662d8653aec4f80b1b6864b24caf3d4a95dfccd7dd3495dad071d76da",
+      "bytes": 198787
+    },
+    "downloads/bruno/01-version.bru": {
+      "sha256": "b21e3fef1dd78e3bf95f85fd2e38fef2ac0356c72105242de503f0a98f74c150",
+      "bytes": 325
+    },
+    "downloads/bruno/02-capabilities.bru": {
+      "sha256": "32e3ba6738a6d02ce4b7d9e69b6ae34a20bd01461caa500aa16f50622b0b42f4",
+      "bytes": 369
+    },
+    "downloads/bruno/03-assess.bru": {
+      "sha256": "ac2578ca207a9856667bf41d2a36dd347acdfa66cc5d449d25d1affa3acdc3b8",
+      "bytes": 2671
+    },
+    "downloads/bruno/04-openapi-json.bru": {
+      "sha256": "ca01398a100f0b39d9b90fd8aae70f50a742e7f75cb74535a93919671fca2850",
+      "bytes": 333
+    },
+    "downloads/bruno/05-openapi-yaml.bru": {
+      "sha256": "6172bb330267f620382da7078d296e6f31853b4dac2af6de324b51aa0b1cc751",
+      "bytes": 336
+    },
+    "downloads/bruno/06-01-final-pdfa3b.bru": {
+      "sha256": "d7ee6179576ea3bfe26431401504dcf66e3b74c6cae9877c714f4cebbe8cda84",
+      "bytes": 772
+    },
+    "downloads/bruno/07-02-draft-watermark.bru": {
+      "sha256": "aa9fbd1a5fe5bf6f71fd3c27994e27d3763f34c24bc37af4bd2586a75a5042cc",
+      "bytes": 778
+    },
+    "downloads/bruno/08-03-null-empty-standard.bru": {
+      "sha256": "d5c901a19f92935f2917d8c792d72c8b6162a5062c16110a81130bca36088fa5",
+      "bytes": 784
+    },
+    "downloads/bruno/09-04-opaque-pdfa1b.bru": {
+      "sha256": "529cb409dd6b62eea87e5a66d72c86528c4befe91ce81d0e50a7193567fc7a86",
+      "bytes": 757
+    },
+    "downloads/bruno/10-05-editable-word.bru": {
+      "sha256": "a25f99283027f6f3999ca547f60a4f226c9ab136670bd4c6b40f172098c219b4",
+      "bytes": 804
+    },
+    "downloads/bruno/11-06-empty-projects-pdfa2b.bru": {
+      "sha256": "26c477085ddb1472bca88da37471e51339128c97e26913d5e6ffc7cf4fa662d9",
+      "bytes": 783
+    },
+    "downloads/bruno/12-07-base64-image-pdfa3b.bru": {
+      "sha256": "be326a72995174e0e16d9780c1eef565c3e1bed2e306e67ba33739860c39412a",
+      "bytes": 777
+    },
+    "downloads/bruno/README.md": {
+      "sha256": "d53aff3009935933e1b0d5c7462d4682dbc9f438a6f904ce7d7405f0adb026da",
+      "bytes": 2774
+    },
+    "downloads/bruno/assets/01-final-pdfa3b.json": {
+      "sha256": "704860679a412b1693f5b20a352bf83b991141c5caebe3ee37fc8846b65f27ff",
+      "bytes": 2080
+    },
+    "downloads/bruno/assets/02-draft-watermark.json": {
+      "sha256": "2db7bdd5e0317e911eeb360c466dc5c195c3f8944f2f2ca65a12b3a6b7e125fe",
+      "bytes": 2330
+    },
+    "downloads/bruno/assets/03-null-empty-standard.json": {
+      "sha256": "021e2dbd3ee5f580e08548bee2ee41e57eb85374336cbffd56558605f9d05d5d",
+      "bytes": 1623
+    },
+    "downloads/bruno/assets/04-opaque-pdfa1b.json": {
+      "sha256": "eecca79e93fa13e4c2aeaa0c5bbe7be779c1d3e348c1c41a689b918bf19b664b",
+      "bytes": 2271
+    },
+    "downloads/bruno/assets/05-editable-word.json": {
+      "sha256": "2acc504295d36b485751f29d4c4f6015a22b7b13904a52a288fa80623476a773",
+      "bytes": 2277
+    },
+    "downloads/bruno/assets/06-empty-projects-pdfa2b.json": {
+      "sha256": "2db67fd9bac2effc81bf00e689c2ae276f40e35c69482795164bff79239e3a47",
+      "bytes": 1217
+    },
+    "downloads/bruno/assets/07-base64-image-pdfa3b.json": {
+      "sha256": "740a4ed84a5e6cf6cd403ee14712c04af7b2ed90f882d2fb3057bcd6367ef953",
+      "bytes": 13870
+    },
+    "downloads/bruno/assets/nuaforma-example-template.docx": {
+      "sha256": "062048778edd617a68750fd7a93bc081d56a4a7817061b220d7a2cb06933cd7a",
+      "bytes": 178142
+    },
+    "downloads/bruno/bruno.json": {
+      "sha256": "a032e143105b5a62fe7fd4c9d5c0524b6b2da3edc3624f8a416c308020de12fa",
+      "bytes": 108
+    },
+    "downloads/bruno/collection.bru": {
+      "sha256": "9476bb5f98088bc417fbab6dae71e1e3c9e4884bc59c3fca050cfc548228aa5b",
+      "bytes": 54
+    },
+    "downloads/docker-arm64-kit.zip": {
+      "sha256": "aa776db27712df2a3285c46c4117f2370059ca237bca37fd43b657050ecb0539",
+      "bytes": 12358
+    },
+    "downloads/docker-arm64/Dockerfile": {
+      "sha256": "6b76b336b42fe15e297718906c4d29104f7cb7f7bd43b7d6b4b77e3c142d01e1",
+      "bytes": 181
+    },
+    "downloads/docker-arm64/LICENSE": {
+      "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+      "bytes": 11324
+    },
+    "downloads/docker-arm64/NOTICE": {
+      "sha256": "d53c06e23604e60127a57a517fa032d84a66ed6d504496ca37ca7660f8e8d149",
+      "bytes": 1493
+    },
+    "downloads/docker-arm64/README.md": {
+      "sha256": "b55a0f17fb08cd84baac609fadfec06bbc2899863e7a5f2def88ecbe197ce9eb",
+      "bytes": 4474
+    },
+    "downloads/docker-arm64/compose.apparmor.yaml": {
+      "sha256": "4f13f561214f52cd807e2fefacd38af5e08336941a31146932f5b55579162b58",
+      "bytes": 74
+    },
+    "downloads/docker-arm64/compose.yaml": {
+      "sha256": "08ad4fa7e5de90036b9890a8d3d7aec95babf9a73de99c8ce5d07ee6a87ecd5a",
+      "bytes": 729
+    },
+    "downloads/docker-arm64/nuaforma.apparmor": {
+      "sha256": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",
+      "bytes": 3683
+    },
+    "downloads/docker-arm64/seccomp.json": {
+      "sha256": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
+      "bytes": 18618
+    },
+    "downloads/docker-kit.zip": {
+      "sha256": "ad76df1d7094052ed7615dee9864dee49e27fb36a4d00cec8407990564ce33a7",
+      "bytes": 12358
+    },
+    "downloads/docker-playground-arm64-kit.zip": {
+      "sha256": "fd5c48b9e663034273a4a78c8ea8a873f817c99e1c184bc24245cb0d3884d232",
+      "bytes": 12624
+    },
+    "downloads/docker-playground-arm64/Dockerfile": {
+      "sha256": "87c2ea062ce34157c1aadecb727b00ae6714b912e75ecd441704bc63d0921475",
+      "bytes": 192
+    },
+    "downloads/docker-playground-arm64/LICENSE": {
+      "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+      "bytes": 11324
+    },
+    "downloads/docker-playground-arm64/NOTICE": {
+      "sha256": "d53c06e23604e60127a57a517fa032d84a66ed6d504496ca37ca7660f8e8d149",
+      "bytes": 1493
+    },
+    "downloads/docker-playground-arm64/README.md": {
+      "sha256": "aceba4492d2a55c2c5f142b17447ed6f3cb6daf88a381e403389cfdec4f72515",
+      "bytes": 5008
+    },
+    "downloads/docker-playground-arm64/compose.apparmor.yaml": {
+      "sha256": "4f13f561214f52cd807e2fefacd38af5e08336941a31146932f5b55579162b58",
+      "bytes": 74
+    },
+    "downloads/docker-playground-arm64/compose.yaml": {
+      "sha256": "1c40bae42f0505005131fe0db3bf7042e293eaa7b1a0f06911424c3eb97c0acf",
+      "bytes": 809
+    },
+    "downloads/docker-playground-arm64/nuaforma.apparmor": {
+      "sha256": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",
+      "bytes": 3683
+    },
+    "downloads/docker-playground-arm64/seccomp.json": {
+      "sha256": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
+      "bytes": 18618
+    },
+    "downloads/docker-playground-kit.zip": {
+      "sha256": "85bdd289ac11b6c578b89e16f8f6843470e6547545959f1d31bc6d1d42ec5ca7",
+      "bytes": 12628
+    },
+    "downloads/docker-playground/Dockerfile": {
+      "sha256": "bdc52b1ee07885e0b584daeeea61c66a1b64aeb25f323c3a8b09009bfff44614",
+      "bytes": 200
+    },
+    "downloads/docker-playground/LICENSE": {
+      "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+      "bytes": 11324
+    },
+    "downloads/docker-playground/NOTICE": {
+      "sha256": "d53c06e23604e60127a57a517fa032d84a66ed6d504496ca37ca7660f8e8d149",
+      "bytes": 1493
+    },
+    "downloads/docker-playground/README.md": {
+      "sha256": "e633ba9f271c0f7661b8111ceeed828fccd352ab3f6e5bad54fe47d1f9cc0b5d",
+      "bytes": 5017
+    },
+    "downloads/docker-playground/compose.apparmor.yaml": {
+      "sha256": "4f13f561214f52cd807e2fefacd38af5e08336941a31146932f5b55579162b58",
+      "bytes": 74
+    },
+    "downloads/docker-playground/compose.yaml": {
+      "sha256": "4e9d64fea98a45cea878e14829503be85c8f5a4e0f3b64a9912dc9fa90c60b2e",
+      "bytes": 809
+    },
+    "downloads/docker-playground/nuaforma.apparmor": {
+      "sha256": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",
+      "bytes": 3683
+    },
+    "downloads/docker-playground/seccomp.json": {
+      "sha256": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
+      "bytes": 18618
+    },
+    "downloads/docker/Dockerfile": {
+      "sha256": "e24ea44cb7f59cfaf8101ffc97033cc0fc21217024ae36990e981408740e1e4f",
+      "bytes": 189
+    },
+    "downloads/docker/LICENSE": {
+      "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+      "bytes": 11324
+    },
+    "downloads/docker/NOTICE": {
+      "sha256": "d53c06e23604e60127a57a517fa032d84a66ed6d504496ca37ca7660f8e8d149",
+      "bytes": 1493
+    },
+    "downloads/docker/README.md": {
+      "sha256": "71e8839001bc2e7cf4bd856ffcb5fa128b50b6790f653fc1cf681daaa364331f",
+      "bytes": 4477
+    },
+    "downloads/docker/compose.apparmor.yaml": {
+      "sha256": "4f13f561214f52cd807e2fefacd38af5e08336941a31146932f5b55579162b58",
+      "bytes": 74
+    },
+    "downloads/docker/compose.yaml": {
+      "sha256": "4613af100a2e358a7824a400098d8f2da9e88d5c0b515b1763aafba354c4fb45",
+      "bytes": 729
+    },
+    "downloads/docker/nuaforma.apparmor": {
+      "sha256": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",
+      "bytes": 3683
+    },
+    "downloads/docker/seccomp.json": {
+      "sha256": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
+      "bytes": 18618
+    },
+    "downloads/example-kit.zip": {
+      "sha256": "dbdfaebf8f2c23b840176f81d35e226149c5a052565c2e7584a663d8c2a72b0a",
+      "bytes": 588812
+    },
+    "downloads/helm-kit.zip": {
+      "sha256": "a662dd3986087fb46bf49755932064f5cbc5bdc4456c6415c3cd09817e2af4b5",
+      "bytes": 13755
+    },
+    "downloads/helm/LICENSE": {
+      "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+      "bytes": 11324
+    },
+    "downloads/helm/NOTICE": {
+      "sha256": "d53c06e23604e60127a57a517fa032d84a66ed6d504496ca37ca7660f8e8d149",
+      "bytes": 1493
+    },
+    "downloads/helm/README.md": {
+      "sha256": "43f5bf13bb8343b967446e406252ec2a7b32f311b20547f0b585d6ebb15a7750",
+      "bytes": 5047
+    },
+    "downloads/helm/nuaforma.apparmor": {
+      "sha256": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",
+      "bytes": 3683
+    },
+    "downloads/helm/nuaforma/Chart.yaml": {
+      "sha256": "24e935dc9904a86508ec17a00f54cfd8e303ac9e027f9ff9a5fac2f094e66bba",
+      "bytes": 174
+    },
+    "downloads/helm/nuaforma/templates/deployment.yaml": {
+      "sha256": "a8df7f78665f6dc910fde7741e8640c2d479b0eb8dc6b329c490960bc172ba68",
+      "bytes": 3260
+    },
+    "downloads/helm/nuaforma/templates/service.yaml": {
+      "sha256": "34928ebec06e95e49cd296dfdb265f6c0ef5c8f0d874a027af806bfda443ca39",
+      "bytes": 221
+    },
+    "downloads/helm/nuaforma/values.yaml": {
+      "sha256": "fc5f995af83138438c0c7b0bc035923502e839aa2244609dbc7acd3ded9164a6",
+      "bytes": 671
+    },
+    "downloads/helm/seccomp.json": {
+      "sha256": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
+      "bytes": 18618
+    },
+    "downloads/nuaforma-complete-kit.zip": {
+      "sha256": "3d7895a482c5c806e4c20917bc3c41cb83e9fa9cc83d0065f1a515654310843b",
+      "bytes": 656525
+    },
+    "downloads/nuaforma-example-template.docx": {
+      "sha256": "062048778edd617a68750fd7a93bc081d56a4a7817061b220d7a2cb06933cd7a",
+      "bytes": 178142
+    },
+    "downloads/postman-kit.zip": {
+      "sha256": "11f9c87941be6f67a5d025482bb1329c82b706f0a501f102273049167774f14f",
+      "bytes": 194869
+    },
+    "downloads/postman/NuaForma.postman_collection.json": {
+      "sha256": "635ee3d873e6712a78b2398d70753470a0fa20cc11ad8e26cf3fffb9cde0ba92",
+      "bytes": 17695
+    },
+    "downloads/postman/README.md": {
+      "sha256": "e7aa1d5f230edbff32a67c1c5954111ebe8a4b397fd126ba6f87291370ea8727",
+      "bytes": 3030
+    },
+    "downloads/postman/assets/01-final-pdfa3b.json": {
+      "sha256": "704860679a412b1693f5b20a352bf83b991141c5caebe3ee37fc8846b65f27ff",
+      "bytes": 2080
+    },
+    "downloads/postman/assets/02-draft-watermark.json": {
+      "sha256": "2db7bdd5e0317e911eeb360c466dc5c195c3f8944f2f2ca65a12b3a6b7e125fe",
+      "bytes": 2330
+    },
+    "downloads/postman/assets/03-null-empty-standard.json": {
+      "sha256": "021e2dbd3ee5f580e08548bee2ee41e57eb85374336cbffd56558605f9d05d5d",
+      "bytes": 1623
+    },
+    "downloads/postman/assets/04-opaque-pdfa1b.json": {
+      "sha256": "eecca79e93fa13e4c2aeaa0c5bbe7be779c1d3e348c1c41a689b918bf19b664b",
+      "bytes": 2271
+    },
+    "downloads/postman/assets/05-editable-word.json": {
+      "sha256": "2acc504295d36b485751f29d4c4f6015a22b7b13904a52a288fa80623476a773",
+      "bytes": 2277
+    },
+    "downloads/postman/assets/06-empty-projects-pdfa2b.json": {
+      "sha256": "2db67fd9bac2effc81bf00e689c2ae276f40e35c69482795164bff79239e3a47",
+      "bytes": 1217
+    },
+    "downloads/postman/assets/07-base64-image-pdfa3b.json": {
+      "sha256": "740a4ed84a5e6cf6cd403ee14712c04af7b2ed90f882d2fb3057bcd6367ef953",
+      "bytes": 13870
+    },
+    "downloads/postman/assets/nuaforma-example-template.docx": {
+      "sha256": "062048778edd617a68750fd7a93bc081d56a4a7817061b220d7a2cb06933cd7a",
+      "bytes": 178142
+    },
+    "downloads/scenarios.json": {
+      "sha256": "2c44766ecd74a1f7f4b2b3c8a4bd5981bf93a9db050a16dac49d7d39bf21eeb6",
+      "bytes": 2679
+    },
+    "index.html": {
+      "sha256": "0e10d23fc9250badc6d218ad4c1cd2496762baa56fb63e4678e33bf55645608b",
+      "bytes": 32634
+    },
+    "styles.css": {
+      "sha256": "c1714916cea86bbec9e4167a0106c065a659f272c0c68bd3960d466a048d7da0",
+      "bytes": 13051
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "repository": "NuaForma/NuaForma",
+  "sourceCommit": "1d01ef28d92f355ffc9de7abd97274ac6193a57e",
+  "release": "0.2.0-alpha.1",
+  "files": {
+    "seccomp.json": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
+    "nuaforma.apparmor": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",
+    "compose.apparmor.yaml": "4f13f561214f52cd807e2fefacd38af5e08336941a31146932f5b55579162b58",
+    "NOTICE": "d53c06e23604e60127a57a517fa032d84a66ed6d504496ca37ca7660f8e8d149",
+    "licenses/APACHE-2.0.txt": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a"
+  }
+}

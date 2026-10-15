@@ -1,71 +1,32 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/branding/nuaforma-dark-transparent.png">
-    <source media="(prefers-color-scheme: light)" srcset="assets/branding/nuaforma-light.png">
-    <img src="assets/branding/nuaforma-light.png" alt="NuaForma — rounded teal and navy N logo" width="320">
-  </picture>
-</p>
+# NuaForma website
 
-# NuaForma
+Source for [nuaforma.dev](https://nuaforma.dev), its public deployment kits and synthetic Word/JSON examples. This is a static GitHub Pages site, not a document-generation service. The [product repository](https://github.com/NuaForma/NuaForma) owns the Java/Kotlin engine, server, Playground, technical guides and releases.
 
-[![Maven Central](https://img.shields.io/maven-central/v/dev.nuaforma/nuaforma-core?strategy=highestVersion&label=Maven%20Central&color=008b90)](https://central.sonatype.com/artifact/dev.nuaforma/nuaforma-core)
+## Workflow
 
-**Turn templates and structured data into documents.**
+`develop` is the default integration branch. Open feature PRs against develop; promote prepared site changes to main after the matching product release is available. Main deploys automatically only after `Website checks` succeeds. A small emergency correction may be pushed directly to main by a repository administrator, but it must be signed and brought back to develop through a PR. Signatures, no-force-push and no-deletion rules remain enforced even for administrators. Normal changes use PRs.
 
-NuaForma is an open-source document-generation engine. Combine a Word template, your own structured data and generation options to produce DOCX or PDF documents, without a proprietary platform or mandatory cloud service. Embed the Java-17-compatible libraries in your application, or run the REST service in your own infrastructure.
+## Local checks
 
-Visit [nuaforma.dev](https://nuaforma.dev) for deployment examples and downloadable test kits, or browse the [documentation](docs/README.md).
-
-> **Evaluation alpha:** libraries and containers use `0.2.0-alpha.1`, with contract `0.2`. Production and separate development Playground images support native AMD64 and ARM64. APIs are not stable; see [version status](docs/README.md#source-versus-published-versions). There is no `latest` prerelease tag or hosted generation service.
-
-## Why NuaForma?
-
-- **Keep your Word layout:** replace placeholders and expand paragraphs/table rows while preserving supported formatting, headers, footers, images and text boxes.
-- **Use your own data:** nested objects, lists and null values, with inline conditions, nested repetitions and explicit number/date formatting.
-- **Choose the output:** DOCX, standard PDF or independently validated PDF/A-1b, PDF/A-2b and PDF/A-3b. PDF defaults to PDF/A-3b.
-- **Control fonts and watermarks:** retain template fonts, supply fonts when needed and resolve dynamic text watermarks against the same data.
-- **Run where you need it:** embedded Kotlin/Java, REST or an on-premise container, with no mandatory cloud account.
-- **Respect security boundaries:** a restricted template language, bounded processing and isolated, network-denied PDF renderer/validator processes. Installed extensions remain trusted executable code, not sandboxed templates.
-
-These are bounded supported profiles, not a promise to reproduce every Word feature. PDF/A-1b rejects transparency; the known text-box positioning limitation is documented in the [PDF guide](nuaforma-docx-pdf/README.md). Keep remotely accessible services behind an authenticated TLS gateway.
-
-## Get started
-
-### Run the container
-
-Download the complete [AMD64](https://nuaforma.dev/downloads/docker-kit.zip) or [ARM64](https://nuaforma.dev/downloads/docker-arm64-kit.zip) deployment kit. Extract it, keep its reviewed `seccomp.json` alongside `compose.yaml`, and follow the included instructions. No custom image build is required. See the [website](https://nuaforma.dev) and [Podman/Apple Silicon notes](deployment/pdf-runtime/ARM64.md#podman-runtime) when applicable; do not disable isolation to work around startup failures.
-
-Use the site's Word/JSON test kit and Bruno/Postman collections to try generation against your own instance. The [REST guide](nuaforma-server/README.md) describes multipart uploads, options and responses.
-
-For the separate [development Playground](nuaforma-playground/README.md), use its [AMD64](https://nuaforma.dev/downloads/docker-playground-kit.zip) or [ARM64](https://nuaforma.dev/downloads/docker-playground-arm64-kit.zip) kit. It enables development logging and may log document content and field values: use synthetic data and your own access controls. The production image does not include the UI.
-
-### Embed the engine
-
-Use `dev.nuaforma:nuaforma-core` plus `dev.nuaforma:nuaforma-docx` for Word generation; add `nuaforma-docx-pdf` and the qualified external runtime for PDF. Published coordinates use `0.2.0-alpha.1`. DOCX-only applications do not need Docker, LibreOffice or the server. Start with the [Java/Maven and Kotlin/Gradle examples](examples/embedded/README.md).
-
-### Write a template
-
-Keep the desired styling in Word and insert markers such as:
-
-```text
-Dear {trim(customer.name)},
-Contact: {customer.email ?? "Not provided"}
-You {#if active}have an active agreement{#else}do not have an active agreement{/if}.
-{#each items as item}{item.name}: {item.amount | number("0.00")}{/each}
+```sh
+python3 -m http.server 8430 --bind 127.0.0.1 --directory site
+python3 tools/site/check_site.py
+python3 tools/site/check_reference.py
+python3 -m unittest discover -s tools/site -p 'test_*.py'
+node --check site/app.js
+node --test tools/site/test_tabs.cjs
 ```
 
-Supply the corresponding `data` object in the generation request. Conditions require actual booleans; null comparisons and explicit fallbacks are supported. Inserted values remain literal, not executable template code. See the [language specification](nuaforma-template/README.md) and [Word template rules](nuaforma-docx/README.md#word-template-rules).
+Compose configurations and their enforcing AppArmor overrides are checked without starting containers. Keep all files in each kit together. Package deployment downloads with `python3 tools/site/package_deployment_kits.py`; rebuild the all-in-one ZIP with `python3 tools/site/package_complete_kit.py`. The complete kit contains production and development Playground choices for AMD64/ARM64, Helm, Bruno, Postman and seven document scenarios. Never replace a published image tag or silently weaken its runtime policy.
 
-## Documentation and development
+`reference/runtime` pins reviewed profile inputs from an immutable product release, including notices/licenses. `reference/migration-files.json` records every original public path and checksum at extraction. All public website/download bytes were copied unchanged during migration; technical documentation links continue to point at the product repository. Preserve existing paths across future releases, using explicit compatibility aliases if necessary.
 
-- [Documentation index](docs/README.md): templates, API, deployment, fonts, security and known limitations.
-- [Development guide](docs/development.md): build from source, tests and module overview.
-- [Extension guide](docs/extensions.md): custom providers, value pipes, content pipes and installation.
-- [Contributing](CONTRIBUTING.md): issues, changes, signed commits and pull requests.
-- [Roadmap](https://github.com/NuaForma/NuaForma/issues?q=is%3Aissue%20is%3Aopen): planned formats and capabilities; open issues are not implemented support.
+Document authoring uses optional python-docx/Pillow tooling; do not regenerate examples just to repackage them. Real container/example/client qualification stays in the product repository under `tools/site-qualification` and accepts this checkout explicitly, rather than requiring a hard-coded sibling directory. The old `site/README.md` is retained verbatim as a historical public file; this root guide owns current repository maintenance instructions.
 
-## License
+## Releases and history
 
-NuaForma's code is [Apache-2.0](LICENSE): commercial/internal use, modification and proprietary integration are permitted under its terms. Dependencies, fonts and bundled runtime components retain their own licenses; the combined container is not wholly Apache-2.0. See [third-party notices](THIRD_PARTY.md) and the [runtime distribution checklist](docs/libreoffice-licensing.md).
+A product release is not fully delivered until the matching website update is deployed and live download hashes are verified. Prepare changes on develop, keep public main compatible with the released product, and explicitly coordinate the two PRs. Publication of libraries/images remains protected and main-only in the product repository; this repo has no product signing or registry credentials.
 
-Copyright 2026 NuaForma contributors.
+The migration retains original signed Git commits as unchanged ancestry instead of rewriting/re-signing old history. Historical product files are therefore visible in old commits, not in the current website tree. See [maintenance issue #88](https://github.com/NuaForma/NuaForma/issues/88).
+
+NuaForma-authored code/examples are [Apache-2.0](LICENSE). Branding grants no trademark rights; runtime components/fonts keep their own terms. See the product's [notices](https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md) before redistributing images.

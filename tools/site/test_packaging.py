@@ -41,10 +41,10 @@ class PackagingTest(unittest.TestCase):
                 self.assertEqual(len(list(root.glob('*-kit.zip'))), len(names))
                 for name in names:
                     with zipfile.ZipFile(root / (name + '-kit.zip')) as archive:
-                        self.assertEqual(archive.read('seccomp.json'), (deployments.ROOT / 'deployment/pdf-runtime/seccomp.json').read_bytes())
-                        self.assertEqual(archive.read('nuaforma.apparmor'), (deployments.ROOT / 'deployment/pdf-runtime/nuaforma.apparmor').read_bytes())
+                        self.assertEqual(archive.read('seccomp.json'), (deployments.PROFILES / 'seccomp.json').read_bytes())
+                        self.assertEqual(archive.read('nuaforma.apparmor'), (deployments.PROFILES / 'nuaforma.apparmor').read_bytes())
                         if name.startswith('docker'):
-                            self.assertEqual(archive.read('compose.apparmor.yaml'), (deployments.ROOT / 'deployment/pdf-runtime/compose.apparmor.yaml').read_bytes())
+                            self.assertEqual(archive.read('compose.apparmor.yaml'), (deployments.PROFILES / 'compose.apparmor.yaml').read_bytes())
 
     def test_complete_kit_optional_playground_layout_and_no_nested_archives(self):
         for playground in (False, True):

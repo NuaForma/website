@@ -8,6 +8,7 @@ import re
 import zipfile
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
+from check_reference import PROFILES, verify
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
@@ -15,6 +16,7 @@ parser.add_argument('--site-directory', type=pathlib.Path, default=ROOT / 'site'
 parser.add_argument('--allow-preparation', action='store_true', help='Validate draft structure, not readiness for publication')
 arguments = parser.parse_args()
 SITE = arguments.site_directory.resolve()
+verify()
 assert arguments.allow_preparation or not (SITE / 'RELEASE-PREPARATION.txt').exists(), 'Candidate site has outstanding publication requirements'
 assert arguments.allow_preparation or 'REQUIRED_APPROVED_RELEASE_DIGEST' not in (SITE / 'downloads/helm/nuaforma/values.yaml').read_text(), 'Helm must pin the approved release digest'
 assert arguments.allow_preparation or 'REQUIRED_APPROVED_PLAYGROUND_DIGEST' not in (SITE / 'downloads/helm/README.md').read_text(encoding='utf-8'), 'Playground instructions must pin the approved release digest'
@@ -40,7 +42,6 @@ class Tabs(HTMLParser):
 tabs = Tabs()
 tabs.feed(source)
 for guide in ('docs/README.md', 'docs/development.md', 'docs/extensions.md', 'CONTRIBUTING.md'):
-    assert (ROOT / guide).is_file()
     assert 'href="https://github.com/NuaForma/NuaForma/blob/main/' + guide + '"' in source
 assert len(tabs.tabs) == len(tabs.panels) == 8
 for name, tab in tabs.tabs.items():
@@ -102,10 +103,10 @@ for name in playground_names:
     assert 'DEVELOPMENT ONLY' in (SITE / 'downloads' / name / 'README.md').read_text(encoding='utf-8')
 for name in deployment_names:
     folder = SITE / "downloads" / name
-    assert (folder / "seccomp.json").read_bytes() == (ROOT / "deployment/pdf-runtime/seccomp.json").read_bytes()
-    assert (folder / "nuaforma.apparmor").read_bytes() == (ROOT / "deployment/pdf-runtime/nuaforma.apparmor").read_bytes()
+    assert (folder / "seccomp.json").read_bytes() == (PROFILES / "seccomp.json").read_bytes()
+    assert (folder / "nuaforma.apparmor").read_bytes() == (PROFILES / "nuaforma.apparmor").read_bytes()
     if name.startswith("docker"):
-        assert (folder / "compose.apparmor.yaml").read_bytes() == (ROOT / "deployment/pdf-runtime/compose.apparmor.yaml").read_bytes()
+        assert (folder / "compose.apparmor.yaml").read_bytes() == (PROFILES / "compose.apparmor.yaml").read_bytes()
     with zipfile.ZipFile(SITE / "downloads" / (name + "-kit.zip")) as archive:
         expected = {p.relative_to(folder).as_posix() for p in folder.rglob("*") if p.is_file()}
         assert set(archive.namelist()) == expected

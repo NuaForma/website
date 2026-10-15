@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create NuaForma extensions: implement and register Java or Kotlin value pipes, document providers and generator-owned content.">
+  <meta name="color-scheme" content="light dark">
+  <title>Extensions — NuaForma</title>
+  <link rel="icon" href="assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/NuaForma">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html#everyone">For everyone</a><a href="index.html#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html" aria-current="page">Extensions</a><a href="index.html#examples">Example kit</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="section wrap guide" aria-labelledby="extensions-title">
+      <div class="section-heading"><p class="eyebrow">EXTEND WITHOUT FORKING</p><h1 id="extensions-title">Your rules.<br>Your extension.</h1><p>Install trusted Java or Kotlin code to add private transformations or document formats. Templates only select registered behavior; they cannot download or install code.</p></div>
+      <div class="template-grid">
+        <article><h2>Value pipes</h2><p>Transform a JSON-compatible value into another value, with positional arguments and chaining. Implement <code>TemplatePipe</code> against <code>nuaforma-contracts</code>. Values may be null, scalars or nested maps/lists, not arbitrary JVM objects.</p><p>Example after installing your pipe: <code>{customer.name | prefix("Customer: ")}</code>.</p></article>
+        <article><h2>Document providers</h2><p>Implement <code>DocumentProvider</code> to add your own input/output formats or a complete generator. Providers use ServiceLoader declarations and static compatibility metadata, or explicit embedded registration. Format identifiers are extensible, not a closed enum.</p><p><a href="https://github.com/NuaForma/NuaForma/tree/main/examples/embedded">Independent Java provider example ↗</a></p></article>
+      </div>
+      <h2 class="guide-step">1. Implement a value pipe</h2>
+      <p>This minimal Kotlin pipe adds an explicit prefix to a string. Null stays null. Arguments are declared in the definition; the engine validates them before calling the implementation.</p>
+      <div class="code-window"><div class="code-window-bar"><span>example/PrefixPipe.kt</span><button class="copy" data-copy="extension-code" type="button">Copy</button></div><pre><code id="extension-code">package example
+
+import dev.nuaforma.contracts.OptionDefinition
+import dev.nuaforma.contracts.OptionType
+import dev.nuaforma.contracts.TemplatePipe
+import dev.nuaforma.contracts.TemplatePipeContext
+import dev.nuaforma.contracts.TemplatePipeDefinition
+
+class PrefixPipe : TemplatePipe {
+    override val definition = TemplatePipeDefinition(
+        "prefix", "Add a prefix to a string",
+        listOf(OptionDefinition(
+            "prefix", OptionType.STRING, "Text prefix", required = true
+        ))
+    )
+
+    override fun apply(
+        value: Any?,
+        arguments: List&lt;Any?&gt;,
+        context: TemplatePipeContext
+    ): Any? {
+        context.checkActive()
+        if (value == null) return null
+        require(value is String)
+        return (arguments.single() as String) + value
+    }
+}</code></pre></div>
+      <p>Compile for Java 17 for broad embedded compatibility. Use the matching published contracts, currently <code>dev.nuaforma:nuaforma-contracts:0.2.0-alpha.1</code>, preferably as a compile-only/provided dependency. Do not package duplicate NuaForma or Kotlin runtime classes. Start with the <a href="https://github.com/NuaForma/NuaForma/tree/main/examples/value-pipes">complete Kotlin extension and independent consumer</a> for build setup and executable tests.</p>
+      <h2 class="guide-step">2. Register it in the same JAR</h2>
+      <p>Add these two resources. The service file names the implementation; the properties file declares its identity and minimum contract. Release version and contract version are separate.</p>
+      <div class="code-window"><div class="code-window-bar"><span>src/main/resources/META-INF/services/dev.nuaforma.contracts.TemplatePipe</span></div><pre><code>example.PrefixPipe</code></pre></div>
+      <div class="code-window"><div class="code-window-bar"><span>src/main/resources/META-INF/nuaforma/pipes/example.PrefixPipe.properties</span></div><pre><code>pipe.name=prefix
+pipe.class=example.PrefixPipe
+pipe.version=1.0.0
+contract.major=0
+contract.minor=2</code></pre></div>
+      <p>The class must be public with a no-argument constructor. Registration resources and the class must originate from the same artifact. Names must be unique; built-in formatter names cannot be replaced. A provider requiring contract 0.2 needs a compatible runtime with the same major and a minor of at least 2. See the <a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-template/README.md#implementation-and-registration">full discovery and argument rules</a>.</p>
+      <h2 class="guide-step">3. Install, restart and discover</h2>
+      <p>On the server, mount a directory of trusted extension JARs read-only at <code>/opt/nuaforma/extensions</code>. The published Compose kits already include this mount. Put your JAR in the host-side directory mapped there, make it readable by UID/GID 1000, then restart the container. Follow the <a href="https://github.com/NuaForma/NuaForma/blob/main/deployment/pdf-runtime/MOUNTS.md">operator mount guide</a> for dependency restrictions and budgets. Do not upload executable JARs as document resources.</p>
+      <p>Inspect <code>GET /api/v1/capabilities</code> for the chosen provider's actual pipe catalog and availability. The development-only Playground uses the same advertised definitions. Then test a Word placeholder such as <code>{customer.name | prefix("Customer: ")}</code> with <code>data.customer.name</code> set to <code>"Ada"</code>: the result is <code>Customer: Ada</code>.</p>
+      <p>Embedded applications may put the extension on their trusted classpath and discover it, or compose an explicit registry with <code>TemplatePipes.of(listOf(PrefixPipe()))</code>. See the runnable consumer for the matching engine/template composition; registry creation alone does not modify an unrelated provider.</p>
+      <h2 class="guide-step">What about images and other content?</h2>
+      <p>Content pipes produce structured document content rather than chainable values. They belong to the generator that knows how to insert that content. The built-in DOCX generator already supplies <code>image</code> for PNG/JPEG Base64 values; see <a href="templates.html#templates">the template examples</a>.</p>
+      <p>A new content pipe is not automatically activated in the stock DOCX generator by dropping a JAR into the mount. Supply/configure a generator that registers the implementation, recognizes its bounded <code>ContentResult</code> and exposes its definitions through <code>ContentPipeProvider</code>. Content pipes must be the only pipe in their marker. Follow the <a href="https://github.com/NuaForma/NuaForma/blob/main/docs/extensions.md#implement-generator-owned-content">generator-owned content guide</a>.</p>
+      <h2 class="guide-step">Treat extensions as application code</h2>
+      <p>Installed extensions run with application-process permissions: they are not sandboxed by the template language. Keep implementations thread-safe, do not retain request data, bound allocations/work, and cooperate with <code>context.checkActive()</code>. Test null/missing values, invalid types and arguments, concurrent requests, registration conflicts and actual generation. Check layout, fonts and PDF/profile behavior when output is affected.</p>
+      <p>Private code and its dependencies are your responsibility. Preserve the renderer/validator isolation and never mount application extensions into those sandboxes. Do not pass secrets or unrelated request state to a pipe.</p>
+      <div class="link-row"><a href="https://github.com/NuaForma/NuaForma/blob/main/docs/extensions.md">Full extension guide ↗</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-contracts/README.md">Public contracts ↗</a><a href="index.html#playground">Development Playground →</a><a href="templates.html">Template syntax →</a></div>
+      <p class="plain-note">Available from 0.2.0-alpha.1; APIs are still an evaluation draft. This page explains extensions, not a new product release or a hosted execution service.</p>
+    </section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/NuaForma/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md">Third-party licenses</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -3,6 +3,28 @@
 const root = document.documentElement;
 const themeButton = document.querySelector("#theme-toggle");
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+const navToggle = document.querySelector("#nav-toggle");
+const mainNavigation = document.querySelector("#main-navigation");
+if (navToggle && mainNavigation) {
+  function closeNavigation(restoreFocus = false) {
+    navToggle.setAttribute("aria-expanded", "false");
+    mainNavigation.classList.remove("is-open");
+    if (restoreFocus) navToggle.focus();
+  }
+  navToggle.addEventListener("click", () => {
+    const open = navToggle.getAttribute("aria-expanded") !== "true";
+    navToggle.setAttribute("aria-expanded", String(open));
+    mainNavigation.classList.toggle("is-open", open);
+  });
+  mainNavigation.addEventListener("click", event => {
+    if (event.target.closest("a")) closeNavigation();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
+      closeNavigation(true);
+    }
+  });
+}
 let selectedTheme = null;
 try { selectedTheme = localStorage.getItem("nuaforma-theme"); } catch { /* Storage is optional. */ }
 if (selectedTheme === "light" || selectedTheme === "dark") root.dataset.theme = selectedTheme;
@@ -117,7 +139,7 @@ async function loadExamples() {
     if (index === 0) select(scenario, button);
   });
 }
-loadExamples().catch(() => {
+if (document.querySelector("#scenario-list")) loadExamples().catch(() => {
   document.querySelector("#scenario-title").textContent = "Download the example kit";
   document.querySelector("#scenario-description").textContent = "The inline examples could not be loaded. All JSON requests and instructions are included in the downloadable kit.";
 });
@@ -136,4 +158,4 @@ async function latestRelease() {
     document.querySelector("#release-source").textContent = `Container release from GitHub. Maven library versions are listed separately.${release.prerelease ? " Evaluation alpha; APIs are not yet stable." : ""}`;
   } catch { /* The known release stays visible when metadata is unavailable. */ }
 }
-latestRelease();
+if (document.querySelector("#release-link")) latestRelease();

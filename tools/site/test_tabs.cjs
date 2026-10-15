@@ -5,6 +5,46 @@ const path = require("node:path");
 const test = require("node:test");
 const vm = require("node:vm");
 
+test("Guide pages do not fetch examples/releases and mobile navigation closes accessibly", () => {
+  function element() {
+    const attributes = new Map();
+    const handlers = new Map();
+    const classes = new Set();
+    return {textContent: "", attributes, handlers, classes,
+      addEventListener: (name, action) => handlers.set(name, action),
+      getAttribute: name => attributes.get(name),
+      setAttribute: (name, value) => attributes.set(name, value),
+      focus() { this.focused = true; },
+      classList: {remove: name => classes.delete(name), toggle(name, active) {
+        if (active) classes.add(name); else classes.delete(name);
+      }},
+    };
+  }
+  const toggle = element();
+  toggle.setAttribute("aria-expanded", "false");
+  const navigation = element();
+  const nodes = new Map([["#nav-toggle", toggle], ["#main-navigation", navigation],
+    ["#theme-toggle", element()], ["#theme-icon", element()], ["#theme-label", element()]]);
+  const handlers = new Map();
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, "../../site/app.js"), "utf8"), {
+    document: {documentElement: {dataset: {}}, querySelector: name => nodes.get(name) || null,
+      querySelectorAll: () => [], addEventListener: (name, action) => handlers.set(name, action)},
+    window: {matchMedia: () => ({matches: false, addEventListener() {}})},
+    localStorage: {getItem: () => null}, AbortSignal,
+    fetch() { throw new Error("A guide must not request homepage data"); },
+  });
+  toggle.handlers.get("click")();
+  assert.equal(toggle.getAttribute("aria-expanded"), "true");
+  assert.equal(navigation.classes.has("is-open"), true);
+  handlers.get("keydown")({key: "Escape"});
+  assert.equal(toggle.getAttribute("aria-expanded"), "false");
+  assert.equal(navigation.classes.has("is-open"), false);
+  assert.equal(toggle.focused, true);
+  toggle.handlers.get("click")();
+  navigation.handlers.get("click")({target: {closest: () => ({})}});
+  assert.equal(toggle.getAttribute("aria-expanded"), "false");
+});
+
 function fixture() {
   const panels = new Map();
   const element = () => ({textContent: "", addEventListener() {}, setAttribute() {}});

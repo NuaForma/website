@@ -8,6 +8,8 @@ Source for [nuaforma.dev](https://nuaforma.dev), its public deployment kits and 
 
 ## Local checks
 
+The homepage introduces the product and deployment/download kits. [Template syntax](site/templates.html) and [extension authoring](site/extensions.html) have separate guide pages with shared sticky navigation and light/dark themes. Keep their examples aligned with the released product references; these guides do not change Playground behavior or downloadable scenarios.
+
 ```sh
 python3 -m http.server 8430 --bind 127.0.0.1 --directory site
 python3 tools/site/check_site.py

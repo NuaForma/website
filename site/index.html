@@ -13,11 +13,12 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/NuaForma">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
-  <header class="site-header wrap">
+  <div class="site-masthead"><header class="site-header wrap">
     <a class="brand" href="#" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
-    <nav aria-label="Main navigation"><a href="#everyone">For everyone</a><a href="#developers">For developers</a><a href="#examples">Example kit</a></nav>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="#everyone">For everyone</a><a href="#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="#examples">Example kit</a></nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
-  </header>
+  </header></div>
   <main id="main">
     <section class="hero wrap">
       <div class="hero-copy">
@@ -140,6 +141,10 @@ kubectl port-forward service/nuaforma 8080:8080</code></pre></div><p>An existing
       </details>
       <section class="roadmap" id="playground"><div><p class="eyebrow">DEVELOPMENT ONLY</p><h3>Try the Playground</h3></div><div><p>Prepare requests in a browser, inspect capabilities, select or upload fonts, export JSON and generate through the same REST API. Use <code>ghcr.io/nuaforma/nuaforma-playground:0.2.0-alpha.1</code>, then open <code>http://localhost:8080/playground/</code>.</p><p><strong>Not for production:</strong> the Playground enables development mode by default. Document content and field values may appear in internal logs. Use synthetic data and configure your own access controls. Both container isolation layers remain enabled.</p><div class="link-row"><a href="downloads/docker-playground-kit.zip" download>Playground AMD64 kit ↓</a><a href="downloads/docker-playground-arm64-kit.zip" download>Playground ARM64 kit ↓</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-playground/README.md">Playground guide ↗</a></div><p>Choose either the production or Playground kit for port 8080; do not start both on that same host port. The normal production image contains no Playground UI.</p></div></section>
     </div></section>
+    <section class="section wrap" id="templates">
+      <div class="section-heading"><p class="eyebrow">TEMPLATES &amp; EXTENSIONS</p><h2>Learn the markers.<br>Make them your own.</h2><p>Use fields, inline conditions, nested loops, null checks, formatting and Base64 images in your Word templates. Add private value pipes or your own generator when you need more.</p></div>
+      <div class="actions"><a class="button primary" href="templates.html">Explore template syntax →</a><a class="button secondary" href="extensions.html">Create an extension →</a></div>
+    </section>
     <section class="section wrap" id="examples">
       <div class="section-heading"><p class="eyebrow">TRY IT ON YOUR OWN INSTALLATION</p><h2>One template.<br>Several ways to fill it.</h2><p>Download a Word template with images, tables, nested conditions and repeating content. Pick a JSON request below and submit it to your NuaForma service with Bruno, curl or another HTTP client.</p></div>
       <div class="kit-actions"><a class="button primary" href="downloads/nuaforma-example-template.docx" download>Download Word template ↓</a><a class="button secondary" href="downloads/example-kit.zip" download>Download the complete testset ↓</a></div>

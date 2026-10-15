@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn NuaForma template syntax: fields, nested if and each blocks, null checks, formatting, value pipes and Base64 images.">
+  <meta name="color-scheme" content="light dark">
+  <title>Templates — NuaForma</title>
+  <link rel="icon" href="assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/NuaForma">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html#everyone">For everyone</a><a href="index.html#developers">For developers</a><a href="templates.html" aria-current="page">Templates</a><a href="extensions.html">Extensions</a><a href="index.html#examples">Example kit</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="section wrap" id="templates" aria-labelledby="templates-title">
+      <div class="section-heading"><p class="eyebrow">WRITE YOUR TEMPLATE</p><h1 id="templates-title">Small markers.<br>Flexible documents.</h1><p>Type these markers into your Word document. They use the fields inside your request's <code>data</code> object. Keep your styles, tables and images; let the template decide which content belongs in the result.</p></div>
+      <div class="template-grid">
+        <article><h2>Fields and nested data</h2><p>Read object members and list items. The <code>data</code> prefix is optional unless you need to refer explicitly to the root object.</p><div class="code-window"><pre><code>Dear {customer.name},
+Reference: {orders[0].reference}
+City: {data["billing-address"]["city name"]}</code></pre></div><p>Insert strings, numbers or booleans. An explicit null prints nothing; an object or list needs further selection or conversion.</p></article>
+        <article><h2>If, else and inline conditions</h2><p>Include a section, a paragraph or just a few words in the middle of a sentence. The else branch is optional.</p><div class="code-window"><pre><code>This is {#if draft}a draft{#else}final{/if}.
+{#if total &gt;= 1000 &amp;&amp; approved}
+Additional review completed.
+{/if}</code></pre></div><p>Conditions must return a real boolean. A string is not automatically true because it contains text. For “else if”, nest another <code>#if</code> inside <code>#else</code>.</p></article>
+        <article><h2>For each item</h2><p>The for-loop syntax is <code>#each</code>. Give the current item an alias and repeat content for every element of a list.</p><div class="code-window"><pre><code>{#each orders as order}
+{loop.number}. {order.reference}
+{/each}</code></pre></div><p>An empty list produces nothing. <code>loop</code> provides <code>index</code>, <code>number</code>, <code>size</code>, <code>first</code> and <code>last</code>. DOCX also supports structural repetition of supported paragraphs and table rows.</p></article>
+        <article><h2>Null, missing and string checks</h2><p>Use <code>??</code> to supply an explicit fallback for missing or null fields. Empty strings remain empty unless you test them.</p><div class="code-window"><pre><code>{customer.nickname ?? customer.name ?? "Guest"}
+{#if (name ?? null) == null}No name supplied{/if}
+{#if trim(name ?? "") == ""}Name is blank{/if}
+{#if contains(note ?? "", "review", true)}Review requested{/if}</code></pre></div><p>Built-ins: <code>contains</code>, <code>startsWith</code>, <code>endsWith</code>, <code>trim</code> and <code>equalsIgnoreCase</code>. The optional third boolean on substring/prefix/suffix checks enables case-insensitive matching. A direct <code>name == null</code> check requires the field to exist.</p></article>
+        <article><h2>Format and chain value pipes</h2><p>A pipe transforms a value before insertion. Built-in number and date formatting uses the generation's explicit locale and time zone.</p><div class="code-window"><pre><code>{total | number("#,##0.00")}
+{issuedOn | date("dd-MM-uuuu")}
+{customer | select("balance") | number("0.00")}</code></pre></div><p><code>select</code> illustrates a custom value pipe, not a built-in: an operator must install it first. Registered pipes can accept arguments and return values for the next stage. Every stage needs parentheses. Pipes go on placeholders, not inside <code>#if</code> or <code>#each</code> expressions.</p></article>
+        <article><h2>Insert an image</h2><p>The DOCX generator's built-in content pipe turns a Base64 PNG or JPEG value into an inline image, for both DOCX and PDF generation.</p><div class="code-window"><pre><code>{company.logo | image(40, 20, true)}
+{optionalPhoto ?? null | image(25, 35, true)}</code></pre></div><p>The first two arguments are maximum width and height in millimetres; <code>true</code> preserves the aspect ratio without upscaling. Defaults are <code>image(50, 50, true)</code>. Null inserts nothing. Supply plain padded Base64, not a URL or data URI. Content pipes cannot be chained before or after any other pipe.</p></article>
+      </div>
+      <div class="template-nesting"><div><h2>Yes, you can nest them</h2><p>Put an if inside a loop, a loop inside an if, or another loop inside that loop. Use different aliases to keep outer items accessible.</p><p>In this example, only active projects appear. Only included tasks appear, and each task can conditionally show a review note. The inner <code>loop.number</code> belongs to the task list; after that loop, the enclosing loop is restored.</p><p>Each block must close with its matching <code>{/if}</code> or <code>{/each}</code>. Processing depth, repetitions and output remain bounded.</p></div><div class="code-window"><div class="code-window-bar"><span>Nested Word template markers</span><button class="copy" data-copy="nested-template" type="button">Copy</button></div><pre><code id="nested-template">{#each projects as project}
+{#if project.active}
+Project: {project.name}
+{#each project.tasks as task}
+{#if task.include}
+{loop.number}. {task.name} — {project.name}
+{#if contains(task.note ?? "", "review", true)}
+Review requested: {task.note}
+{/if}
+{/if}
+{/each}
+{/if}
+{/each}</code></pre></div></div>
+      <p class="plain-note">Data inserted into the document stays literal: it cannot introduce new template instructions. Write <code>{{</code> and <code>}}</code> in the template for literal braces. Markers do not automatically normalize whitespace or line breaks; use the DOCX structural rules when adding or removing whole paragraphs/rows. Text watermarks resolve text expressions and value pipes, but cannot contain image/content pipes.</p>
+      <div class="link-row"><a href="index.html#examples">Try the seven downloadable scenarios ↓</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-template/README.md">Full language reference ↗</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-docx/README.md">Word structure &amp; image rules ↗</a><a href="extensions.html">Build your own pipes →</a></div>
+      <p class="plain-note">Use the Playground on your own development installation to inspect the selected provider's capabilities and available pipes. This site adds documentation only; it does not send your data or generate documents.</p>
+    </section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/NuaForma/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md">Third-party licenses</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

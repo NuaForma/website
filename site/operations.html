@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NuaForma operations: font embedding, safe diagnostics, PDF concurrency and default-on PDF/A validation.">
+  <meta name="color-scheme" content="light dark">
+  <title>Fonts and operations — NuaForma</title>
+  <link rel="icon" href="assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/NuaForma">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html#everyone">For everyone</a><a href="index.html#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="index.html#examples">Example kit</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main"><section class="section wrap" aria-labelledby="operations-title">
+    <div class="section-heading"><p class="eyebrow">DEPLOY AND OPERATE</p><h1 id="operations-title">Your fonts.<br>Your processing policy.</h1><p>Configure trusted instance settings separately from document requests. Keep isolation, resource limits and the distinction between production and development intact.</p></div>
+    <p class="plain-note" id="release-status">Prepared for 0.2.0-alpha.2; these additions are not available in the currently published alpha.1 images. Use the version-matched deployment kits after the release is available.</p>
+    <h2>Fonts: preserve, supply or embed</h2>
+    <p>Default DOCX output preserves template font references. For custom fonts, mount a readable, flat directory of standalone TTF/OTF faces at <code>/opt/nuaforma/custom-fonts</code> using the kit's <code>custom-fonts</code> directory, then restart. <code>GET /api/v1/capabilities</code> lists the provider's available bundled/mounted fonts. Private request uploads are not exposed in that catalog.</p>
+    <p>To embed the fonts actually used by a supported DOCX document, select DOCX output with these options inside your complete request envelope:</p>
+    <div class="code-window"><div class="code-window-bar"><span>DOCX output selection</span><button class="copy" data-copy="used-fonts" type="button">Copy</button></div><pre><code id="used-fonts">"output": {
+  "format": "docx",
+  "options": {
+    "fontMode": "embed",
+    "fontSelection": "used"
+  }
+}</code></pre></div>
+    <p>This is not restricted to Arial-like fonts: supported effective families and regular/bold/italic/boldItalic faces are resolved after template expansion. Unused catalog fonts are not embedded. Explicit declarations take precedence over mounted fonts, then bundled fonts; already embedded faces are retained. Missing faces, ambiguous identities, unsupported font-resolution constructs and prohibited embedding fail explicitly, without silent substitution. Font availability is not a guarantee of glyph coverage or support for every Word feature.</p>
+    <p>For request-private fonts, declare each <code>fonts</code> entry with its <code>family</code>, <code>face</code> and logical <code>resource</code> ID, then attach its bytes as multipart <code>resource.&lt;id&gt;</code>. The Playground can prepare these declarations and uploads, or select automatic used-font embedding when supported. Fonts are never installed globally. Follow the <a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-docx/README.md#supplied-fonts">font and embedding reference</a> for the exact supported profile, bounds and permissions.</p>
+    <p>One malformed mounted font no longer disables every otherwise usable font. Rejected files are excluded and logged safely; a request that requires an unavailable or conflicting face still fails. Fix the file and restart to refresh the immutable catalog. Existing valid embedded fonts and explicit request resources retain their documented precedence.</p>
+    <h2>Diagnose templates without exposing production data</h2>
+    <p>Production API errors remain restricted. Explicit <code>NUAFORMA_MODE=development</code> enables fixed application-owned rejection explanations and remediation for recognized conditions. Internal logging uses request IDs for correlation; development logging may contain document content and field values. It is not safe to enable casually with confidential data.</p>
+    <p>The separate Playground container enables development mode and shows conspicuous warnings. It is not the production image. Configure your own authentication/TLS gateway and log access controls; arbitrary extension errors are not forwarded as public explanations. See the <a href="https://github.com/NuaForma/NuaForma/blob/main/docs/logging.md">logging and privacy guide</a>.</p>
+    <h2>Bounded PDF concurrency</h2>
+    <p><code>NUAFORMA_PDF_PARALLELISM</code> defaults to <code>1</code> and accepts <code>1</code> through <code>8</code>. This operator setting controls concurrent PDF runtime processes per provider instance; it is not a per-request option or the HTTP admission limit. Requests may wait for slots. Increasing it requires CPU, memory, process-limit and temporary-storage headroom; eight is not a recommended default. Read the <a href="performance.html">short processing trials and their limitations</a> and size against your own documents.</p>
+    <h2>PDF/A validation stays on by default</h2>
+    <p>An absent <code>NUAFORMA_PDFA_VALIDATION</code> or exact <code>true</code> enables per-document veraPDF conformance validation. Only exact <code>false</code> disables that stage; empty, whitespace, alternate-case and unknown values fail startup. This trusted instance setting cannot be changed by request JSON or a template.</p>
+    <p><strong>With validation disabled, PDF/A conformance is not checked by NuaForma.</strong> Output is generated using the requested profile, and the operator owns downstream conformance checking. Capabilities report the active policy separately from available formats; the Playground shows a warning, not a request-level switch.</p>
+    <p>PDFBox structural, active-content and embedded-font checks remain mandatory, as do profile restrictions, private files, network denial, cancellation and processing limits. Disabling veraPDF does not disable security or permit unsupported PDF/A-1b transparency. Standard PDF and DOCX retain their behavior. Default deployment examples keep validation enabled.</p>
+    <div class="code-window"><div class="code-window-bar"><span>Optional Compose instance settings</span><button class="copy" data-copy="operator-settings" type="button">Copy</button></div><pre><code id="operator-settings">environment:
+  # Keep the other environment entries from the complete kit.
+  NUAFORMA_PDFA_VALIDATION: "true"
+  NUAFORMA_PDF_PARALLELISM: "1"</code></pre></div>
+    <p>Retain the complete deployment kit, reviewed seccomp/AppArmor settings and mounts. Host compatibility must be checked through capabilities: a healthy HTTP service alone does not prove PDF availability. No unrestricted OpenShift compatibility is claimed. See the <a href="https://github.com/NuaForma/NuaForma/blob/main/deployment/pdf-runtime/SERVICE.md">service configuration reference</a> and <a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-docx-pdf/README.md">PDF profile and fidelity limits</a>.</p>
+    <div class="link-row"><a href="index.html#deploy">Deployment kits →</a><a href="index.html#playground">Development Playground →</a><a href="templates.html">Template syntax →</a><a href="extensions.html">Build extensions →</a></div>
+  </section></main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/NuaForma/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md">Third-party licenses</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

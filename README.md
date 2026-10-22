@@ -8,7 +8,7 @@ Source for [nuaforma.dev](https://nuaforma.dev), its public deployment kits and 
 
 ## Local checks
 
-The homepage introduces the product and deployment/download kits. [Template syntax](site/templates.html) and [extension authoring](site/extensions.html) have separate guide pages with shared sticky navigation and light/dark themes. Keep their examples aligned with the released product references; these guides do not change Playground behavior or downloadable scenarios.
+The homepage introduces the product and deployment/download kits. [Template syntax](site/templates.html), [extension authoring](site/extensions.html) and [short processing trials](site/performance.html) have separate guide pages with shared sticky navigation and light/dark themes. Performance figures describe a named source candidate and bounded experiments, not a sustained-capacity promise or an unchanged published image; keep request counts separate from isolated pipeline trials. Keep examples aligned with released product references; these guides do not change Playground behavior or downloadable scenarios.
 
 ```sh
 python3 -m http.server 8430 --bind 127.0.0.1 --directory site

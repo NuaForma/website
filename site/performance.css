@@ -1,0 +1,7 @@
+.measurement-table{overflow-x:auto;margin:24px 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.measurement-table:focus-visible{outline:3px solid var(--teal);outline-offset:4px}
+.measurement-table table{width:100%;min-width:560px;border-collapse:collapse;font-size:15px}
+.measurement-table caption{text-align:left;padding:16px;color:var(--muted)}
+.measurement-table th,.measurement-table td{padding:13px 16px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
+.measurement-table thead th{color:var(--teal);font-weight:650}
+.measurement-table tbody th{font-weight:600}

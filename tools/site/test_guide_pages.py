@@ -29,7 +29,7 @@ class Page(HTMLParser):
 class GuidePagesTest(unittest.TestCase):
     def test_all_pages_have_unique_ids_and_resolvable_local_links(self):
         pages = {path: Page(path) for path in SITE.glob('*.html')}
-        self.assertEqual(len(pages), 3)
+        self.assertEqual({path.name for path in pages}, {'index.html', 'templates.html', 'extensions.html', 'performance.html', 'operations.html'})
         for path, page in pages.items():
             self.assertEqual(len(page.ids), len(set(page.ids)), path.name)
             self.assertEqual(len(page.headings), 1, path.name)
@@ -57,7 +57,7 @@ class GuidePagesTest(unittest.TestCase):
             self.assertIn(marker, extension)
 
     def test_shared_header_and_page_specific_initialization(self):
-        for name in ['index.html', 'templates.html', 'extensions.html']:
+        for name in ['index.html', 'templates.html', 'extensions.html', 'performance.html', 'operations.html']:
             html = (SITE / name).read_text(encoding='utf-8')
             self.assertIn('class="site-masthead"', html)
             self.assertIn('href="templates.html"', html)

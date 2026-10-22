@@ -26,7 +26,7 @@ def archive_files(target, files):
             archive.writestr(info, path.read_bytes())
 
 
-def build(version="0.2.0-alpha.1"):
+def build(version="0.2.0-alpha.2"):
     scenarios = json.loads((OUT / "scenarios.json").read_text(encoding="utf-8"))
     requests = [
         ("Version", "GET", "/api/v1/version", None, "application/json", "Packaged version; not a readiness check."),
@@ -80,7 +80,7 @@ def build(version="0.2.0-alpha.1"):
         archive_files(OUT / (folder.name + "-kit.zip"), {p.relative_to(folder).as_posix(): p for p in folder.rglob("*") if p.is_file()})
 
 
-def client_readme(client, version="0.2.0-alpha.1", scenario_count=7):
+def client_readme(client, version="0.2.0-alpha.2", scenario_count=7):
     steps = (
         "1. Extract the entire ZIP into a local folder. In Bruno, choose **Open Collection** and select the folder containing `bruno.json` (not just an individual `.bru` file).\n"
         "2. Open the collection variables and set `baseUrl` if your service is not at `http://localhost:8080`. No environment selection is required.\n"

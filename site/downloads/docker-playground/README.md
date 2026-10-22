@@ -4,7 +4,7 @@
 
 Open `http://localhost:8080/playground/` after startup. Start either this kit or the production kit on host port 8080, not both on that same port. All fonts/extensions mounts and isolation settings remain unchanged.
 
-This kit selects the Linux/amd64 image for `0.2.0-alpha.1`. Use the separate ARM64 Playground kit for Apple Silicon or other ARM64 hosts; both use the same versioned image index. Keep the included Compose file and reviewed seccomp profile together. This kit does not rebuild the renderer. The optional Dockerfile is a minimal example for your own derived image; preserve component notices/source obligations if you redistribute derived images.
+This kit selects the Linux/amd64 image for `0.2.0-alpha.2`. Use the separate ARM64 Playground kit for Apple Silicon or other ARM64 hosts; both use the same versioned image index. Keep the included Compose file and reviewed seccomp profile together. This kit does not rebuild the renderer. The optional Dockerfile is a minimal example for your own derived image; preserve component notices/source obligations if you redistribute derived images.
 
 ```sh
 mkdir -p custom-fonts extensions
@@ -16,7 +16,7 @@ The service is available on loopback port 8080. Stop with `docker compose down`.
 
 ## Documentation
 
-For the complete guide set, see the [documentation index](https://github.com/NuaForma/NuaForma/blob/main/docs/README.md). Version 0.2.0-alpha.1 includes value/content pipes, image insertion, health and SBOM endpoints, and correlated logging. The service uses Java 25; embedded libraries retain Java 17 compatibility. This kit selects the separate Playground image; the production image contains no Playground UI.
+For the complete guide set, see the [documentation index](https://github.com/NuaForma/NuaForma/blob/main/docs/README.md). Version 0.2.0-alpha.2 includes value/content pipes, image insertion, health and SBOM endpoints, and correlated logging. The service uses Java 25; embedded libraries retain Java 17 compatibility. This kit selects the separate Playground image; the production image contains no Playground UI.
 
 ## Fonts
 
@@ -54,4 +54,4 @@ AppArmor configuration belongs on the Linux host, not merely on the macOS client
 
 ## Source and licenses
 
-The runtime includes LibreOffice, Bubblewrap, veraPDF, Java and OS components under their original licenses. It is not wholly Apache-2.0. Matching source/notices are provided with [the alpha release](https://github.com/NuaForma/NuaForma/releases/tag/v0.2.0-alpha.1). The copied seccomp profile retains its upstream attribution in `NOTICE` and Apache-2.0 text in `LICENSE`.
+The runtime includes LibreOffice, Bubblewrap, veraPDF, Java and OS components under their original licenses. It is not wholly Apache-2.0. Matching source/notices are provided with [the alpha release](https://github.com/NuaForma/NuaForma/releases/tag/v0.2.0-alpha.2). The copied seccomp profile retains its upstream attribution in `NOTICE` and Apache-2.0 text in `LICENSE`.

@@ -1,7 +1,7 @@
 {
   "repository": "NuaForma/NuaForma",
-  "sourceCommit": "1d01ef28d92f355ffc9de7abd97274ac6193a57e",
-  "release": "0.2.0-alpha.1",
+  "sourceCommit": "833da8297d72c8fcdf20ae5231c4332cd99118bd",
+  "release": "0.2.0-alpha.2",
   "files": {
     "seccomp.json": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
     "nuaforma.apparmor": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",

@@ -21,7 +21,7 @@
   </header></div>
   <main id="main"><section class="section wrap" aria-labelledby="operations-title">
     <div class="section-heading"><p class="eyebrow">DEPLOY AND OPERATE</p><h1 id="operations-title">Your fonts.<br>Your processing policy.</h1><p>Configure trusted instance settings separately from document requests. Keep isolation, resource limits and the distinction between production and development intact.</p></div>
-    <p class="plain-note" id="release-status">Prepared for 0.2.0-alpha.2; these additions are not available in the currently published alpha.1 images. Use the version-matched deployment kits after the release is available.</p>
+    <p class="plain-note" id="release-status">Available in 0.2.0-alpha.2. Use its matching production or development Playground deployment kit. Earlier alpha.1 images do not gain these settings automatically; update the image version before using them.</p>
     <h2>Fonts: preserve, supply or embed</h2>
     <p>Default DOCX output preserves template font references. For custom fonts, mount a readable, flat directory of standalone TTF/OTF faces at <code>/opt/nuaforma/custom-fonts</code> using the kit's <code>custom-fonts</code> directory, then restart. <code>GET /api/v1/capabilities</code> lists the provider's available bundled/mounted fonts. Private request uploads are not exposed in that catalog.</p>
     <p>To embed the fonts actually used by a supported DOCX document, select DOCX output with these options inside your complete request envelope:</p>

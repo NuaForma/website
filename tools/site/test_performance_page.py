@@ -56,7 +56,7 @@ class PerformancePageTest(unittest.TestCase):
             ['With veraPDF', '24', '111.702 s', '12.89', '8.222 s'],
             ['Without veraPDF; PDFBox retained', '24', '56.900 s', '25.31', '4.126 s'],
         ])
-        for phrase in ['not large-scale load tests', 'not an available configuration option',
+        for phrase in ['not large-scale load tests', 'not new alpha.2 measurements',
                        'not a REST load test', 'Normal API validation was never disabled',
                        'cannot be compared directly', 'temporarily stopped',
                        'c5d87746e3ef95a80a1950a4b9c05a88ced0521c', '/issues/93']:

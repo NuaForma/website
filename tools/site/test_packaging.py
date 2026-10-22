@@ -14,7 +14,7 @@ class PackagingTest(unittest.TestCase):
     def test_collection_guides_default_to_the_matching_seven_scenario_release(self):
         for client in ('bruno', 'postman'):
             text = client_readme(client)
-            self.assertIn('0.2.0-alpha.1', text)
+            self.assertIn('0.2.0-alpha.2', text)
             self.assertIn('12 requests', text)
             self.assertIn('all 7 document scenarios', text)
             self.assertNotIn('11 alpha.3-compatible requests', text)

@@ -1,8 +1,8 @@
 # NuaForma example kit
 
-Use these files with your own NuaForma 0.2.0-alpha.1 service. This website hosts files and instructions, not a document generator. All people, companies and example.invalid email addresses in the requests are illustrative.
+Use these files with your own NuaForma 0.2.0-alpha.2 service. This website hosts files and instructions, not a document generator. All people, companies and example.invalid email addresses in the requests are illustrative.
 
-Find the language, API, PDF and operating guides in the [documentation index](https://github.com/NuaForma/NuaForma/blob/main/docs/README.md). The matching 0.2.0-alpha.1 service supports image/content pipes, health/SBOM endpoints and a separate development Playground.
+Find the language, API, PDF and operating guides in the [documentation index](https://github.com/NuaForma/NuaForma/blob/main/docs/README.md). The matching 0.2.0-alpha.2 service supports image/content pipes, health/SBOM endpoints and a separate development Playground.
 
 The same Word template works with all seven complete JSON request envelopes. Open it in Word to inspect paragraph-level conditional/repetition markers and dedicated merged table-marker rows. Do not place table-row markers in ordinary populated rows. The template's static images are opaque JPEGs so this kit also fits the restricted PDF/A-1b image profile.
 

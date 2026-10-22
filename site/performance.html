@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Indicative NuaForma processing trials: request counts, concurrency and the measured cost of PDF/A validation. Short experiments, not sustained capacity guarantees.">
+  <meta name="color-scheme" content="light dark">
+  <title>Short processing trials — NuaForma</title>
+  <link rel="icon" href="assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="performance.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/NuaForma">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html#everyone">For everyone</a><a href="index.html#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="index.html#examples">Example kit</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="section wrap" aria-labelledby="performance-title">
+      <div class="section-heading"><p class="eyebrow">SHORT PROCESSING TRIALS · 16 OCTOBER 2026</p><h1 id="performance-title">Measured examples.<br>Not a capacity promise.</h1><p>How much work can NuaForma handle? These small, bounded experiments give an indication for one synthetic business document. They are not large-scale load tests over a long period, production sizing recommendations or hourly throughput guarantees.</p></div>
+      <p class="plain-note"><strong>Test baseline:</strong> a private Linux AMD64 development build from <a href="https://github.com/NuaForma/NuaForma/commit/c5d87746e3ef95a80a1950a4b9c05a88ced0521c">source c5d8774</a>, including the fixes in <a href="https://github.com/NuaForma/NuaForma/issues/91">issue #91</a>. This is not a performance claim for an unchanged published alpha image, ARM64 or arbitrary Word documents.</p>
+      <h2>What was processed?</h2>
+      <p>The completed REST trials used the public synthetic Word example, nested JSON data and two-page PDFs. Each response was independently parsed and checked for its own unique reference, without another request's reference. PDFBox, veraPDF for PDF/A, resource limits and isolated, network-denied conversion remained enabled.</p>
+      <div class="measurement-table" role="region" aria-label="Completed REST trial counts" tabindex="0"><table><caption>Two completed REST trial groups; setup and recovery requests excluded</caption><thead><tr><th scope="col">Container budget</th><th scope="col">Requests</th><th scope="col">Documents returned</th><th scope="col">Expected busy</th><th scope="col">Unexpected failures</th></tr></thead><tbody><tr><th scope="row">2 CPU / 3 GiB</th><td>749</td><td>717</td><td>32</td><td>0</td></tr><tr><th scope="row">5 CPU / 8 GiB</th><td>155</td><td>155</td><td>0</td><td>0</td></tr><tr><th scope="row">Total</th><td>904</td><td>872</td><td>32</td><td>0</td></tr></tbody></table></div>
+      <p>The returned documents were 582 DOCX, 146 standard PDF and 144 PDF/A-3b files. The 32 <code>503 SERVER_BUSY</code> responses were deliberate admission-limit rejections during bursts against a four-request limit, not successful documents. Both completed groups had healthy observations throughout, with no OOM, restart or process-limit events. An earlier pre-fix trial did encounter an availability failure; it led to issue #91 and is not counted as a successful trial here.</p>
+      <h2>Concurrency is not throughput.</h2>
+      <p>Sixteen concurrent standard-PDF requests and sixteen concurrent PDF/A requests succeeded with two PDF process slots and a sixteen-request admission limit. That does not mean sixteen renderers were running simultaneously: requests can wait for available processing slots.</p>
+      <div class="measurement-table" role="region" aria-label="Short-stage processing rates" tabindex="0"><table><caption>5 CPU / 8 GiB; eight clients and sixteen documents in each short stage</caption><thead><tr><th scope="col">PDF process slots</th><th scope="col">Standard PDF / minute</th><th scope="col">PDF/A-3b / minute</th><th scope="col">Run process/thread peak</th></tr></thead><tbody><tr><th scope="row">2</th><td>36.59</td><td>16.66</td><td>109 / 128</td></tr><tr><th scope="row">3</th><td>34.48</td><td>16.24</td><td>115 / 128</td></tr><tr><th scope="row">4</th><td>39.13</td><td>20.45</td><td>124 / 128</td></tr></tbody></table></div>
+      <p>These calculated rates come from individual short stages, not a full minute or hour of sustained processing. Three slots did not outperform two in this trial. Four left very little process-limit headroom, so six or eight were not tested; the instance was returned to two slots for margin. The sixteen-client test used two slots, not four. Peak memory across the larger-budget trials was about 1.22 GiB.</p>
+      <h2>What does veraPDF cost?</h2>
+      <p>A separate paired pipeline experiment used the same populated DOCX and unmodified sandbox, font lookup, PDF/A-3b conversion and PDFBox checks. Four batches of twelve jobs alternated with veraPDF, without, without, then with it, using two workers and the same 5 CPU / 8 GiB budget.</p>
+      <div class="measurement-table" role="region" aria-label="Isolated veraPDF comparison" tabindex="0"><table><caption>Separate pipeline A/B experiment — not a REST load test</caption><thead><tr><th scope="col">Pipeline arm</th><th scope="col">Documents</th><th scope="col">Combined elapsed</th><th scope="col">Documents / minute</th><th scope="col">Median document time</th></tr></thead><tbody><tr><th scope="row">With veraPDF</th><td>24</td><td>111.702 s</td><td>12.89</td><td>8.222 s</td></tr><tr><th scope="row">Without veraPDF; PDFBox retained</th><td>24</td><td>56.900 s</td><td>25.31</td><td>4.126 s</td></tr></tbody></table></div>
+      <p>Skipping veraPDF produced approximately 1.96 times the throughput in this paired experiment, with 49.1% less elapsed time. All 48 jobs passed PDFBox; only the 24 full-validation jobs were checked for PDF/A conformance. Normal API validation was never disabled and a final ordinary PDF/A API request also passed. Benchmark-only files without conformance checks were not served as validated PDF/A.</p>
+      <p class="plain-note">This harness excluded HTTP and template processing and added a container-execution call per operation. Its absolute rates cannot be compared directly with the REST rates above or used as a multiplier for other workloads. The default-on operator validation setting from <a href="https://github.com/NuaForma/NuaForma/issues/93">issue #93</a> is available from 0.2.0-alpha.2; the figures above retain their original source baseline and are not new alpha.2 measurements. See the <a href="operations.html">operations guide</a> for the default-on policy and its boundaries.</p>
+      <h2>Test your own workload.</h2>
+      <p>Most REST stages issued requests for roughly 30–60 seconds, with finite request counts; accepted requests were allowed to finish afterwards. Host budgets were changed between groups, and other workload state was not identical across all groups. The PostgreSQL replica was temporarily stopped for the larger-budget REST group, but running during the smaller-budget and paired A/B trials. These are not controlled CPU-only comparisons or statistically established scaling curves.</p>
+      <p>Use representative documents and longer repeated runs to establish throughput, tail latency, memory/process headroom and failure recovery on your infrastructure. Document size, page count, fonts, tables, images, PDF/A checks and available CPU all matter. Do not multiply these short rates into an advertised hourly capacity or treat them as evidence of production readiness.</p>
+      <div class="link-row"><a href="index.html#examples">Try the synthetic example kit →</a><a href="https://github.com/NuaForma/NuaForma/blob/main/deployment/pdf-runtime/SERVICE.md">Deployment limits and isolation ↗</a></div>
+    </section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/NuaForma/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md">Third-party licenses</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

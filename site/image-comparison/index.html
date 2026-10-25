@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NuaForma Image Comparison: a standalone Java 17 image comparison library with an optional Kotlin assertion DSL. Find visual changes, inspect regions and exclude known differences.">
+  <meta name="color-scheme" content="light dark">
+  <title>Image Comparison — NuaForma</title>
+  <link rel="icon" href="../assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../image-comparison.css">
+  <script src="../app.js" defer></script>
+  <script src="demo.js" defer></script>
+</head>
+<body class="comparison-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/image-comparison">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="../index.html" aria-label="NuaForma home"><img class="logo-light" src="../assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="../assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="../index.html">Document generation</a><a href="index.html" aria-current="page">Image Comparison</a><a href="docs/index.html">Get started</a><a href="releases/index.html">Releases</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="comparison-hero wrap">
+      <div>
+        <a class="release-banner" href="https://github.com/NuaForma/image-comparison/releases/tag/v5.0.0"><span class="status-dot" aria-hidden="true"></span><span>Release</span><strong>5.0.0</strong><span aria-hidden="true">↗</span></a>
+        <p class="eyebrow">A STANDALONE NUAFORMA PROJECT</p>
+        <h1>Make visual<br>changes <em>visible.</em></h1>
+        <p class="lead">Compare a reference image with a new result. Find changed pixels, highlight the affected regions, and turn unexpected differences into failing tests.</p>
+        <div class="actions"><a class="button primary" href="#comparison-example">See the difference <span aria-hidden="true">↓</span></a><a class="button secondary" href="docs/index.html">Java &amp; Kotlin examples <span aria-hidden="true">→</span></a></div>
+        <p class="hero-note">For your tests, your tools and your images. No document generator required.</p>
+      </div>
+      <ul class="comparison-facts"><li><strong>Java 17+</strong><span>No external runtime dependencies in the Java core</span></li><li><strong>Kotlin, too</strong><span>Optional, test-framework independent assertion DSL</span></li><li><strong>Apache 2.0</strong><span>Open source and independently maintained by NuaForma</span></li></ul>
+    </section>
+    <section class="comparison-demo" id="comparison-example" aria-labelledby="demo-heading"><div class="wrap">
+      <div class="comparison-demo-heading"><div><p class="eyebrow">EXPECTED → ACTUAL → DIFFERENCES</p><h2 id="demo-heading">A small change. A clear signal.</h2><p>The date and two amounts changed. Compare every pixel, or exclude the known date field while still catching the changed amounts.</p></div><span class="mismatch-badge">MISMATCH</span></div>
+      <div class="comparison-controls" role="group" aria-label="Example comparison policy"><button type="button" data-comparison="all-pixels" aria-pressed="true">Compare all pixels</button><button type="button" data-comparison="exclude-date" aria-pressed="false">Exclude the date</button></div>
+      <div class="comparison-triptych">
+        <figure><figcaption>01 / Expected <span>The reference</span></figcaption><img src="expected.png" width="640" height="500" alt="Reference project summary dated 18 October, document delivery EUR 400 and total EUR 1,200."></figure>
+        <figure><figcaption>02 / Actual <span>The new image</span></figcaption><img src="actual.png" width="640" height="500" alt="New summary dated 25 October, with document delivery changed to EUR 450 and total EUR 1,250."></figure>
+        <figure><figcaption>03 / Differences <span>Engine output</span></figcaption><img id="comparison-result" src="all-pixels.png" width="640" height="500" alt="Actual image with red outlines around the changed date and two changed amounts."></figure>
+      </div>
+      <div class="comparison-status" role="status" aria-live="polite" aria-atomic="true"><span><strong id="comparison-regions">3</strong> detected regions</span><span><strong id="comparison-percent">0.09875%</strong> differing pixels</span><span id="comparison-policy">No exclusions · per-pixel tolerance 0.1</span></div>
+      <p class="plain-note">These fixed images and both comparison results were generated with the Java engine. The buttons switch between precomputed results; no images are uploaded or processed by a remote service.</p>
+      <noscript><p class="plain-note">JavaScript is optional. <a href="exclude-date.png">View the result with the date excluded.</a></p></noscript>
+    </div></section>
+    <section class="section wrap">
+      <div class="section-heading"><p class="eyebrow">BUILT FOR REGRESSION TESTS</p><h2>Keep the reference.<br>Investigate the change.</h2><p>Use approved golden images to check rendered documents, screenshots, charts or other image output. Your application supplies the images and decides what an acceptable change means.</p></div>
+      <div class="capability-grid"><article><span class="feature-number">01</span><h3>Compare deliberately</h3><p>Compare both color and transparency. Set per-pixel tolerance separately from the percentage of changed pixels you allow. A size mismatch stays a mismatch.</p></article><article><span class="feature-number">02</span><h3>Exclude known variation</h3><p>Ignore explicit rectangles for dates or other expected changes. Excluded pixels count in neither the changed-pixel total nor the population used for its percentage.</p></article><article><span class="feature-number">03</span><h3>Inspect a failed test</h3><p>Get the result state, differing-pixel percentage, detected regions and a marked image. In Kotlin, an assertion failure carries the result so you can save diagnostics explicitly.</p></article></div>
+    </section>
+    <section class="developer-section" id="code-examples"><div class="section wrap code-intro">
+      <div><p class="eyebrow">SMALL API. USEFUL FEEDBACK.</p><h2>A clear assertion.<br>An inspectable failure.</h2><p>The Java core returns an inspectable comparison result. Check its state in your own test, or use the optional Kotlin adapter for a framework-independent assertion with the result attached to a failure.</p><p class="plain-note">Version 5.0.0 is available on Maven Central. Both Java and Kotlin have Maven and Gradle installation examples.</p><div class="link-row"><a href="docs/index.html">Start with Java or Kotlin →</a><a href="https://github.com/NuaForma/image-comparison">Explore the source ↗</a></div></div>
+      <div>
+      <div class="tabs" role="tablist" aria-label="Comparison example language"><button id="tab-example-java" role="tab" aria-selected="true" aria-controls="panel-example-java" tabindex="0">Java</button><button id="tab-example-kotlin" role="tab" aria-selected="false" aria-controls="panel-example-kotlin" tabindex="-1">Kotlin</button></div>
+      <section id="panel-example-java" role="tabpanel" aria-labelledby="tab-example-java"><div class="code-window"><div class="code-window-bar"><span>VisualRegressionTest.java</span><button class="copy" type="button" data-copy="comparison-java">Copy</button></div><pre><code id="comparison-java">import dev.nuaforma.image.comparison.ImageComparison;
+import dev.nuaforma.image.comparison.model.ImageComparisonState;
+import dev.nuaforma.image.comparison.model.Rectangle;
+import java.util.List;
+
+var result = new ImageComparison(expected, actual)
+        .setPixelToleranceLevel(0.1)
+        .setAllowingPercentOfDifferentPixels(0.0)
+        .setExcludedAreas(List.of(
+                new Rectangle(435, 128, 610, 166)))
+        .compareImages();
+
+if (result.getImageComparisonState() != ImageComparisonState.MATCH) {
+    throw new AssertionError("Unexpected visual difference: "
+            + result.getDifferencePercent() + "%");
+}</code></pre><p>Inputs are BufferedImages. The inclusive exclusion fits the 640 × 500 example above. The explicit state check also rejects SIZE_MISMATCH; no JVM assertion flag or test-framework dependency is needed.</p></div></section>
+      <section id="panel-example-kotlin" role="tabpanel" aria-labelledby="tab-example-kotlin" hidden><div class="code-window"><div class="code-window-bar"><span>VisualRegressionTest.kt</span><button class="copy" type="button" data-copy="comparison-kotlin">Copy</button></div><pre><code id="comparison-kotlin">import dev.nuaforma.image.comparison.kotlin.assertImagesMatch
+
+assertImagesMatch(expected, actual, "report preview") {
+    pixelTolerance = 0.1
+    allowedDifferentPixelsPercent = 0.0
+    excludeRectangle(435, 128, 610, 166)
+}</code></pre><p>Inputs are BufferedImages. The example rectangle is inclusive and fits the 640 × 500 images above. Diagnostics are saved only when your code requests it.</p></div></section>
+      </div>
+    </div></section>
+    <section class="section wrap">
+      <div class="section-heading"><p class="eyebrow">PART OF THE TOOLBOX. USEFUL ON ITS OWN.</p><h2>From NuaForma,<br>for your project.</h2><p>Image Comparison has its own repository, version and release process. Use it independently of NuaForma document generation. It compares images; your application provides PDF rendering, screenshot capture and golden-file review.</p></div>
+      <div class="link-row"><a class="button primary" href="docs/index.html">Get started →</a><a class="button secondary" href="releases/index.html">What changes in 5.0.0 →</a><a class="button secondary" href="https://github.com/NuaForma/image-comparison/issues">Issues &amp; contributions ↗</a></div>
+      <p class="attribution">An independently maintained fork of <a href="https://github.com/romankh3/image-comparison">romankh3/image-comparison</a>, originally created by Roman Beskrovnyi and upstream contributors. Their authorship and Apache-2.0 licensing are preserved. <a href="https://github.com/NuaForma/image-comparison/blob/main/NOTICE">Attribution and notices ↗</a></p>
+    </section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/image-comparison/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/image-comparison">Image Comparison on GitHub</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -8,6 +8,7 @@
   <title>NuaForma — Documents from your templates</title>
   <link rel="icon" href="assets/nuaforma-icon.png">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="image-comparison.css">
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -16,7 +17,7 @@
   <div class="site-masthead"><header class="site-header wrap">
     <a class="brand" href="#" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
-    <nav id="main-navigation" aria-label="Main navigation"><a href="#everyone">For everyone</a><a href="#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="#examples">Example kit</a></nav>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="#everyone">For everyone</a><a href="#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="#examples">Example kit</a><a href="image-comparison/index.html">Image Comparison</a></nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
   </header></div>
   <main id="main">
@@ -41,6 +42,10 @@
       </div>
     </section>
     <div class="format-strip"><div class="wrap"><span>Word templates in.</span><strong>DOCX</strong><span>or</span><strong>PDF · PDF/A-1b · PDF/A-2b · PDF/A-3b</strong><span>out.</span></div></div>
+    <section class="companion-spotlight" aria-labelledby="companion-title"><div class="companion-layout wrap">
+      <div><p class="eyebrow">ALSO FROM NUAFORMA · A STANDALONE LIBRARY</p><h2 id="companion-title">Image Comparison.<br>See what changed.</h2><p>Turn visual differences into useful test feedback. Compare reference images, mark changed regions and exclude known variation, with a Java core and an optional Kotlin assertion DSL.</p><p class="hero-note">Java 17+ · Apache 2.0 · Version 5.0.0</p><div class="actions"><a class="button primary" href="image-comparison/index.html">Explore Image Comparison <span aria-hidden="true">→</span></a><a class="button secondary" href="image-comparison/docs/index.html">Java &amp; Kotlin examples</a></div></div>
+      <figure class="companion-preview"><img src="image-comparison/all-pixels.png" width="640" height="500" alt="A project summary with three changed regions outlined in red by the image comparison engine."><figcaption><span>EXPECTED ≠ ACTUAL</span><span>3 changes. Clearly marked.</span></figcaption></figure>
+    </div></section>
     <section class="section wrap" id="everyone">
       <div class="section-heading"><p class="eyebrow">FOR BUSINESSES &amp; INDIVIDUALS</p><h2>Keep the document.<br>Change the details.</h2><p>Letters, agreements and reports often share a structure. NuaForma fills that structure with your own data, without making you redesign the document.</p></div>
       <div class="capability-grid">

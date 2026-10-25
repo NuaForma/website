@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Get started with the Java image comparison API or the optional Kotlin assertion DSL. Examples for NuaForma Image Comparison 5.0.0.">
+  <meta name="color-scheme" content="light dark">
+  <title>Get started — NuaForma Image Comparison</title>
+  <link rel="icon" href="../../assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../image-comparison.css">
+  <script src="../../app.js" defer></script>
+</head>
+<body class="comparison-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/image-comparison">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="../../index.html" aria-label="NuaForma home"><img class="logo-light" src="../../assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="../../assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="../../index.html">Document generation</a><a href="../index.html">Image Comparison</a><a href="../docs/index.html" aria-current="page">Get started</a><a href="../releases/index.html">Releases</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="section wrap guide doc-intro">
+      <p class="eyebrow">IMAGE COMPARISON / GET STARTED</p>
+      <h1>Two images.<br>One clear result.</h1>
+      <p class="lead">Bring two <code>BufferedImage</code> values: your approved reference and the new output. Choose Java or the optional Kotlin assertion DSL.</p>
+      <a class="release-banner" href="https://github.com/NuaForma/image-comparison/releases/tag/v5.0.0"><strong>5.0.0</strong><span>Current release ↗</span></a>
+      <div class="tabs" role="tablist" aria-label="Programming language">
+        <button id="tab-ic-kotlin" role="tab" aria-selected="true" aria-controls="panel-ic-kotlin" tabindex="0">Kotlin</button>
+        <button id="tab-ic-java" role="tab" aria-selected="false" aria-controls="panel-ic-java" tabindex="-1">Java</button>
+      </div>
+      <section id="panel-ic-kotlin" role="tabpanel" aria-labelledby="tab-ic-kotlin">
+        <h2 class="guide-step">1. Add the test dependency</h2>
+        <p>Declare only the Kotlin adapter. The Java core, Kotlin standard library and required annotations arrive transitively. Java 17 or later is required.</p>
+        <div class="tabs" role="tablist" aria-label="Kotlin dependency build tool">
+          <button id="tab-ic-kotlin-gradle" role="tab" aria-selected="true" aria-controls="panel-ic-kotlin-gradle" tabindex="0">Gradle (Kotlin DSL)</button>
+          <button id="tab-ic-kotlin-maven" role="tab" aria-selected="false" aria-controls="panel-ic-kotlin-maven" tabindex="-1">Maven</button>
+        </div>
+        <section id="panel-ic-kotlin-gradle" role="tabpanel" aria-labelledby="tab-ic-kotlin-gradle"><div class="code-window"><div class="code-window-bar"><span>build.gradle.kts · 5.0.0</span><button class="copy" type="button" data-copy="ic-kotlin-dependency">Copy</button></div><pre><code id="ic-kotlin-dependency">dependencies {
+    testImplementation("dev.nuaforma:image-comparison-kotlin:5.0.0")
+}</code></pre></div></section>
+        <section id="panel-ic-kotlin-maven" role="tabpanel" aria-labelledby="tab-ic-kotlin-maven" hidden><div class="code-window"><div class="code-window-bar"><span>pom.xml · Kotlin adapter</span><button class="copy" type="button" data-copy="ic-kotlin-maven">Copy</button></div><pre><code id="ic-kotlin-maven">&lt;dependency&gt;
+    &lt;groupId&gt;dev.nuaforma&lt;/groupId&gt;
+    &lt;artifactId&gt;image-comparison-kotlin&lt;/artifactId&gt;
+    &lt;version&gt;5.0.0&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre></div></section>
+        <h2 class="guide-step">2. Compare your output</h2>
+        <div class="code-window"><div class="code-window-bar"><span>Your JVM test</span><button class="copy" type="button" data-copy="ic-kotlin-assertion">Copy</button></div><pre><code id="ic-kotlin-assertion">import dev.nuaforma.image.comparison.kotlin.assertImagesMatch
+import java.io.File
+import javax.imageio.ImageIO
+
+val expected = requireNotNull(ImageIO.read(File("reference.png")))
+val actual = requireNotNull(ImageIO.read(File("actual.png")))
+
+assertImagesMatch(expected, actual, "report preview") {
+    pixelTolerance = 0.1
+    allowedDifferentPixelsPercent = 0.0
+}</code></pre></div>
+        <p>A mismatch throws <code>ImageComparisonAssertionError</code>, a framework-independent <code>AssertionError</code>. Its <code>comparisonResult</code> exposes the result and difference image. Save diagnostic files explicitly in your own test code.</p>
+      </section>
+      <section id="panel-ic-java" role="tabpanel" aria-labelledby="tab-ic-java" hidden>
+        <h2 class="guide-step">1. Add the Java core</h2>
+        <p>The Java core has no external runtime dependencies and requires Java 17 or later.</p>
+        <div class="tabs" role="tablist" aria-label="Java dependency build tool">
+          <button id="tab-ic-java-gradle" role="tab" aria-selected="false" aria-controls="panel-ic-java-gradle" tabindex="-1">Gradle (Kotlin DSL)</button>
+          <button id="tab-ic-java-maven" role="tab" aria-selected="true" aria-controls="panel-ic-java-maven" tabindex="0">Maven</button>
+        </div>
+        <section id="panel-ic-java-maven" role="tabpanel" aria-labelledby="tab-ic-java-maven"><div class="code-window"><div class="code-window-bar"><span>pom.xml · 5.0.0</span><button class="copy" type="button" data-copy="ic-java-dependency">Copy</button></div><pre><code id="ic-java-dependency">&lt;dependency&gt;
+    &lt;groupId&gt;dev.nuaforma&lt;/groupId&gt;
+    &lt;artifactId&gt;image-comparison&lt;/artifactId&gt;
+    &lt;version&gt;5.0.0&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre></div></section>
+        <section id="panel-ic-java-gradle" role="tabpanel" aria-labelledby="tab-ic-java-gradle" hidden><div class="code-window"><div class="code-window-bar"><span>build.gradle.kts · Java core</span><button class="copy" type="button" data-copy="ic-java-gradle">Copy</button></div><pre><code id="ic-java-gradle">dependencies {
+    testImplementation("dev.nuaforma:image-comparison:5.0.0")
+}</code></pre></div></section>
+        <h2 class="guide-step">2. Inspect the result</h2>
+        <div class="code-window"><div class="code-window-bar"><span>Java</span><button class="copy" type="button" data-copy="ic-java-comparison">Copy</button></div><pre><code id="ic-java-comparison">import dev.nuaforma.image.comparison.ImageComparison;
+import dev.nuaforma.image.comparison.model.ImageComparisonResult;
+import dev.nuaforma.image.comparison.model.ImageComparisonState;
+import java.io.File;
+import javax.imageio.ImageIO;
+
+var expected = ImageIO.read(new File("reference.png"));
+var actual = ImageIO.read(new File("actual.png"));
+ImageComparisonResult result = new ImageComparison(expected, actual)
+        .setPixelToleranceLevel(0.1)
+        .compareImages();
+
+System.out.println(result.getImageComparisonState());
+System.out.println(result.getDifferencePercent());
+
+if (result.getImageComparisonState() != ImageComparisonState.MATCH) {
+    throw new AssertionError("Unexpected visual difference: "
+            + result.getDifferencePercent() + "%");
+}</code></pre></div>
+        <p>The Java API returns a result. This explicit state check turns both MISMATCH and SIZE_MISMATCH into a failing test without requiring a particular test framework or the JVM's <code>-ea</code> flag.</p>
+      </section>
+      <h2 class="guide-step">3. Make the policy explicit</h2>
+      <div class="template-grid"><article><h2>Tolerance and allowance</h2><p><code>pixelTolerance</code> describes how much a pixel's color or alpha may differ. <code>allowedDifferentPixelsPercent</code> describes how many non-excluded pixels may exceed that tolerance. They are different controls. Start with a deliberate policy; do not keep raising either value to hide a regression.</p></article><article><h2>Known variable regions</h2><p>Use <code>excludeRectangle(x1, y1, x2, y2)</code> for an intentional exclusion. Coordinates are inclusive and must fit inside the reference image. The excluded pixels leave both the numerator and denominator. Different image dimensions always fail the Kotlin assertion.</p></article></div>
+      <div class="link-row"><a href="https://central.sonatype.com/artifact/dev.nuaforma/image-comparison/5.0.0">Java core on Maven Central ↗</a><a href="https://central.sonatype.com/artifact/dev.nuaforma/image-comparison-kotlin/5.0.0">Kotlin adapter on Maven Central ↗</a></div>
+      <div class="guide-links"><h3>Continue with the source guides</h3><p>The library repository owns the complete API documentation, comparison contract and examples. This page is a short introduction for version 5.0.0.</p><div class="link-row"><a href="https://github.com/NuaForma/image-comparison/blob/main/image-comparison-kotlin/README.md">Kotlin DSL &amp; diagnostics ↗</a><a href="https://github.com/NuaForma/image-comparison/blob/main/docs/comparison-contract.md">Comparison contract ↗</a><a href="https://github.com/NuaForma/image-comparison/blob/main/README.md">Java core &amp; source build ↗</a><a href="../releases/index.html">Version and compatibility →</a></div></div>
+      <p class="plain-note">The library compares images. Render PDFs or capture screenshots separately, use fixed inputs and review golden images before accepting a new baseline. Bound image dimensions and concurrent work in your own application.</p>
+    </section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/image-comparison/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/image-comparison">Image Comparison on GitHub</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

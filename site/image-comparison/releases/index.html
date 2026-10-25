@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Version and compatibility notes for the first NuaForma Image Comparison release, 5.0.0.">
+  <meta name="color-scheme" content="light dark">
+  <title>Releases — NuaForma Image Comparison</title>
+  <link rel="icon" href="../../assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../image-comparison.css">
+  <script src="../../app.js" defer></script>
+</head>
+<body class="comparison-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/image-comparison">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="../../index.html" aria-label="NuaForma home"><img class="logo-light" src="../../assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="../../assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="../../index.html">Document generation</a><a href="../index.html">Image Comparison</a><a href="../docs/index.html">Get started</a><a href="../releases/index.html" aria-current="page">Releases</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="section wrap guide doc-intro">
+      <p class="eyebrow">IMAGE COMPARISON / RELEASES</p>
+      <h1>A release of its own.</h1>
+      <p class="lead">Image Comparison has its own version, independent of the NuaForma document generator.</p>
+      <article class="release-entry"><p class="eyebrow">FIRST NUAFORMA RELEASE</p><h2>5.0.0</h2><p>Version 5.0.0 is the first NuaForma release, available on Maven Central for Java and Kotlin.</p><ul><li>Java 17 minimum, with packages under <code>dev.nuaforma.image.comparison</code>.</li><li>Standalone Java core and an optional Kotlin assertion DSL.</li><li>Comparison of color and alpha, with differing-pixel percentages calculated over non-excluded pixels.</li><li>Detected regions stay inspectable even when drawing filters hide an outline.</li><li>Region traversal uses a heap worklist instead of recursive calls.</li></ul><p><strong>Migration from upstream:</strong> update imports and recompile. The Java runtime baseline, package names and approved comparison behavior differ from upstream 4.4.0. Review your tolerances and acceptance limits.</p><div class="link-row"><a href="https://github.com/NuaForma/image-comparison/blob/main/CHANGELOG.md">Full changelog ↗</a><a href="https://github.com/NuaForma/image-comparison/releases/tag/v5.0.0">Release 5.0.0 ↗</a><a href="https://central.sonatype.com/artifact/dev.nuaforma/image-comparison/5.0.0">Maven Central ↗</a><a href="../docs/index.html">Get started →</a></div></article>
+      <h2 class="guide-step">Two artifacts, one version</h2><p><code>dev.nuaforma:image-comparison:5.0.0</code> is the Java core. Kotlin users declare only <code>dev.nuaforma:image-comparison-kotlin:5.0.0</code>; the core arrives transitively.</p>
+      <p class="plain-note">NuaForma maintains this fork independently. Upstream tags and releases identify upstream artifacts, not NuaForma publications. See the <a href="https://github.com/NuaForma/image-comparison/blob/main/NOTICE">attribution notices</a> for the original authorship.</p>
+    </section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/image-comparison/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/image-comparison">Image Comparison on GitHub</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

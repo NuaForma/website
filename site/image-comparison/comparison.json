@@ -1,0 +1,24 @@
+{
+  "version": "5.0.0",
+  "cases": {
+    "all-pixels": {
+      "state": "MISMATCH",
+      "regions": 3,
+      "differencePercent": 0.09875
+    },
+    "exclude-date": {
+      "state": "MISMATCH",
+      "regions": 2,
+      "differencePercent": 0.06387001
+    }
+  },
+  "sourceCommit": "4600f471631ad287b6d5e91ae1b3fce1fa5f4c09",
+  "sourceRepository": "https://github.com/NuaForma/image-comparison",
+  "generatorSha256": "2a7f566f6ecc9d4c3ef6a7ec2f6e6318b067a80056069066c0cfb839af9fe4b1",
+  "images": {
+    "actual.png": "e025dd8093fb2f9e8f8cb4a7a39f09f09cf61a8dbdcf48bf4ff4908e95374735",
+    "all-pixels.png": "5c506bc8b6247369e355695fd0bd8ff1bdcf4224c66a5a0aa0e0ea93aefdfa58",
+    "exclude-date.png": "d028c707a0032980e8db60ca2b1f3f4a0ca5ebd811ec4f6ab45d803907f96753",
+    "expected.png": "9cc34d4b146469b5a4eea9be7ed38a8aeb9d4e43dcf2f65a3b710cc664868847"
+  }
+}

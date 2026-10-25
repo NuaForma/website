@@ -8,6 +8,8 @@ Source for [nuaforma.dev](https://nuaforma.dev), its public deployment kits and 
 
 ## Local checks
 
+Image Comparison has a prominent homepage feature and a separate [project section](site/image-comparison/README.md) with a real engine-generated comparison, introductory Java/Kotlin examples, Maven/Gradle installation instructions and release status. Version 5.0.0's Java and Kotlin POMs, binaries, sources and documentation were independently checked on Maven Central before website publication. Future cross-repository release PR automation is not implemented by these pages.
+
 The homepage introduces the product and deployment/download kits. [Template syntax](site/templates.html), [extension authoring](site/extensions.html), [fonts and operations](site/operations.html) and [short processing trials](site/performance.html) have separate guide pages with shared sticky navigation and light/dark themes. Performance figures describe a named source candidate and bounded experiments, not a sustained-capacity promise or an unchanged published image; keep request counts separate from isolated pipeline trials. Keep examples aligned with released product references; these guides do not change Playground behavior or downloadable scenarios.
 
 ```sh

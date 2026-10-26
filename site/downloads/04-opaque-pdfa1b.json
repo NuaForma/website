@@ -92,12 +92,6 @@
   },
   "options": {
     "locale": "en-GB",
-    "timeZone": "Europe/Amsterdam",
-    "watermark": {
-      "text": "{#if equalsIgnoreCase(trim(status), \"approved\")}FINAL{#else}DRAFT{/if} {reference}",
-      "color": "#00858A",
-      "opacity": 1,
-      "rotation": -45
-    }
+    "timeZone": "Europe/Amsterdam"
   }
 }

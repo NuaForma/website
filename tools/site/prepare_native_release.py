@@ -119,7 +119,12 @@ Before publication replace REQUIRED_APPROVED_RELEASE_DIGEST in values.yaml with 
     write(downloads / 'scenarios.json', json.dumps(scenarios, indent=2) + '\n')
     source = (site / 'index.html').read_text(encoding='utf-8')
     source = source.replace('DOCX-only applications do not need Docker or LibreOffice. PDF requires the separately configured isolated runtime.',
-                            'DOCX and native PDF libraries run in your JVM without LibreOffice. Archival PDF validation uses the configured validator.')
+                            'DOCX and native PDF libraries run in your JVM without LibreOffice. Configure fonts and independent validation using the <a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-docx-pdf/README.md">native PDF guide</a>.')
+    if 'dev.nuaforma:nuaforma-docx-pdf:' not in source:
+        source = source.replace(f'implementation("dev.nuaforma:nuaforma-docx:{VERSION}")', f'implementation("dev.nuaforma:nuaforma-docx:{VERSION}")\n    // Optional: native PDF output\n    implementation("dev.nuaforma:nuaforma-docx-pdf:{VERSION}")')
+    source = source.replace('with a separate isolation boundary around PDF conversion and validation', 'with request-local native rendering and independently bounded PDF validation')
+    source = re.sub(r'<article><h3>Isolate PDF processing</h3><p>.*?</p></article>', '<article><h3>Bound PDF processing</h3><p>Native PDF generation runs inside the service with separate processing state and limits for each request. Independent PDF checks use bounded processes and private working files. The container provides the system boundary; there are no separate per-request filesystem or network sandboxes.</p></article>', source)
+    source = source.replace('dropped capabilities, seccomp filtering and bounded temporary storage', 'dropped capabilities, runtime default security policies and bounded temporary storage')
     source = source.replace('Both container isolation layers remain enabled.', 'The default container policies and resource limits remain enabled.')
     source = source.replace('0.2 &amp; ROADMAP', '0.3 &amp; ROADMAP')
     # Replace full obsolete operational paragraphs rather than leave contradictory fragments.
@@ -141,8 +146,18 @@ Before publication replace REQUIRED_APPROVED_RELEASE_DIGEST in values.yaml with 
     operations = site / 'operations.html'
     operating_text = operations.read_text(encoding='utf-8').replace('reviewed seccomp/AppArmor settings', 'runtime default security policies').replace('Earlier alpha.1 images do not gain these settings automatically;', 'Earlier releases do not gain the native engine automatically;')
     operating_text = operating_text.replace('private files, network denial, cancellation and processing limits', 'private files, bounded validator processes, cancellation and processing limits')
-    operating_text = operating_text.replace('<h2>PDF/A validation stays on by default</h2>', '<h2>Native PDF fonts and watermarks</h2><p>Native PDF embeds the supplied used font faces and enforces technical embedding permissions. Supply every required family/face through the catalog or explicit request resources; source-embedded DOCX fonts are outside the current native import profile. Standard PDF, PDF/A-2b and PDF/A-3b accept requested text watermarks. PDF/A-1b refuses every requested watermark, including fully opaque text.</p><h2>PDF/A validation stays on by default</h2>')
+    operating_text = operating_text.replace('Keep isolation, resource limits and the distinction between production and development intact.', 'Keep runtime default policies, resource limits and the distinction between production and development intact.')
+    if '<h2>Native PDF fonts and watermarks</h2>' not in operating_text:
+        operating_text = operating_text.replace('<h2>PDF/A validation stays on by default</h2>', '<h2>Native PDF fonts and watermarks</h2><p>Native PDF embeds the supplied used font faces and enforces technical embedding permissions. Supply every required family/face through the catalog or explicit request resources; source-embedded DOCX fonts are outside the current native import profile. Standard PDF, PDF/A-2b and PDF/A-3b accept requested text watermarks. PDF/A-1b refuses every requested watermark, including fully opaque text.</p><h2>PDF/A validation stays on by default</h2>')
     write(operations, operating_text)
+    extensions = site / 'extensions.html'
+    extension_text = extensions.read_text(encoding='utf-8').replace('Preserve the renderer/validator isolation and never mount application extensions into those sandboxes.', 'Preserve the container limits and separately bounded validator processes. Extensions run in the application process; their JARs are not added to the fixed validator classpath.')
+    write(extensions, extension_text)
+    performance = site / 'performance.html'
+    performance_text = performance.read_text(encoding='utf-8')
+    if 'id="historical-engine-baseline"' not in performance_text:
+        performance_text = performance_text.replace('<h2>What was processed?</h2>', '<p id="historical-engine-baseline" class="plain-note">These measurements predate the native PDF engine introduced in 0.3.0-alpha.1 and describe the earlier LibreOffice-based PDF path. They remain historical trials, not native-engine benchmarks or capacity guarantees.</p>\n      <h2>What was processed?</h2>')
+    write(performance, performance_text)
     # Retain the selected document bytes; packaging never regenerates a template.
     clients.OUT = examples.OUT = complete.OUT = downloads
     clients.build(version=VERSION)

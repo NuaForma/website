@@ -1,6 +1,6 @@
 # NuaForma — Bruno collection
 
-For the NuaForma 0.2.0-alpha.2 service. Start your own installation first; this kit does not start a service or contact the website.
+For the NuaForma 0.3.0-alpha.1 service. Start your own installation first; this kit does not start a service or contact the website.
 
 See the [documentation index](https://github.com/NuaForma/NuaForma/blob/main/docs/README.md) for template/API/PDF guides. Use the matching service version for the image content pipe. Health/SBOM routes and the separate Playground are documented in the service guides; these collections focus on document generation.
 

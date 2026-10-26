@@ -1,12 +1,13 @@
 {
   "repository": "NuaForma/NuaForma",
-  "sourceCommit": "833da8297d72c8fcdf20ae5231c4332cd99118bd",
-  "release": "0.2.0-alpha.2",
+  "sourceCommit": "65176ddabf0707eba335705f6c6f72324b98f60c",
+  "release": "0.3.0-alpha.1",
+  "validationBoundary": "container",
   "files": {
-    "seccomp.json": "58dcd6cab332f80d639a21f7b4c3856a55ee073149e443455d63e5a142353cea",
-    "nuaforma.apparmor": "974a4f55ba57af2cbc834ee0dcd18a4c47cc664bbe095dd71510dde7e41acd16",
-    "compose.apparmor.yaml": "4f13f561214f52cd807e2fefacd38af5e08336941a31146932f5b55579162b58",
-    "NOTICE": "d53c06e23604e60127a57a517fa032d84a66ed6d504496ca37ca7660f8e8d149",
+    "compose.yaml": "9a5c9145be8b7349de20d2c2cc3fc683f89c402e9cf2b3e21560a99f1f5613de",
+    "validate-pdf.sh": "c746f17dfd097490ee26c317a8c9851aa37cf115531e59f5e8a84e9bb7e601e8",
+    "helm-deployment.yaml": "c3aa472289522ba35de4d7ad644a8feb410dc75cbef3a62386203a95300ea61a",
+    "NOTICE": "074ff095e2bcee85ee4a57a9cba688b124d43c1d7bfc8b27f45cbd1a4f8dc83e",
     "licenses/APACHE-2.0.txt": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a"
   }
 }

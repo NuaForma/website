@@ -14,7 +14,7 @@ class PackagingTest(unittest.TestCase):
     def test_collection_guides_default_to_the_matching_seven_scenario_release(self):
         for client in ('bruno', 'postman'):
             text = client_readme(client)
-            self.assertIn('0.2.0-alpha.2', text)
+            self.assertIn('0.3.0-alpha.1', text)
             self.assertIn('12 requests', text)
             self.assertIn('all 7 document scenarios', text)
             self.assertNotIn('11 alpha.3-compatible requests', text)
@@ -30,6 +30,7 @@ class PackagingTest(unittest.TestCase):
             (root / name).write_bytes(name.encode())
 
     def test_deployments_retain_profiles_with_and_without_playground(self):
+        legacy = deployments.verify().get('validationBoundary', 'legacy') == 'legacy'
         for playground in (False, True):
             with self.subTest(playground=playground), tempfile.TemporaryDirectory() as temporary:
                 root = pathlib.Path(temporary)
@@ -41,10 +42,15 @@ class PackagingTest(unittest.TestCase):
                 self.assertEqual(len(list(root.glob('*-kit.zip'))), len(names))
                 for name in names:
                     with zipfile.ZipFile(root / (name + '-kit.zip')) as archive:
-                        self.assertEqual(archive.read('seccomp.json'), (deployments.PROFILES / 'seccomp.json').read_bytes())
-                        self.assertEqual(archive.read('nuaforma.apparmor'), (deployments.PROFILES / 'nuaforma.apparmor').read_bytes())
-                        if name.startswith('docker'):
-                            self.assertEqual(archive.read('compose.apparmor.yaml'), (deployments.PROFILES / 'compose.apparmor.yaml').read_bytes())
+                        self.assertEqual(archive.read('NOTICE'), (deployments.PROFILES / 'NOTICE').read_bytes())
+                        self.assertEqual(archive.read('LICENSE'), (deployments.PROFILES / 'licenses/APACHE-2.0.txt').read_bytes())
+                        if legacy:
+                            self.assertEqual(archive.read('seccomp.json'), (deployments.PROFILES / 'seccomp.json').read_bytes())
+                            self.assertEqual(archive.read('nuaforma.apparmor'), (deployments.PROFILES / 'nuaforma.apparmor').read_bytes())
+                            if name.startswith('docker'):
+                                self.assertEqual(archive.read('compose.apparmor.yaml'), (deployments.PROFILES / 'compose.apparmor.yaml').read_bytes())
+                        else:
+                            self.assertFalse({'seccomp.json', 'nuaforma.apparmor', 'compose.apparmor.yaml'} & set(archive.namelist()))
 
     def test_default_boundary_packages_notices_and_rejects_retired_profiles(self):
         for playground in (False, True):

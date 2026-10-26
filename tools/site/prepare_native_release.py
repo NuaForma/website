@@ -52,7 +52,13 @@ def prepare(product, commit, destination):
     write(reference / 'manifest.json', json.dumps(record, indent=2) + '\n')
     for file in site.rglob('*'):
         if file.is_file() and (file.suffix in ('.md', '.html', '.json', '.yaml', '.js', '.bru') or file.name == 'Dockerfile'):
-            write(file, file.read_text(encoding='utf-8').replace('0.2.0-alpha.2', VERSION))
+            text = re.sub(r'0\.2\.0-alpha\.[12]', VERSION, file.read_text(encoding='utf-8'))
+            text = text.replace('Compose requires the included `seccomp.json`; extract the entire folder.', 'Compose uses runtime default security policies; extract the complete kit.')
+            text = text.replace('The evaluation alpha retains documented native-runtime security risk accepted for this release; remediation remains open', 'Runtime component security follow-up remains open')
+            text = re.sub(r'4\. `04-opaque-pdfa1b.json`:.*', '4. `04-opaque-pdfa1b.json`: PDF/A-1b without a requested watermark. All requested watermarks, including opaque text, are refused for this profile. The download filename is retained for compatibility.', text)
+            text = re.sub(r'The seven-scenario template authoring procedure is.*', 'Prepare the native-release candidate using `tools/site/prepare_native_release.py` with an explicit reviewed product commit. The existing authored template requires real qualification against that candidate; packaging alone does not qualify documents.', text)
+            write(file, text)
+    write(site / 'README.md', f'# NuaForma website\n\nCandidate {VERSION}. Website maintenance belongs to the repository root README. This directory is the static publication tree. Product generation and real client qualification remain in NuaForma/NuaForma, under tools/site-qualification. Preparation alone does not authorize publication.\n')
     downloads = site / 'downloads'
     names = ('docker', 'docker-arm64', 'docker-playground', 'docker-playground-arm64', 'helm')
     for name in names:

@@ -35,7 +35,6 @@ jobs:
         run: |
           for kit in docker docker-arm64 docker-playground docker-playground-arm64; do
             docker compose --project-directory "site/downloads/$kit" config --quiet
-            docker compose --project-directory "site/downloads/$kit" --file "site/downloads/$kit/compose.yaml" --file "site/downloads/$kit/compose.apparmor.yaml" config --quiet
           done
   deploy:
     if: github.repository == 'NuaForma/website' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

@@ -24,7 +24,7 @@ def write(path, text):
     path.write_text(text, encoding='utf-8', newline='\n')
 
 
-def prepare(product, commit, destination):
+def prepare(product, commit, destination, template=None):
     destination = destination.resolve()
     if destination.exists() or not destination.is_relative_to(ROOT / 'build'):
         raise ValueError('Use a fresh ignored build directory')
@@ -52,14 +52,25 @@ def prepare(product, commit, destination):
     write(reference / 'manifest.json', json.dumps(record, indent=2) + '\n')
     for file in site.rglob('*'):
         if file.is_file() and (file.suffix in ('.md', '.html', '.json', '.yaml', '.js', '.bru') or file.name == 'Dockerfile'):
+            if file == site / 'performance.html':
+                continue  # Historical measured trials retain their exact source/version baseline.
             text = re.sub(r'0\.2\.0-alpha\.[12]', VERSION, file.read_text(encoding='utf-8'))
             text = text.replace('Compose requires the included `seccomp.json`; extract the entire folder.', 'Compose uses runtime default security policies; extract the complete kit.')
             text = text.replace('The evaluation alpha retains documented native-runtime security risk accepted for this release; remediation remains open', 'Runtime component security follow-up remains open')
+            text = text.replace('accepted native-runtime security follow-up', 'runtime component security follow-up')
             text = re.sub(r'4\. `04-opaque-pdfa1b.json`:.*', '4. `04-opaque-pdfa1b.json`: PDF/A-1b without a requested watermark. All requested watermarks, including opaque text, are refused for this profile. The download filename is retained for compatibility.', text)
             text = re.sub(r'The seven-scenario template authoring procedure is.*', 'Prepare the native-release candidate using `tools/site/prepare_native_release.py` with an explicit reviewed product commit. The existing authored template requires real qualification against that candidate; packaging alone does not qualify documents.', text)
             write(file, text)
     write(site / 'README.md', f'# NuaForma website\n\nCandidate {VERSION}. Website maintenance belongs to the repository root README. This directory is the static publication tree. Product generation and real client qualification remain in NuaForma/NuaForma, under tools/site-qualification. Preparation alone does not authorize publication.\n')
     downloads = site / 'downloads'
+    if template is not None:
+        template = template.resolve()
+        if not template.is_file() or template.is_symlink() or not template.is_relative_to(ROOT / 'build'):
+            raise ValueError('Use an explicitly reviewed candidate template from this checkout build directory')
+        shutil.copyfile(template, downloads / 'nuaforma-example-template.docx')
+        examples_guide = downloads / 'EXAMPLES.md'
+        write(examples_guide, examples_guide.read_text(encoding='utf-8').replace('opaque JPEGs', 'opaque PNGs'))
+        write(destination / 'template-selection.json', json.dumps(dict(file=str(template), sha256=hashlib.sha256(template.read_bytes()).hexdigest()), indent=2) + '\n')
     names = ('docker', 'docker-arm64', 'docker-playground', 'docker-playground-arm64', 'helm')
     for name in names:
         folder = downloads / name
@@ -128,8 +139,11 @@ Before publication replace REQUIRED_APPROVED_RELEASE_DIGEST in values.yaml with 
         source = re.sub(r'(<code id="' + code + r'">).*?(</code>)', lambda match: match[1] + replacement + match[2], source, flags=re.S)
     write(site / 'index.html', source)
     operations = site / 'operations.html'
-    write(operations, operations.read_text(encoding='utf-8').replace('reviewed seccomp/AppArmor settings', 'runtime default security policies').replace('Earlier alpha.1 images do not gain these settings automatically;', 'Earlier releases do not gain the native engine automatically;'))
-    # Existing document bytes are deliberately retained for a real native qualification trial.
+    operating_text = operations.read_text(encoding='utf-8').replace('reviewed seccomp/AppArmor settings', 'runtime default security policies').replace('Earlier alpha.1 images do not gain these settings automatically;', 'Earlier releases do not gain the native engine automatically;')
+    operating_text = operating_text.replace('private files, network denial, cancellation and processing limits', 'private files, bounded validator processes, cancellation and processing limits')
+    operating_text = operating_text.replace('<h2>PDF/A validation stays on by default</h2>', '<h2>Native PDF fonts and watermarks</h2><p>Native PDF embeds the supplied used font faces and enforces technical embedding permissions. Supply every required family/face through the catalog or explicit request resources; source-embedded DOCX fonts are outside the current native import profile. Standard PDF, PDF/A-2b and PDF/A-3b accept requested text watermarks. PDF/A-1b refuses every requested watermark, including fully opaque text.</p><h2>PDF/A validation stays on by default</h2>')
+    write(operations, operating_text)
+    # Retain the selected document bytes; packaging never regenerates a template.
     clients.OUT = examples.OUT = complete.OUT = downloads
     clients.build(version=VERSION)
     deployments.PROFILES = reference
@@ -147,5 +161,6 @@ if __name__ == '__main__':
     parser.add_argument('--product-repository', required=True, type=pathlib.Path)
     parser.add_argument('--source-commit', required=True)
     parser.add_argument('--output', required=True, type=pathlib.Path)
+    parser.add_argument('--template', type=pathlib.Path, help='Explicit reviewed native DOCX candidate; default retains the current public template for qualification')
     args = parser.parse_args()
-    prepare(args.product_repository, args.source_commit, args.output)
+    prepare(args.product_repository, args.source_commit, args.output, args.template)

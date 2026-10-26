@@ -10,6 +10,15 @@ Source for [nuaforma.dev](https://nuaforma.dev), its public deployment kits and 
 
 The selected next product release is **`0.3.0-alpha.1`** (`v0.3.0-alpha.1`), tracked in [NuaForma/NuaForma#57](https://github.com/NuaForma/NuaForma/issues/57). Prepare the website on `codex/57-release-0.3.0-alpha.1` and merge verified changes into develop; promote to main after the actual artifacts and matching source materials are public. The released native engine removes LibreOffice and custom host-profile prerequisites, so deployment kits, immutable runtime references, supported example scenarios and download/version claims must be synchronized with its exact reviewed artifacts. Existing reference inputs and live downloads remain bound to their published release until that replacement is available.
 
+`tools/site/prepare_native_release.py` stages the selected version into a fresh ignored build directory, taking an explicit product checkout and locally verified immutable source commit. It prepares all five deployment kits, RuntimeDefault Helm, matching client collections and a PDF/A-1b scenario without a requested watermark. It retains the authored DOCX for actual native qualification rather than silently regenerating it. Production and Playground digest placeholders plus `RELEASE-PREPARATION.txt` deliberately block publication. Example invocation:
+
+```sh
+python3 tools/site/prepare_native_release.py --product-repository /path/to/NuaForma --source-commit FULL_REVIEWED_COMMIT --output build/native-release-candidate
+python3 tools/site/check_site.py --site-directory build/native-release-candidate/site --reference-directory build/native-release-candidate/reference --allow-preparation
+```
+
+The preparation-only check validates structure and archives, not release readiness. Before promoting the staged files, qualify every example against the final candidate, review the pages, bind both actually published image digests, replace the source snapshot with the selected release source if needed, remove the preparation marker and pass the ordinary publication checks. No site, registry or release is published by this tool.
+
 ## Local checks
 
 Image Comparison has a prominent homepage feature and a separate [project section](site/image-comparison/README.md) with a real engine-generated comparison, introductory Java/Kotlin examples, Maven/Gradle installation instructions and release status. Version 5.0.0's Java and Kotlin POMs, binaries, sources and documentation were independently checked on Maven Central before website publication. Future cross-repository release PR automation is not implemented by these pages.

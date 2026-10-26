@@ -6,6 +6,10 @@ Source for [nuaforma.dev](https://nuaforma.dev), its public deployment kits and 
 
 `develop` is the default integration branch. Open feature PRs against develop; promote prepared site changes to main after the matching product release is available. Main deploys automatically only after `Website checks` succeeds. A small emergency correction may be pushed directly to main by a repository administrator, but it must be signed and brought back to develop through a PR. Signatures, no-force-push and no-deletion rules remain enforced even for administrators. Normal changes use PRs.
 
+## Next release preparation
+
+The selected next product release is **`0.3.0-alpha.1`** (`v0.3.0-alpha.1`), tracked in [NuaForma/NuaForma#57](https://github.com/NuaForma/NuaForma/issues/57). Prepare the website on `codex/57-release-0.3.0-alpha.1` and merge verified changes into develop; promote to main after the actual artifacts and matching source materials are public. The released native engine removes LibreOffice and custom host-profile prerequisites, so deployment kits, immutable runtime references, supported example scenarios and download/version claims must be synchronized with its exact reviewed artifacts. Existing reference inputs and live downloads remain bound to their published release until that replacement is available.
+
 ## Local checks
 
 Image Comparison has a prominent homepage feature and a separate [project section](site/image-comparison/README.md) with a real engine-generated comparison, introductory Java/Kotlin examples, Maven/Gradle installation instructions and release status. Version 5.0.0's Java and Kotlin POMs, binaries, sources and documentation were independently checked on Maven Central before website publication. Future cross-repository release PR automation is not implemented by these pages.

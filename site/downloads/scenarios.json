@@ -22,10 +22,10 @@
   },
   {
     "file": "04-opaque-pdfa1b.json",
-    "title": "Opaque draft watermark",
-    "profile": "PDF/A-1b \u00b7 restricted profile",
-    "description": "The same template uses opaque JPEG images and an opaque text watermark. PDF/A-1b cannot accept transparency.",
-    "expected": "PDF/A-1b with DRAFT NF-004 watermark at full opacity; no transparency flattening."
+    "title": "PDF/A-1b without a watermark",
+    "profile": "PDF/A-1b \u00b7 no watermark",
+    "description": "Opaque images and no requested watermark. Every requested watermark is rejected for PDF/A-1b.",
+    "expected": "Independently validated PDF/A-1b; no watermark or transparency flattening. The historical download filename is retained."
   },
   {
     "file": "05-editable-word.json",

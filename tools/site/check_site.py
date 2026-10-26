@@ -95,6 +95,12 @@ else:
     assert 'seccomp=' not in compose
     assert 'no-new-privileges:true' in compose
     assert 'read_only: true' in compose and 'cap_drop: [ALL]' in compose
+    assert 'Their sandbox blocks network access' not in source
+    assert 'separate isolation boundary around PDF conversion' not in source
+    assert 'there are no separate per-request filesystem or network sandboxes' in source
+    assert 'dev.nuaforma:nuaforma-docx-pdf:' in source
+    assert 'id="historical-engine-baseline"' in (SITE / 'performance.html').read_text(encoding='utf-8')
+    assert 'never mount application extensions into those sandboxes' not in (SITE / 'extensions.html').read_text(encoding='utf-8')
 assert 'href="downloads/docker-kit.zip" download="docker-kit.zip" data-download-status="docker-kit-status"' in source
 assert 'id="docker-kit-status"' in source
 assert 'id="docker-kit-download"' in source

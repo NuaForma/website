@@ -307,4 +307,5 @@ if __name__ == "__main__":
     build_client_collections()
     package()
     package_complete_kit()
-    print("Packaged six examples, client collections and complete starter kit")
+    scenario_count = len(json.loads((OUT / "scenarios.json").read_text(encoding="utf-8")))
+    print(f"Packaged {scenario_count} examples, client collections and complete starter kit")

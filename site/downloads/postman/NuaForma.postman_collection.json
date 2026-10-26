@@ -288,7 +288,7 @@
       ]
     },
     {
-      "name": "09 - Opaque draft watermark",
+      "name": "09 - PDF/A-1b without a watermark",
       "request": {
         "method": "POST",
         "header": [
@@ -298,7 +298,7 @@
           }
         ],
         "url": "{{baseUrl}}/api/v1/documents",
-        "description": "The same template uses opaque JPEG images and an opaque text watermark. PDF/A-1b cannot accept transparency. Expected: PDF/A-1b with DRAFT NF-004 watermark at full opacity; no transparency flattening.",
+        "description": "Opaque images and no requested watermark. Every requested watermark is rejected for PDF/A-1b. Expected: Independently validated PDF/A-1b; no watermark or transparency flattening. The historical download filename is retained.",
         "body": {
           "mode": "formdata",
           "formdata": [

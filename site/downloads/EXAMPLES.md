@@ -1,10 +1,10 @@
 # NuaForma example kit
 
-Use these files with your own NuaForma 0.2.0-alpha.2 service. This website hosts files and instructions, not a document generator. All people, companies and example.invalid email addresses in the requests are illustrative.
+Use these files with your own NuaForma 0.3.0-alpha.1 service. This website hosts files and instructions, not a document generator. All people, companies and example.invalid email addresses in the requests are illustrative.
 
-Find the language, API, PDF and operating guides in the [documentation index](https://github.com/NuaForma/NuaForma/blob/main/docs/README.md). The matching 0.2.0-alpha.2 service supports image/content pipes, health/SBOM endpoints and a separate development Playground.
+Find the language, API, PDF and operating guides in the [documentation index](https://github.com/NuaForma/NuaForma/blob/main/docs/README.md). The matching 0.3.0-alpha.1 service supports image/content pipes, health/SBOM endpoints and a separate development Playground.
 
-The same Word template works with all seven complete JSON request envelopes. Open it in Word to inspect paragraph-level conditional/repetition markers and dedicated merged table-marker rows. Do not place table-row markers in ordinary populated rows. The template's static images are opaque JPEGs so this kit also fits the restricted PDF/A-1b image profile.
+The same Word template works with all seven complete JSON request envelopes. Open it in Word to inspect paragraph-level conditional/repetition markers and dedicated merged table-marker rows. Do not place table-row markers in ordinary populated rows. The template's static images are opaque PNGs so this kit also fits the restricted PDF/A-1b image profile.
 
 ## Run a request
 
@@ -31,7 +31,7 @@ curl --fail-with-body http://127.0.0.1:8080/api/v1/documents \
 1. `01-final-pdfa3b.json`: final PDF/A-3b, no watermark. Repeated work rows, active/paused projects and nested conditional notes.
 2. `02-draft-watermark.json`: PDF/A-2b with translucent dynamic `DRAFT NF-002`, urgent text, null/missing contact fields and extra nested notes.
 3. `03-null-empty-standard.json`: ordinary PDF 1.7 with an empty row list, null address/message, missing nickname and excluded projects. Empty rows retain the static table header; missing/null/blank strings have distinct documented outcomes.
-4. `04-opaque-pdfa1b.json`: restricted PDF/A-1b with full-opacity `DRAFT NF-004`. Do not lower opacity or insert transparent images when using this profile.
+4. `04-opaque-pdfa1b.json`: PDF/A-1b without a requested watermark. All requested watermarks, including opaque text, are refused for this profile. The download filename is retained for compatibility.
 5. `05-editable-word.json`: editable DOCX with a draft watermark; explicitly selects `nuaforma-docx` because both installed providers can write Word.
 6. `06-empty-projects-pdfa2b.json`: PDF/A-2b with an empty project list and a literal placeholder inside the message. Inserted values are not evaluated again.
 
@@ -57,8 +57,8 @@ The template demonstrates structural `if → each → if → each → if` nestin
 
 When supplying private fonts, add file parts named `resource.<id>` and matching `output.options.fonts` declarations; mounted resources use selectors from capabilities. Do not supply unused resource parts. Technical embedding permissions are enforced, while callers remain responsible for usage rights.
 
-This alpha has no built-in authentication/TLS. Use loopback for local evaluation or an authenticated TLS gateway for remote access. See the repository module guides, release notes and accepted native-runtime security follow-up in issue #51. The known modern inline-text-box deviation in issue #32 remains scoped to that feature; this kit does not claim universal Word layout parity.
+This alpha has no built-in authentication/TLS. Use loopback for local evaluation or an authenticated TLS gateway for remote access. See the repository module guides, release notes and runtime component security follow-up in issue #51. The known modern inline-text-box deviation in issue #32 remains scoped to that feature; this kit does not claim universal Word layout parity.
 
 ## Authoring and licenses
 
-The seven-scenario template authoring procedure is `python3 tools/site/prepare_release_site.py --output build/example-kit-rebuild --version 0.2.0-alpha.1`, run from the signed `v0.2.0-alpha.1` source with Python, python-docx and Pillow and a fresh output directory. This stages example documents, not approved publication files; retain the release's reviewed deployment kits instead of publishing the entire staging directory. This release reuses the existing qualified image-pipe implementation. The new illustration scenario is structurally checked; no additional rendered example qualification is claimed. NuaForma-authored sample files and the original schematic illustration are Apache-2.0. The included organization logo is project branding; the project license does not grant trademark rights. No private test fonts are included.
+Prepare the native-release candidate using `tools/site/prepare_native_release.py` with an explicit reviewed product commit. The existing authored template requires real qualification against that candidate; packaging alone does not qualify documents.

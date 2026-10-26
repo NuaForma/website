@@ -14,9 +14,12 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--site-directory', type=pathlib.Path, default=ROOT / 'site')
 parser.add_argument('--allow-preparation', action='store_true', help='Validate draft structure, not readiness for publication')
+parser.add_argument('--reference-directory', type=pathlib.Path, default=PROFILES, help='Explicit immutable runtime snapshot for a staged site')
 arguments = parser.parse_args()
 SITE = arguments.site_directory.resolve()
-verify()
+PROFILES = arguments.reference_directory.resolve()
+runtime_reference = verify(PROFILES)
+legacy_boundary = runtime_reference.get('validationBoundary', 'legacy') == 'legacy'
 assert arguments.allow_preparation or not (SITE / 'RELEASE-PREPARATION.txt').exists(), 'Candidate site has outstanding publication requirements'
 assert arguments.allow_preparation or 'REQUIRED_APPROVED_RELEASE_DIGEST' not in (SITE / 'downloads/helm/nuaforma/values.yaml').read_text(), 'Helm must pin the approved release digest'
 assert arguments.allow_preparation or 'REQUIRED_APPROVED_PLAYGROUND_DIGEST' not in (SITE / 'downloads/helm/README.md').read_text(encoding='utf-8'), 'Playground instructions must pin the approved release digest'
@@ -74,7 +77,10 @@ for scenario in index:
     assert request["input"]["format"] == "docx"
     assert isinstance(request["data"], dict)
     if request["output"]["options"].get("profile") == "pdfa-1b":
-        assert request["options"]["watermark"]["opacity"] == 1
+        if legacy_boundary:
+            assert request["options"]["watermark"]["opacity"] == 1
+        else:
+            assert 'watermark' not in request.get('options', {}), 'Native PDF/A-1b refuses all requested watermarks'
 compose = html.unescape(re.search(r'<code id="compose-code">(.*?)</code>', source, re.S)[1])
 assert compose.strip() == (SITE / "downloads/docker/compose.yaml").read_text().strip()
 arm_compose = html.unescape(re.search(r'<code id="compose-arm64-code">(.*?)</code>', source, re.S)[1])
@@ -82,7 +88,19 @@ assert arm_compose.strip() == (SITE / "downloads/docker-arm64/compose.yaml").rea
 assert "platform: linux/arm64" in arm_compose
 assert arm_compose.replace("platform: linux/arm64", "platform: linux/amd64").strip() == compose.strip()
 assert 'href="downloads/docker-arm64-kit.zip"' in source
-assert 'href="downloads/docker/seccomp.json" download="seccomp.json"' in source
+if legacy_boundary:
+    assert 'href="downloads/docker/seccomp.json" download="seccomp.json"' in source
+else:
+    assert 'href="downloads/docker/seccomp.json"' not in source
+    assert 'seccomp=' not in compose
+    assert 'no-new-privileges:true' in compose
+    assert 'read_only: true' in compose and 'cap_drop: [ALL]' in compose
+    assert 'Their sandbox blocks network access' not in source
+    assert 'separate isolation boundary around PDF conversion' not in source
+    assert 'there are no separate per-request filesystem or network sandboxes' in source
+    assert 'dev.nuaforma:nuaforma-docx-pdf:' in source
+    assert 'id="historical-engine-baseline"' in (SITE / 'performance.html').read_text(encoding='utf-8')
+    assert 'never mount application extensions into those sandboxes' not in (SITE / 'extensions.html').read_text(encoding='utf-8')
 assert 'href="downloads/docker-kit.zip" download="docker-kit.zip" data-download-status="docker-kit-status"' in source
 assert 'id="docker-kit-status"' in source
 assert 'id="docker-kit-download"' in source
@@ -103,10 +121,15 @@ for name in playground_names:
     assert 'DEVELOPMENT ONLY' in (SITE / 'downloads' / name / 'README.md').read_text(encoding='utf-8')
 for name in deployment_names:
     folder = SITE / "downloads" / name
-    assert (folder / "seccomp.json").read_bytes() == (PROFILES / "seccomp.json").read_bytes()
-    assert (folder / "nuaforma.apparmor").read_bytes() == (PROFILES / "nuaforma.apparmor").read_bytes()
-    if name.startswith("docker"):
-        assert (folder / "compose.apparmor.yaml").read_bytes() == (PROFILES / "compose.apparmor.yaml").read_bytes()
+    if legacy_boundary:
+        assert (folder / "seccomp.json").read_bytes() == (PROFILES / "seccomp.json").read_bytes()
+        assert (folder / "nuaforma.apparmor").read_bytes() == (PROFILES / "nuaforma.apparmor").read_bytes()
+        if name.startswith("docker"):
+            assert (folder / "compose.apparmor.yaml").read_bytes() == (PROFILES / "compose.apparmor.yaml").read_bytes()
+    else:
+        assert not any((folder / retired).exists() for retired in ('seccomp.json', 'nuaforma.apparmor', 'compose.apparmor.yaml'))
+        assert (folder / 'NOTICE').read_bytes() == (PROFILES / 'NOTICE').read_bytes()
+        assert (folder / 'LICENSE').read_bytes() == (PROFILES / 'licenses/APACHE-2.0.txt').read_bytes()
     with zipfile.ZipFile(SITE / "downloads" / (name + "-kit.zip")) as archive:
         expected = {p.relative_to(folder).as_posix() for p in folder.rglob("*") if p.is_file()}
         assert set(archive.namelist()) == expected

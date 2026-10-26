@@ -1,3 +1,6 @@
+{{- if or (not (kindIs "string" .Values.pdfaValidation)) (not (has .Values.pdfaValidation (list "true" "false"))) }}
+{{- fail "pdfaValidation must be the exact string true or false; use --set-string" }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,8 +30,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         seccompProfile:
-          type: Localhost
-          localhostProfile: {{ required "Install the reviewed seccomp profile on every eligible node" .Values.seccomp.localhostProfile | quote }}
+          type: RuntimeDefault
       containers:
         - name: nuaforma
           image: {{ if .Values.image.digest }}{{ printf "%s@%s" .Values.image.repository .Values.image.digest | quote }}{{ else }}{{ printf "%s:%s" .Values.image.repository .Values.image.tag | quote }}{{ end }}
@@ -48,6 +50,8 @@ spec:
               value: "0.0.0.0"
             - name: NUAFORMA_PORT
               value: "8080"
+            - name: NUAFORMA_PDFA_VALIDATION
+              value: {{ .Values.pdfaValidation | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           startupProbe:

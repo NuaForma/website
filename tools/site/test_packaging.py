@@ -46,6 +46,21 @@ class PackagingTest(unittest.TestCase):
                         if name.startswith('docker'):
                             self.assertEqual(archive.read('compose.apparmor.yaml'), (deployments.PROFILES / 'compose.apparmor.yaml').read_bytes())
 
+    def test_default_boundary_packages_notices_and_rejects_retired_profiles(self):
+        for playground in (False, True):
+            with self.subTest(playground=playground), tempfile.TemporaryDirectory() as temporary:
+                root = pathlib.Path(temporary)
+                self.fixture(root, playground)
+                with patch.object(deployments, 'verify', return_value={'validationBoundary': 'container'}):
+                    deployments.package(root)
+                    with zipfile.ZipFile(root / 'docker-kit.zip') as archive:
+                        self.assertIn('NOTICE', archive.namelist())
+                        self.assertIn('LICENSE', archive.namelist())
+                        self.assertFalse({'seccomp.json', 'nuaforma.apparmor', 'compose.apparmor.yaml'} & set(archive.namelist()))
+                    (root / 'docker/seccomp.json').write_text('retired', encoding='utf-8')
+                    with self.assertRaisesRegex(ValueError, 'retired custom-profile'):
+                        deployments.package(root)
+
     def test_complete_kit_optional_playground_layout_and_no_nested_archives(self):
         for playground in (False, True):
             with self.subTest(playground=playground), tempfile.TemporaryDirectory() as temporary:

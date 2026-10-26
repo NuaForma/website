@@ -5,7 +5,8 @@ import pathlib
 import re
 
 PROFILES = pathlib.Path(__file__).resolve().parents[2] / 'reference/runtime'
-FILES = {'seccomp.json', 'nuaforma.apparmor', 'compose.apparmor.yaml', 'NOTICE', 'licenses/APACHE-2.0.txt'}
+LEGACY_FILES = {'seccomp.json', 'nuaforma.apparmor', 'compose.apparmor.yaml', 'NOTICE', 'licenses/APACHE-2.0.txt'}
+DEFAULT_FILES = {'compose.yaml', 'validate-pdf.sh', 'helm-deployment.yaml', 'NOTICE', 'licenses/APACHE-2.0.txt'}
 
 
 def verify(root=PROFILES):
@@ -15,7 +16,11 @@ def verify(root=PROFILES):
     record = json.loads(manifest.read_text(encoding='utf-8'))
     if record.get('repository') != 'NuaForma/NuaForma' or not re.fullmatch('[a-f0-9]{40}', record.get('sourceCommit', '')):
         raise ValueError('Require an immutable product source identity')
-    if set(record.get('files', {})) != FILES:
+    boundary = record.get('validationBoundary', 'legacy')
+    if boundary not in ('legacy', 'container'):
+        raise ValueError('Unknown reviewed container boundary')
+    expected = DEFAULT_FILES if boundary == 'container' else LEGACY_FILES
+    if set(record.get('files', {})) != expected:
         raise ValueError('Require exactly the reviewed profile/notice inputs')
     for relative, expected in record['files'].items():
         path = root / relative

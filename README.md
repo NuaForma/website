@@ -6,6 +6,26 @@ Source for [nuaforma.dev](https://nuaforma.dev), its public deployment kits and 
 
 `develop` is the default integration branch. Open feature PRs against develop; promote prepared site changes to main after the matching product release is available. Main deploys automatically only after `Website checks` succeeds. A small emergency correction may be pushed directly to main by a repository administrator, but it must be signed and brought back to develop through a PR. Signatures, no-force-push and no-deletion rules remain enforced even for administrators. Normal changes use PRs.
 
+## Next release preparation
+
+The selected next product release is **`0.3.0-alpha.1`** (`v0.3.0-alpha.1`), tracked in [NuaForma/NuaForma#57](https://github.com/NuaForma/NuaForma/issues/57). Prepare the website on `codex/57-release-0.3.0-alpha.1` and merge verified changes into develop; promote to main after the actual artifacts and matching source materials are public. The released native engine removes LibreOffice and custom host-profile prerequisites, so deployment kits, immutable runtime references, supported example scenarios and download/version claims must be synchronized with its exact reviewed artifacts. Existing reference inputs and live downloads remain bound to their published release until that replacement is available.
+
+`tools/site/prepare_native_release.py` stages the selected version into a fresh ignored build directory, taking an explicit product checkout and locally verified immutable source commit. It prepares all five deployment kits, RuntimeDefault Helm, matching client collections and a PDF/A-1b scenario without a requested watermark. It retains the current DOCX unless an explicitly reviewed `--template` is selected. Production and Playground digest placeholders plus `RELEASE-PREPARATION.txt` deliberately block publication. Example invocation:
+
+```sh
+python3 tools/site/build_native_example.py --source site/downloads/nuaforma-example-template.docx --output build/native-example/template.docx
+python3 tools/site/prepare_native_release.py --product-repository /path/to/NuaForma --source-commit FULL_REVIEWED_COMMIT --template build/native-example/template.docx --output build/native-release-candidate
+python3 tools/site/check_site.py --site-directory build/native-release-candidate/site --reference-directory build/native-release-candidate/reference --allow-preparation
+```
+
+The preparation-only check validates structure and archives, not release readiness. Before promoting the staged files, qualify every example against the final candidate, review the pages, bind both actually published image digests, replace the source snapshot with the selected release source if needed, remove the preparation marker and pass the ordinary publication checks. No site, registry or release is published by this tool.
+
+The optional authoring helper requires Pillow and lxml. It adapts the retained legacy template to the qualified native profile, preserving all text/markers, page geometry and table grid. It records explicit mode-15 print settings, table margins/borders, short-row policy, image paragraph heights and typography adjustments. The two JPEG images become opaque PNGs with identical decoded RGB pixels; unused preview/effects parts and editing metadata are removed. This is a deliberately authored example, not a general DOCX repair or importer extension. It refuses public-file replacement. Retain the original source from Git history to reproduce the adaptation after publication; do not reapply it to the adapted template.
+
+The reviewed candidate was qualified on product source `13dae18bd1655ddb3b9cb21355752c2fe7055682`: seven real HTTP scenarios and independent PDF-profile checks passed. Twelve page pairs were compared with genuine Word exports and visually inspected. All 6,547 body characters, their order, font faces and pagination agree; maximum measured text displacement is 0.265 pt horizontally and 0.220 pt vertically. The product issue #57 records the retained source, Word export provenance, renders and checksum-bound evidence. Existing protected engine golden files were not replaced. These measurements do not promise arbitrary DOCX compatibility or identical watermark glyph outlines.
+
+The performance page retains its original measured source/version baseline; preparing 0.3 does not relabel historical measurements as new-engine benchmarks.
+
 ## Local checks
 
 Image Comparison has a prominent homepage feature and a separate [project section](site/image-comparison/README.md) with a real engine-generated comparison, introductory Java/Kotlin examples, Maven/Gradle installation instructions and release status. Version 5.0.0's Java and Kotlin POMs, binaries, sources and documentation were independently checked on Maven Central before website publication. Future cross-repository release PR automation is not implemented by these pages.

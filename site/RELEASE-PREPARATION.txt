@@ -1,0 +1,1 @@
+NOT FOR PUBLICATION: bind the signed alpha.2 source and actual public production/Playground digests after the approved product publication. Repackage and verify live downloads. Existing DOCX/JSON examples remain unchanged; green product CI supplies behavior qualification.

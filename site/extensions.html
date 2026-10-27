@@ -55,7 +55,7 @@ class PrefixPipe : TemplatePipe {
         return (arguments.single() as String) + value
     }
 }</code></pre></div>
-      <p>Compile for Java 17 for broad embedded compatibility. Use the matching published contracts, currently <code>dev.nuaforma:nuaforma-contracts:0.3.0-alpha.1</code>, preferably as a compile-only/provided dependency. Do not package duplicate NuaForma or Kotlin runtime classes. Start with the <a href="https://github.com/NuaForma/NuaForma/tree/main/examples/value-pipes">complete Kotlin extension and independent consumer</a> for build setup and executable tests.</p>
+      <p>Compile for Java 17 for broad embedded compatibility. Use the matching published contracts, currently <code>dev.nuaforma:nuaforma-contracts:0.3.0-alpha.2</code>, preferably as a compile-only/provided dependency. Do not package duplicate NuaForma or Kotlin runtime classes. Start with the <a href="https://github.com/NuaForma/NuaForma/tree/main/examples/value-pipes">complete Kotlin extension and independent consumer</a> for build setup and executable tests.</p>
       <h2 class="guide-step">2. Register it in the same JAR</h2>
       <p>Add these two resources. The service file names the implementation; the properties file declares its identity and minimum contract. Release version and contract version are separate.</p>
       <div class="code-window"><div class="code-window-bar"><span>src/main/resources/META-INF/services/dev.nuaforma.contracts.TemplatePipe</span></div><pre><code>example.PrefixPipe</code></pre></div>
@@ -76,7 +76,7 @@ contract.minor=2</code></pre></div>
       <p>Installed extensions run with application-process permissions: they are not sandboxed by the template language. Keep implementations thread-safe, do not retain request data, bound allocations/work, and cooperate with <code>context.checkActive()</code>. Test null/missing values, invalid types and arguments, concurrent requests, registration conflicts and actual generation. Check layout, fonts and PDF/profile behavior when output is affected.</p>
       <p>Private code and its dependencies are your responsibility. Preserve the container limits and separately bounded validator processes. Extensions run in the application process; their JARs are not added to the fixed validator classpath. Do not pass secrets or unrelated request state to a pipe.</p>
       <div class="link-row"><a href="https://github.com/NuaForma/NuaForma/blob/main/docs/extensions.md">Full extension guide ↗</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-contracts/README.md">Public contracts ↗</a><a href="index.html#playground">Development Playground →</a><a href="templates.html">Template syntax →</a></div>
-      <p class="plain-note">Available from 0.3.0-alpha.1; APIs are still an evaluation draft. This page explains extensions, not a new product release or a hosted execution service.</p>
+      <p class="plain-note">Available from 0.3.0-alpha.2; APIs are still an evaluation draft. This page explains extensions, not a new product release or a hosted execution service.</p>
     </section>
   </main>
   <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/NuaForma/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md">Third-party licenses</a><span>No cookies or analytics.</span></footer>

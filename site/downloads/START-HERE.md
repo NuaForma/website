@@ -1,6 +1,6 @@
 # NuaForma — complete starter kit
 
-For NuaForma 0.3.0-alpha.1. Libraries use Java 17; the production service and separate development Playground use Java 25. This ZIP contains instructions/examples, not application binaries or a hosted generation service.
+For NuaForma 0.3.0-alpha.2. Libraries use Java 17; the production service and separate development Playground use Java 25. This ZIP contains instructions/examples, not application binaries or a hosted generation service.
 
 ```text
 Deploy/

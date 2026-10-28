@@ -16,12 +16,12 @@
   <div class="site-masthead"><header class="site-header wrap">
     <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
-    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html#everyone">For everyone</a><a href="index.html#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="index.html#examples">Example kit</a><a href="image-comparison/index.html">Image Comparison</a></nav>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html">Overview</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="playground.html">Playground</a><a href="image-comparison/index.html">Image Comparison</a></nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
   </header></div>
   <main id="main"><section class="section wrap" aria-labelledby="operations-title">
     <div class="section-heading"><p class="eyebrow">DEPLOY AND OPERATE</p><h1 id="operations-title">Your fonts.<br>Your processing policy.</h1><p>Configure trusted instance settings separately from document requests. Keep runtime default policies, resource limits and the distinction between production and development intact.</p></div>
-    <p class="plain-note" id="release-status">Available in 0.3.0-alpha.3. Use its matching production or development Playground deployment kit. Earlier releases do not gain the native engine automatically; update the image version before using them.</p>
+    <p class="plain-note" id="release-status">Available in 0.3.0-alpha.4. Use its matching production or development Playground deployment kit. Earlier releases do not gain the native engine automatically; update the image version before using them.</p>
     <h2>Fonts: preserve, supply or embed</h2>
     <p>Default DOCX output preserves template font references. For custom fonts, mount a readable, flat directory of standalone TTF/OTF faces at <code>/opt/nuaforma/custom-fonts</code> using the kit's <code>custom-fonts</code> directory, then restart. <code>GET /api/v1/capabilities</code> lists the provider's available bundled/mounted fonts. Private request uploads are not exposed in that catalog.</p>
     <p>To embed the fonts actually used by a supported DOCX document, select DOCX output with these options inside your complete request envelope:</p>

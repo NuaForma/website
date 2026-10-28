@@ -16,7 +16,7 @@
   <div class="site-masthead"><header class="site-header wrap">
     <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
-    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html#everyone">For everyone</a><a href="index.html#developers">For developers</a><a href="templates.html">Templates</a><a href="extensions.html" aria-current="page">Extensions</a><a href="index.html#examples">Example kit</a><a href="image-comparison/index.html">Image Comparison</a></nav>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html">Overview</a><a href="templates.html">Templates</a><a href="extensions.html" aria-current="page">Extensions</a><a href="playground.html">Playground</a><a href="image-comparison/index.html">Image Comparison</a></nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
   </header></div>
   <main id="main">
@@ -71,7 +71,7 @@ class PrefixPipe : TemplatePipe {
         return (arguments.single() as String) + value
     }
 }</code></pre></div>
-      <p>Compile for Java 17 for broad embedded compatibility. Use the matching published contracts, currently <code>dev.nuaforma:nuaforma-contracts:0.3.0-alpha.3</code>, preferably as a compile-only/provided dependency. Do not package duplicate NuaForma or Kotlin runtime classes. Start with the <a href="https://github.com/NuaForma/NuaForma/tree/main/examples/value-pipes">complete Kotlin extension and independent consumer</a> for build setup and executable tests.</p>
+      <p>Compile for Java 17 for broad embedded compatibility. Use the matching published contracts, currently <code>dev.nuaforma:nuaforma-contracts:0.3.0-alpha.4</code>, preferably as a compile-only/provided dependency. Do not package duplicate NuaForma or Kotlin runtime classes. Start with the <a href="https://github.com/NuaForma/NuaForma/tree/main/examples/value-pipes">complete Kotlin extension and independent consumer</a> for build setup and executable tests.</p>
       <h2 class="guide-step">2. Register it in the same JAR</h2>
       <p>Add these two resources. The service file names the implementation; the properties file declares its identity and minimum contract. Release version and contract version are separate.</p>
       <div class="code-window"><div class="code-window-bar"><span>src/main/resources/META-INF/services/dev.nuaforma.contracts.TemplatePipe</span></div><pre><code>example.PrefixPipe</code></pre></div>

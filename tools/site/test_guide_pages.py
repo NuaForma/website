@@ -33,7 +33,7 @@ class GuidePagesTest(unittest.TestCase):
             self.assertIn(f'id="{anchor}"', templates)
         for explanation in ['MM', 'mm', 'MMMM', 'yyyy', 'uuuu', 'YYYY', 'Europe/Amsterdam',
                             'nl-NL', '2026-10-28T14:05:00Z', 'without an offset', '64 characters',
-                            'not available in 0.3.0-alpha.2', 'GENERATION_REJECTED',
+                            'Available from 0.3.0-alpha.3', 'GENERATION_REJECTED',
                             'template:8', 'not a Word page', 'Production responses and logs omit expression excerpts']:
             self.assertIn(explanation, templates)
         self.assertIn('date("dd-MM-uuuu \'om\' HH:mm")', templates)

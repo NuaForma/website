@@ -43,6 +43,19 @@ Additional review completed.
         <article><h2>Insert an image</h2><p>The DOCX generator's built-in content pipe turns a Base64 PNG or JPEG value into an inline image, for both DOCX and PDF generation.</p><div class="code-window"><pre><code>{company.logo | image(40, 20, true)}
 {optionalPhoto ?? null | image(25, 35, true)}</code></pre></div><p>The first two arguments are maximum width and height in millimetres; <code>true</code> preserves the aspect ratio without upscaling. Defaults are <code>image(50, 50, true)</code>. Null inserts nothing. Supply plain padded Base64, not a URL or data URI. Content pipes cannot be chained before or after any other pipe.</p></article>
       </div>
+      <div class="template-nesting"><div><h2>Yes, you can nest them</h2><p>Put an if inside a loop, a loop inside an if, or another loop inside that loop. Use different aliases to keep outer items accessible.</p><p>In this example, only active projects appear. Only included tasks appear, and each task can conditionally show a review note. The inner <code>loop.number</code> belongs to the task list; after that loop, the enclosing loop is restored.</p><p>Each block must close with its matching <code>{/if}</code> or <code>{/each}</code>. Processing depth, repetitions and output remain bounded.</p></div><div class="code-window"><div class="code-window-bar"><span>Nested Word template markers</span><button class="copy" data-copy="nested-template" type="button">Copy</button></div><pre><code id="nested-template">{#each projects as project}
+{#if project.active}
+Project: {project.name}
+{#each project.tasks as task}
+{#if task.include}
+{loop.number}. {task.name} — {project.name}
+{#if contains(task.note ?? "", "review", true)}
+Review requested: {task.note}
+{/if}
+{/if}
+{/each}
+{/if}
+{/each}</code></pre></div></div>
       <section id="date-formatting" aria-labelledby="date-formatting-title" class="date-reference">
         <h2 id="date-formatting-title">Dates and times, explained</h2>
         <p>Use <code>{issuedOn | date("dd-MM-yyyy")}</code> to turn <code>2026-10-28</code> into <code>28-10-2026</code>. Patterns are case-sensitive: <strong><code>MM</code> means month; <code>mm</code> means minutes.</strong> The generation's locale controls names and abbreviations; the time zone controls timestamp conversion.</p>
@@ -94,19 +107,6 @@ Additional review completed.
 {issuedOn | date(‘dd-MM-yyyy")}</code></pre></div>
         <p>Version 0.3.0-alpha.3 also adds specific syntax reasons, a bounded expression excerpt with an error marker, and available DOCX part/paragraph context to development responses and logs. Paragraph numbers are one-based within the named part, including tables and text boxes; they are not page numbers. Production responses and logs omit expression excerpts. Development may expose document text, so use synthetic data. This site does not change a running container's behavior.</p>
       </section>
-      <div class="template-nesting"><div><h2>Yes, you can nest them</h2><p>Put an if inside a loop, a loop inside an if, or another loop inside that loop. Use different aliases to keep outer items accessible.</p><p>In this example, only active projects appear. Only included tasks appear, and each task can conditionally show a review note. The inner <code>loop.number</code> belongs to the task list; after that loop, the enclosing loop is restored.</p><p>Each block must close with its matching <code>{/if}</code> or <code>{/each}</code>. Processing depth, repetitions and output remain bounded.</p></div><div class="code-window"><div class="code-window-bar"><span>Nested Word template markers</span><button class="copy" data-copy="nested-template" type="button">Copy</button></div><pre><code id="nested-template">{#each projects as project}
-{#if project.active}
-Project: {project.name}
-{#each project.tasks as task}
-{#if task.include}
-{loop.number}. {task.name} — {project.name}
-{#if contains(task.note ?? "", "review", true)}
-Review requested: {task.note}
-{/if}
-{/if}
-{/each}
-{/if}
-{/each}</code></pre></div></div>
       <p class="plain-note">Data inserted into the document stays literal: it cannot introduce new template instructions. Write <code>{{</code> and <code>}}</code> in the template for literal braces. Markers do not automatically normalize whitespace or line breaks; use the DOCX structural rules when adding or removing whole paragraphs/rows. Text watermarks resolve text expressions and value pipes, but cannot contain image/content pipes.</p>
       <div class="link-row"><a href="index.html#examples">Try the seven downloadable scenarios ↓</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-template/README.md">Full language reference ↗</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-docx/README.md">Word structure &amp; image rules ↗</a><a href="extensions.html">Build your own pipes →</a></div>
       <p class="plain-note">Use the Playground on your own development installation to inspect the selected provider's capabilities and available pipes. This site adds documentation only; it does not send your data or generate documents.</p>

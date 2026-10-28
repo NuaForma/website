@@ -16,7 +16,7 @@
   <div class="site-masthead"><header class="site-header wrap">
     <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
-    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html#everyone">For everyone</a><a href="index.html#developers">For developers</a><a href="templates.html" aria-current="page">Templates</a><a href="extensions.html">Extensions</a><a href="index.html#examples">Example kit</a><a href="image-comparison/index.html">Image Comparison</a></nav>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html">Overview</a><a href="templates.html" aria-current="page">Templates</a><a href="extensions.html">Extensions</a><a href="playground.html">Playground</a><a href="image-comparison/index.html">Image Comparison</a></nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
   </header></div>
   <main id="main">
@@ -98,7 +98,8 @@ Review requested: {task.note}
       </section>
       <section id="template-diagnostics" aria-labelledby="template-diagnostics-title" class="date-reference">
         <h2 id="template-diagnostics-title">Find a template error</h2>
-        <p>On released <code>0.3.0-alpha.3</code>, the Playground uses development diagnostics by default. Curl receives the same details from the same server. A production-mode service deliberately returns less detail. Search the container logs for <code>GENERATION_REJECTED</code> and the response's <code>X-Request-ID</code>. Use <code>curl --fail-with-body</code> to retain an HTTP error's JSON body.</p>
+        <p>From alpha.4, the <a href="playground.html#diagnostics">Playground diagnostic PDF</a> marks the first locatable parser error in a literal copy of your template and appends an explanation. The original generation remains unsuccessful; correct the Word file and try again.</p>
+        <p>On released <code>0.3.0-alpha.4</code>, the Playground uses development diagnostics by default. Curl receives the same details from the same server. A production-mode service deliberately returns less detail. Search the container logs for <code>GENERATION_REJECTED</code> and the response's <code>X-Request-ID</code>. Use <code>curl --fail-with-body</code> to retain an HTTP error's JSON body.</p>
         <p><code>template:8</code> means offset 8, counted from zero in the local text fragment: roughly the ninth character, possibly the end of the expression. It is not a Word page, line or document-wide character position. An <code>xml:line:column</code> location refers to a parser position in the named package part.</p>
         <p><strong>Available from 0.3.0-alpha.3:</strong> expressions accept straight double/single quotes and typographic quotes, including mixed opening and closing forms. The parser reads quotes in context; ordinary document text and inserted values stay unchanged. At a possible closing quote, expression punctuation determines the boundary. Escape an interior quote when it would otherwise be read as the end of the string.</p>
         <div class="code-window"><pre><code>{issuedOn | date("dd-MM-yyyy")}

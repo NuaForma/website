@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Start the NuaForma Playground locally, try template examples, supply fonts and locate syntax errors with marked diagnostic PDFs.">
+  <meta name="color-scheme" content="light dark">
+  <title>Playground — NuaForma</title>
+  <link rel="icon" href="assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/NuaForma">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html">Overview</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="playground.html" aria-current="page">Playground</a><a href="image-comparison/index.html">Image Comparison</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="section wrap playground-hero" aria-labelledby="playground-title">
+      <div class="section-heading"><p class="eyebrow">DEVELOPMENT PLAYGROUND</p><h1 id="playground-title">Try a template.<br>Find the problem.</h1><p>Build a request, generate a document and find a template error. Use the same engine and API as your application, with a browser to help you explore.</p></div>
+      <div class="actions"><a class="button primary" href="#start">Start locally ↓</a><a class="button secondary" href="#diagnostics">See a marked diagnostic PDF ↓</a></div>
+      <p class="playground-notice"><strong>Your installation, your documents.</strong> This website is a guide, not a hosted Playground. The Playground runs on your own development installation. Development responses and logs can contain document text; use synthetic data and your own access controls.</p>
+      <nav class="playground-contents" aria-label="On this page"><a href="#start">Get started</a><a href="#examples">Try an example</a><a href="#fonts">Choose fonts</a><a href="#diagnostics">Find an error</a></nav>
+    </section>
+    <section class="section wrap" id="start" aria-labelledby="start-title">
+      <div class="section-heading"><p class="eyebrow">01 · GET STARTED</p><h2 id="start-title">From download<br>to first document.</h2><p>Use the development Playground image. The production image contains the API without the Playground interface.</p></div>
+      <div class="template-grid">
+        <article><h3>1. Choose your machine</h3><p>Download and extract the AMD64 kit for Intel/AMD, or ARM64 for Apple Silicon and other ARM64 systems. Create the <code>custom-fonts</code> and <code>extensions</code> folders beside its Compose file.</p><div class="link-row"><a href="downloads/docker-playground-kit.zip" download>Playground AMD64 kit ↓</a><a href="downloads/docker-playground-arm64-kit.zip" download>Playground ARM64 kit ↓</a></div></article>
+        <article><h3>2. Start the Playground</h3><p>Run from the extracted folder:</p><div class="code-window"><pre><code>docker compose up -d</code></pre></div><p>Open <code>http://localhost:8080/playground/</code> in your browser. Choose either the production or Playground kit for port 8080.</p></article>
+        <article><h3>3. Add a template and data</h3><p>Choose DOCX or PDF output, upload your Word template and enter its JSON data. Inspect the available providers and options. Start with the <a href="downloads/example-kit.zip" download>synthetic example kit</a> if you do not yet have a template.</p></article>
+        <article><h3>4. Generate and download</h3><p>Generate the document, then download the result. Export the JSON request and curl instructions to repeat it from your application or terminal. The template and resource files remain separate uploads.</p></article>
+      </div>
+    </section>
+    <section class="section wrap" id="examples" aria-labelledby="examples-title">
+      <div class="section-heading"><p class="eyebrow">02 · TRY AN EXAMPLE</p><h2 id="examples-title">Small changes.<br>Visible results.</h2><p>Type these markers as ordinary text in Word. Paste the data into the Playground, generate, then change one value and try again.</p></div>
+      <div class="template-grid">
+        <article><h3>A field</h3><div class="code-window"><pre><code>Dear {customer.name},</code></pre></div><p>With the data below, the name becomes <strong>Ada Lovelace</strong>.</p></article>
+        <article><h3>A condition</h3><div class="code-window"><pre><code>{#if approved}Approved{#else}Draft{/if}</code></pre></div><p>Change <code>approved</code> from <code>true</code> to <code>false</code> to switch the text.</p></article>
+        <article><h3>A formatted date</h3><div class="code-window"><pre><code>{issuedOn | date("dd-MM-yyyy")}</code></pre></div><p>The date becomes <strong>28-10-2026</strong>. See the <a href="templates.html#date-formatting">date and time reference</a> for other patterns.</p></article>
+        <article><h3>Data for all three</h3><div class="code-window"><div class="code-window-bar"><span>Playground data</span><button class="copy" data-copy="playground-data" type="button">Copy</button></div><pre><code id="playground-data">{
+  "customer": {"name": "Ada Lovelace"},
+  "approved": true,
+  "issuedOn": "2026-10-28"
+}</code></pre></div></article>
+      </div>
+      <p class="plain-note">Want a fuller test? The <a href="index.html#examples">seven downloadable scenarios</a> include nested conditions and loops, null values, watermarks, Word output and images. The <a href="templates.html">template guide</a> explains the supported syntax and Word structure rules.</p>
+    </section>
+    <section class="section wrap" id="fonts" aria-labelledby="fonts-title">
+      <div class="section-heading"><p class="eyebrow">03 · CHOOSE FONTS</p><h2 id="fonts-title">Use the fonts<br>your template needs.</h2></div>
+      <div class="template-grid"><article><h3>Inspect what is available</h3><p>The provider explorer and font controls list the available families and faces. Bundled fonts need no upload. Mounted fonts can be selected through their resource IDs.</p></article><article><h3>Supply a missing face</h3><p>Upload a standalone TTF or OTF face and enter its actual family, style and resource ID. The Playground adds the font declaration and binary resource together. Font selection supplies a font; it does not rename or replace the font used in Word.</p></article></div>
+      <p class="plain-note">PDF output embeds the used faces and checks technical embedding permissions. Names alone do not guarantee glyph coverage. See <a href="operations.html">fonts and operations</a> for deployment guidance.</p>
+    </section>
+    <section class="section wrap" id="diagnostics" aria-labelledby="diagnostics-title">
+      <div class="section-heading"><p class="eyebrow">04 · FIND AN ERROR</p><h2 id="diagnostics-title">See where<br>the parser stopped.</h2><p id="diagnostic-release-status">Available from <strong>0.3.0-alpha.4</strong>: download a marked diagnostic PDF after a template syntax failure.</p></div>
+      <div class="playground-notice"><strong>One reliable error at a time.</strong> Generation remains unsuccessful. The diagnostic is a literal copy of your template with the first locatable error marked; template instructions are not filled with your data. Correct the original Word file, generate again and inspect the next error if there is one.</div>
+      <div class="template-grid"><article><h3>1. Generate the failing template</h3><p>For a deliberate test, remove the closing brace from a field such as <code>{customer.name}</code>. The error response shows the reason, parser excerpt, request ID and available Word location.</p></article><article><h3>2. Download the diagnosis</h3><p>Choose <strong>Download diagnostic PDF</strong>. The Playground uses the original failed upload. A red <strong>ERROR 1</strong> marks the source fragment, and an extra page explains what the parser read.</p></article></div>
+      <div class="playground-proof-grid">
+        <figure><a href="assets/playground/diagnostic-template.png"><img src="assets/playground/diagnostic-template.png" width="793" height="1122" loading="lazy" alt="Synthetic Word letter with its logo and styling retained and a red ERROR 1 label beside an unclosed marker."></a><figcaption><strong>The location in the template.</strong> The red label points to the failing text. Click to enlarge.</figcaption></figure>
+        <figure><a href="assets/playground/diagnostic-explanation.png"><img src="assets/playground/diagnostic-explanation.png" width="793" height="1122" loading="lazy" alt="Diagnostic explanation page with UNCLOSED_TEMPLATE_MARKER, word/document.xml, paragraph 1 and the parser fragment with a caret."></a><figcaption><strong>The explanation beside it.</strong> The part, paragraph and excerpt make the error traceable. Click to enlarge.</figcaption></figure>
+      </div>
+      <div class="actions"><a class="button primary" href="downloads/playground-diagnostic-example.pdf" download>Download the example diagnostic PDF ↓</a><a class="button secondary" href="templates.html#template-diagnostics">Understand error positions →</a></div>
+      <p class="plain-note">These are actual engine-generated pages from a synthetic demonstration. An inline error label can change wrapping. Unsupported Word structures or unavailable fonts can prevent PDF creation; the original text diagnosis stays visible. The diagnostic download requires development mode and produces validated standard PDF, separately from your requested business-output profile.</p>
+    </section>
+    <section class="closing wrap"><p class="eyebrow">YOUR NEXT STEP</p><h2>Explore locally.<br>Integrate with confidence.</h2><p>Use the Playground to understand your template and request. Use the same REST API or embedded engine in your application.</p><div class="link-row"><a href="templates.html">Template guide →</a><a href="extensions.html">Create your own pipes →</a><a href="https://github.com/NuaForma/NuaForma/blob/main/nuaforma-playground/README.md">Technical Playground guide ↗</a></div></section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/NuaForma/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md">Third-party licenses</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

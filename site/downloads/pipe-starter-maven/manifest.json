@@ -1,0 +1,18 @@
+{
+  "nuaformaVersion": "0.3.0-alpha.2",
+  "javaRelease": 17,
+  "variant": "maven",
+  "sha256": {
+    "LICENSE": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+    "README.md": "bfd67cfc4986c155611ca0a9c59c30b846e80c2192e3c5e6ab739a66e144db3e",
+    "pom.xml": "4c74fe7f8f8ca0e637ed61b1140620dd3eae2bb39abb5fc2877bfbe2a273c822",
+    "src/main/java/example/PrefixPipe.java": "a62b87cc0964c3dbe0357fa28896da506c622f55398247f30e52bf2c680e77c3",
+    "src/main/java/example/SelectPipe.java": "550451f6c3865658edafa9cb1f12c5322788e4031af1fdf2569442d9ec94e254",
+    "src/main/java/example/UppercasePipe.java": "7626cae543f49043a6cc6447d0a2787a815d4ac13a075e479be583c0689f94b8",
+    "src/main/resources/META-INF/nuaforma/pipes/example.PrefixPipe.properties": "02638d7f93a633fb9ab4feb5c08d2c37b969ad5e93bf77a0e186117096bcc21c",
+    "src/main/resources/META-INF/nuaforma/pipes/example.SelectPipe.properties": "6ae3576a440d844d8ecfd972faaa1f2287f303b5d0381e8e9cc7a59ee9189ddf",
+    "src/main/resources/META-INF/nuaforma/pipes/example.UppercasePipe.properties": "6fde295fe8c9994c15cf32fbdb184fa8f06ac5ed5590c53fe3d847b795460fff",
+    "src/main/resources/META-INF/services/dev.nuaforma.contracts.TemplatePipe": "3b62e198f2f08d163d550b8cd643dac35b1f9b71bbec62e56f68e6d4f853b4b2",
+    "src/test/java/example/StarterTest.java": "78b84d53da3b28722d9f7e7976fda3350bb244952417731a3b85883ddc365f13"
+  }
+}

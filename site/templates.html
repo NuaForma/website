@@ -39,10 +39,61 @@ Additional review completed.
 {#if contains(note ?? "", "review", true)}Review requested{/if}</code></pre></div><p>Built-ins: <code>contains</code>, <code>startsWith</code>, <code>endsWith</code>, <code>trim</code> and <code>equalsIgnoreCase</code>. The optional third boolean on substring/prefix/suffix checks enables case-insensitive matching. A direct <code>name == null</code> check requires the field to exist.</p></article>
         <article><h2>Format and chain value pipes</h2><p>A pipe transforms a value before insertion. Built-in number and date formatting uses the generation's explicit locale and time zone.</p><div class="code-window"><pre><code>{total | number("#,##0.00")}
 {issuedOn | date("dd-MM-uuuu")}
-{customer | select("balance") | number("0.00")}</code></pre></div><p><code>select</code> illustrates a custom value pipe, not a built-in: an operator must install it first. Registered pipes can accept arguments and return values for the next stage. Every stage needs parentheses. Pipes go on placeholders, not inside <code>#if</code> or <code>#each</code> expressions.</p></article>
+{customer | select("balance") | number("0.00")}</code></pre></div><p><code>select</code> illustrates a custom value pipe, not a built-in: an operator must install it first. Registered pipes can accept arguments and return values for the next stage. Every stage needs parentheses. See the <a href="#date-formatting">date and time reference</a> and <a href="#template-diagnostics">template error guide</a>. Pipes go on placeholders, not inside <code>#if</code> or <code>#each</code> expressions.</p></article>
         <article><h2>Insert an image</h2><p>The DOCX generator's built-in content pipe turns a Base64 PNG or JPEG value into an inline image, for both DOCX and PDF generation.</p><div class="code-window"><pre><code>{company.logo | image(40, 20, true)}
 {optionalPhoto ?? null | image(25, 35, true)}</code></pre></div><p>The first two arguments are maximum width and height in millimetres; <code>true</code> preserves the aspect ratio without upscaling. Defaults are <code>image(50, 50, true)</code>. Null inserts nothing. Supply plain padded Base64, not a URL or data URI. Content pipes cannot be chained before or after any other pipe.</p></article>
       </div>
+      <section id="date-formatting" aria-labelledby="date-formatting-title" class="date-reference">
+        <h2 id="date-formatting-title">Dates and times, explained</h2>
+        <p>Use <code>{issuedOn | date("dd-MM-yyyy")}</code> to turn <code>2026-10-28</code> into <code>28-10-2026</code>. Patterns are case-sensitive: <strong><code>MM</code> means month; <code>mm</code> means minutes.</strong> The generation's locale controls names and abbreviations; the time zone controls timestamp conversion.</p>
+        <div class="date-table-scroll" role="region" aria-label="Date and time pattern reference" tabindex="0">
+          <table class="date-table">
+            <caption>Common date and time patterns, with Dutch examples</caption>
+            <thead><tr><th scope="col">Pattern</th><th scope="col">Meaning</th><th scope="col">Example</th></tr></thead>
+            <tbody>
+              <tr><td><code>d</code> / <code>dd</code></td><td>Day of the month, without / with leading zero</td><td>8 / 08</td></tr>
+              <tr><td><code>M</code> / <code>MM</code></td><td>Month number, without / with leading zero</td><td>3 / 03</td></tr>
+              <tr><td><code>MMM</code> / <code>MMMM</code></td><td>Short / full month name</td><td>mrt. / maart</td></tr>
+              <tr><td><code>EEE</code> / <code>EEEE</code></td><td>Short / full weekday name</td><td>wo / woensdag</td></tr>
+              <tr><td><code>yyyy</code> / <code>uuuu</code></td><td>Year of era / continuous calendar year</td><td>2026 / 2026</td></tr>
+              <tr><td><code>yy</code></td><td>Last two digits of the year</td><td>26</td></tr>
+              <tr><td><code>HH</code> / <code>hh</code></td><td>Hour, 00–23 / 01–12</td><td>14 / 02</td></tr>
+              <tr><td><code>a</code></td><td>AM/PM marker for a 12-hour clock</td><td>p.m.</td></tr>
+              <tr><td><code>mm</code> / <code>ss</code></td><td>Minutes / seconds</td><td>05 / 09</td></tr>
+              <tr><td><code>SSS</code></td><td>Three fractional-second digits</td><td>123</td></tr>
+              <tr><td><code>XXX</code></td><td>Time-zone offset; UTC prints Z</td><td>+01:00</td></tr>
+              <tr><td><code>VV</code> / <code>z</code></td><td>Time-zone identifier / short zone name</td><td>Europe/Amsterdam / CET</td></tr>
+              <tr><td><code>D</code></td><td>Day of the year</td><td>301</td></tr>
+              <tr><td><code>Q</code> / <code>QQQ</code></td><td>Quarter number / short quarter label</td><td>4 / K4</td></tr>
+              <tr><td><code>w</code> / <code>YYYY</code></td><td>Locale-dependent week number / week-based year</td><td>May differ from calendar year near New Year</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>yyyy or uuuu?</h3>
+        <p><code>yyyy</code> is supported. For modern business dates it produces the same output as <code>uuuu</code>. Technically, <code>yyyy</code> is the year within an era, whereas <code>uuuu</code> is a continuous year that also represents year zero and negative years. We recommend <code>uuuu</code> for precision, not as a requirement. <strong>Avoid uppercase <code>YYYY</code> for ordinary dates:</strong> it describes the week-based year and can differ around New Year.</p>
+        <h3>Copy an example</h3>
+        <div class="code-window"><div class="code-window-bar"><span>Date and timestamp patterns</span><button class="copy" data-copy="date-pattern-examples" type="button">Copy</button></div><pre><code id="date-pattern-examples">{issuedOn | date("dd-MM-yyyy")}
+{issuedOn | date("d MMMM uuuu")}
+{issuedOn | date("EEEE d MMMM uuuu")}
+{createdAt | date("dd-MM-uuuu 'om' HH:mm")}
+{createdAt | date("uuuu-MM-dd'T'HH:mm:ssXXX")}</code></pre></div>
+        <p>With locale <code>nl-NL</code>, <code>2026-10-28</code> becomes <code>woensdag 28 oktober 2026</code> using the third pattern. Names and punctuation can differ by locale. Single quotes <em>inside the pattern</em> mark literal text such as <code>'om'</code> or <code>'T'</code>; two consecutive single quotes produce a literal apostrophe.</p>
+        <h3>Input, locale and time zone</h3>
+        <p>Supply a string containing an ISO date, such as <code>2026-10-28</code>, or a timestamp with an explicit offset, such as <code>2026-10-28T14:05:00Z</code> or <code>2026-10-28T15:05:00+01:00</code>. A timestamp without an offset, such as <code>2026-10-28T14:05:00</code>, is rejected. A date has no clock or zone fields, so do not ask it for <code>HH:mm</code> or <code>XXX</code>.</p>
+        <p>Set <code>options.locale</code> to a language tag such as <code>nl-NL</code> or <code>en-US</code>, and <code>options.timeZone</code> to a zone such as <code>Europe/Amsterdam</code>. Defaults are the locale-neutral root locale and UTC, never the server's local settings. Timestamp conversion includes daylight-saving rules and can change the calendar date. Date-only values remain dates. Patterns are limited to 64 characters; null prints empty text, while a missing field needs an explicit fallback.</p>
+        <p>The engine uses Java 17 DateTimeFormatter patterns. See the <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/format/DateTimeFormatter.html#patterns">complete pattern reference</a> for stand-alone month names, eras, quarters, week fields, optional sections and zone formats. These describe output formatting, not alternative input formats.</p>
+      </section>
+      <section id="template-diagnostics" aria-labelledby="template-diagnostics-title" class="date-reference">
+        <h2 id="template-diagnostics-title">Find a template error</h2>
+        <p>On released <code>0.3.0-alpha.2</code>, the Playground uses development diagnostics by default. Curl receives the same details from the same server. A production-mode service deliberately returns less detail. Search the container logs for <code>GENERATION_REJECTED</code> and the response's <code>X-Request-ID</code>. Use <code>curl --fail-with-body</code> to retain an HTTP error's JSON body.</p>
+        <p><code>template:8</code> means offset 8, counted from zero in the local text fragment: roughly the ninth character, possibly the end of the expression. It is not a Word page, line or document-wide character position. An <code>xml:line:column</code> location refers to a parser position in the named package part.</p>
+        <p><strong>Prepared for the next release; not available in 0.3.0-alpha.2:</strong> expressions accept straight double/single quotes and typographic quotes, including mixed opening and closing forms. The parser reads quotes in context; ordinary document text and inserted values stay unchanged. At a possible closing quote, expression punctuation determines the boundary. Escape an interior quote when it would otherwise be read as the end of the string.</p>
+        <div class="code-window"><pre><code>{issuedOn | date("dd-MM-yyyy")}
+{issuedOn | date('dd-MM-yyyy')}
+{issuedOn | date(“dd-MM-yyyy”)}
+{issuedOn | date(‘dd-MM-yyyy")}</code></pre></div>
+        <p>The same upcoming change adds specific syntax reasons, a bounded expression excerpt with an error marker, and available DOCX part/paragraph context to development responses and logs. Paragraph numbers are one-based within the named part, including tables and text boxes; they are not page numbers. Production responses and logs omit expression excerpts. Development may expose document text, so use synthetic data. This site does not change a running container's behavior.</p>
+      </section>
       <div class="template-nesting"><div><h2>Yes, you can nest them</h2><p>Put an if inside a loop, a loop inside an if, or another loop inside that loop. Use different aliases to keep outer items accessible.</p><p>In this example, only active projects appear. Only included tasks appear, and each task can conditionally show a review note. The inner <code>loop.number</code> belongs to the task list; after that loop, the enclosing loop is restored.</p><p>Each block must close with its matching <code>{/if}</code> or <code>{/each}</code>. Processing depth, repetitions and output remain bounded.</p></div><div class="code-window"><div class="code-window-bar"><span>Nested Word template markers</span><button class="copy" data-copy="nested-template" type="button">Copy</button></div><pre><code id="nested-template">{#each projects as project}
 {#if project.active}
 Project: {project.name}

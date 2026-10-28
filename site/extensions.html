@@ -26,6 +26,22 @@
         <article><h2>Value pipes</h2><p>Transform a JSON-compatible value into another value, with positional arguments and chaining. Implement <code>TemplatePipe</code> against <code>nuaforma-contracts</code>. Values may be null, scalars or nested maps/lists, not arbitrary JVM objects.</p><p>Example after installing your pipe: <code>{customer.name | prefix("Customer: ")}</code>.</p></article>
         <article><h2>Document providers</h2><p>Implement <code>DocumentProvider</code> to add your own input/output formats or a complete generator. Providers use ServiceLoader declarations and static compatibility metadata, or explicit embedded registration. Format identifiers are extensible, not a closed enum.</p><p><a href="https://github.com/NuaForma/NuaForma/tree/main/examples/embedded">Independent Java provider example ↗</a></p></article>
       </div>
+      <section id="pipe-starters" aria-labelledby="pipe-starters-title">
+        <h2 class="guide-step" id="pipe-starters-title">Download a working starter</h2>
+        <p>Choose Maven or Gradle and build one Java 17 JAR with three basic pipes. Both downloads contain the same Java implementations, registration resources, a README and executable tests against published <code>0.3.0-alpha.2</code>. The Gradle build uses Kotlin DSL and includes the pinned wrapper. Maven requires Maven 3.9.6 or later; both variants require JDK 17. No NuaForma checkout, Word or Docker is needed to build and test them.</p>
+        <div class="actions"><a class="button primary" href="downloads/pipe-starter-maven.zip" download>Download Maven starter ↓</a><a class="button secondary" href="downloads/pipe-starter-gradle.zip" download>Download Gradle starter ↓</a></div>
+        <div class="template-grid">
+          <article><h3>Maven</h3><div class="code-window"><pre><code>mvn verify
+# target/nuaforma-pipe-starter-1.0.0.jar</code></pre></div></article>
+          <article><h3>Gradle</h3><div class="code-window"><pre><code>./gradlew build
+# Windows: gradlew.bat build
+# build/libs/nuaforma-pipe-starter-1.0.0.jar</code></pre></div></article>
+        </div>
+        <ul><li><code>prefix("Hello ")</code> adds a string prefix.</li><li><code>uppercase()</code> uses the generation's explicit locale.</li><li><code>select("name")</code> selects a JSON object member and deliberately returns null when the member is absent.</li></ul>
+        <div class="code-window"><pre><code>{customer | select("name") | uppercase() | prefix("Customer: ")}
+# With customer.name = "Ada": Customer: ADA</code></pre></div>
+        <p>Tests load the actual packaged JAR and verify discovery, chaining, nulls, invalid inputs, bounds, locale, cancellation and concurrent requests. Main sources depend only on contracts; the JAR contains no duplicate NuaForma/Kotlin classes. Install one variant's JAR in your trusted extension directory and restart. Adapt the package names, pipe names and metadata together, and avoid registering the same names twice. These are value pipes, not generator-owned content pipes.</p>
+      </section>
       <h2 class="guide-step">1. Implement a value pipe</h2>
       <p>This minimal Kotlin pipe adds an explicit prefix to a string. Null stays null. Arguments are declared in the definition; the engine validates them before calling the implementation.</p>
       <div class="code-window"><div class="code-window-bar"><span>example/PrefixPipe.kt</span><button class="copy" data-copy="extension-code" type="button">Copy</button></div><pre><code id="extension-code">package example

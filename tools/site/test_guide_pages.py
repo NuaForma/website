@@ -27,6 +27,20 @@ class Page(HTMLParser):
 
 
 class GuidePagesTest(unittest.TestCase):
+    def test_date_reference_separates_input_patterns_and_pending_diagnostics(self):
+        templates = (SITE / 'templates.html').read_text(encoding='utf-8')
+        for anchor in ['date-formatting', 'template-diagnostics', 'date-pattern-examples']:
+            self.assertIn(f'id="{anchor}"', templates)
+        for explanation in ['MM', 'mm', 'MMMM', 'yyyy', 'uuuu', 'YYYY', 'Europe/Amsterdam',
+                            'nl-NL', '2026-10-28T14:05:00Z', 'without an offset', '64 characters',
+                            'Available from 0.3.0-alpha.3', 'GENERATION_REJECTED',
+                            'template:8', 'not a Word page', 'Production responses and logs omit expression excerpts']:
+            self.assertIn(explanation, templates)
+        self.assertIn('date("dd-MM-uuuu \'om\' HH:mm")', templates)
+        self.assertIn('DateTimeFormatter.html#patterns', templates)
+        self.assertIn('<caption>Common date and time patterns', templates)
+        self.assertIn('scope="col"', templates)
+
     def test_all_pages_have_unique_ids_and_resolvable_local_links(self):
         pages = {path: Page(path) for path in SITE.glob('*.html')}
         self.assertEqual({path.name for path in pages}, {'index.html', 'templates.html', 'extensions.html', 'performance.html', 'operations.html'})

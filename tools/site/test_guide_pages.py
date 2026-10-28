@@ -3,6 +3,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import unittest
+import json
+import re
 
 ROOT = Path(__file__).resolve().parents[2]
 SITE = ROOT / 'site'
@@ -43,7 +45,7 @@ class GuidePagesTest(unittest.TestCase):
 
     def test_all_pages_have_unique_ids_and_resolvable_local_links(self):
         pages = {path: Page(path) for path in SITE.glob('*.html')}
-        self.assertEqual({path.name for path in pages}, {'index.html', 'templates.html', 'extensions.html', 'performance.html', 'operations.html'})
+        self.assertEqual({path.name for path in pages}, {'index.html', 'templates.html', 'extensions.html', 'performance.html', 'operations.html', 'playground.html'})
         for path, page in pages.items():
             self.assertEqual(len(page.ids), len(set(page.ids)), path.name)
             self.assertEqual(len(page.headings), 1, path.name)
@@ -71,11 +73,12 @@ class GuidePagesTest(unittest.TestCase):
             self.assertIn(marker, extension)
 
     def test_shared_header_and_page_specific_initialization(self):
-        for name in ['index.html', 'templates.html', 'extensions.html', 'performance.html', 'operations.html']:
+        for name in ['index.html', 'templates.html', 'extensions.html', 'performance.html', 'operations.html', 'playground.html']:
             html = (SITE / name).read_text(encoding='utf-8')
             self.assertIn('class="site-masthead"', html)
             self.assertIn('href="templates.html"', html)
             self.assertIn('href="extensions.html"', html)
+            self.assertIn('href="playground.html"', html)
             self.assertIn('id="theme-toggle"', html)
             self.assertIn('id="nav-toggle"', html)
             self.assertIn('aria-expanded="false" aria-controls="main-navigation"', html)
@@ -87,6 +90,21 @@ class GuidePagesTest(unittest.TestCase):
         javascript = (SITE / 'app.js').read_text(encoding='utf-8')
         self.assertIn('if (document.querySelector("#scenario-list")) loadExamples()', javascript)
         self.assertIn('if (document.querySelector("#release-link")) latestRelease()', javascript)
+
+    def test_playground_examples_are_consistent_and_diagnostic_assets_are_real(self):
+        page = (SITE / 'playground.html').read_text(encoding='utf-8')
+        data = json.loads(re.search(r'<code id="playground-data">(.*?)</code>', page, re.S)[1])
+        self.assertIsInstance(data['approved'], bool)
+        self.assertEqual('Ada Lovelace', data['customer']['name'])
+        self.assertEqual('2026-10-28', data['issuedOn'])
+        pdf = (SITE / 'downloads/playground-diagnostic-example.pdf').read_bytes()
+        self.assertTrue(pdf.startswith(b'%PDF-'))
+        for name in ['diagnostic-template.png', 'diagnostic-explanation.png']:
+            self.assertTrue((SITE / 'assets/playground' / name).read_bytes().startswith(b'\x89PNG\r\n\x1a\n'))
+        for anchor in ['start', 'examples', 'fonts', 'diagnostics']:
+            self.assertIn(f'id="{anchor}"', page)
+        self.assertIn('production', page)
+        self.assertIn('first locatable error', page)
 
 
 if __name__ == '__main__':

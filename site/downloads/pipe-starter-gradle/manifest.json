@@ -4,7 +4,7 @@
   "variant": "gradle",
   "sha256": {
     "LICENSE": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
-    "README.md": "bfd67cfc4986c155611ca0a9c59c30b846e80c2192e3c5e6ab739a66e144db3e",
+    "README.md": "5a3f12163a69c89fdb52e5917e86c16c6de27602fe7829e014ad24d4b359e373",
     "build.gradle.kts": "43f3abb0fd6d7e8c5bbc992dfec70edd6db63d8577c8785837929545c9cc855b",
     "gradle/wrapper/gradle-wrapper.jar": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
     "gradle/wrapper/gradle-wrapper.properties": "da66a5ffe08e2edfed40553bb83548943a0b522603a833852bce317699e6fa9c",

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Use NuaForma libraries from Maven Central or public Nexus repositories: stable releases, alphas and timestamped snapshots in Maven and Gradle.">
+  <meta name="color-scheme" content="light dark">
+  <title>Maven repositories — NuaForma</title>
+  <link rel="icon" href="assets/nuaforma-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="fork-corner"><a class="fork-banner" href="https://github.com/NuaForma/NuaForma">Fork me on GitHub <span aria-hidden="true">↗</span></a></div>
+  <div class="site-masthead"><header class="site-header wrap">
+    <a class="brand" href="index.html" aria-label="NuaForma home"><img class="logo-light" src="assets/nuaforma-light.png" alt="NuaForma"><img class="logo-dark" src="assets/nuaforma-dark-transparent.png" alt="NuaForma"></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation"><a href="index.html">Overview</a><a href="templates.html">Templates</a><a href="extensions.html">Extensions</a><a href="playground.html">Playground</a><a href="image-comparison/index.html">Image Comparison</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme"><span id="theme-icon" aria-hidden="true">◐</span><span id="theme-label">Theme</span></button>
+  </header></div>
+  <main id="main">
+    <section class="section wrap guide" aria-labelledby="repositories-title">
+      <div class="section-heading"><p class="eyebrow">CHOOSE YOUR RELEASE CHANNEL</p><h1 id="repositories-title">Stable releases.<br>Development previews.</h1><p>NuaForma and Image Comparison use Maven Central for stable libraries and public Nexus repositories for new development versions. Add only the repository for the versions you intend to use.</p></div>
+      <p><strong>Existing downloads keep working.</strong> NuaForma 0.3.0-alpha.4 and earlier published alphas remain on Maven Central, as does Image Comparison 5.0.0. These changes do not move or replace published artifacts. Keep the versions in the current getting-started examples to try those releases.</p>
+      <div class="capability-grid">
+        <article><h2>Stable</h2><p><code>X.Y.Z</code></p><p>Use <a href="https://central.sonatype.com/namespace/dev.nuaforma">Maven Central</a>. Maven already includes Central; Gradle builds declare <code>mavenCentral()</code>. Published versions are fixed.</p></article>
+        <article><h2>Prerelease</h2><p><code>X.Y.Z-alpha.N</code>, beta or RC</p><p>New development previews use <a href="https://repo.nuaforma.dev/#browse/browse:nuaforma-prereleases">Nexus prereleases</a>. Each version is fixed once published. In Maven these count as releases, so enable releases for this repository.</p></article>
+        <article><h2>Snapshot</h2><p><code>X.Y.Z-SNAPSHOT</code></p><p>Use <a href="https://repo.nuaforma.dev/#browse/browse:nuaforma-snapshots">Nexus snapshots</a>. The same dependency version can resolve to a newer timestamped build later. Choose an immutable release when you need repeatable dependency selection.</p></article>
+      </div>
+      <p class="plain-note">These are version formats, not a list of available artifacts. Select an actually published version. Alpha and snapshot builds are intended for evaluation; they are not stable API promises. Repository selection affects libraries, not the existing container download kits.</p>
+      <h2 class="guide-step" id="prereleases">Use a new alpha, beta or RC</h2>
+      <p>Add this repository alongside your existing configuration, then select the desired published development version in your dependencies. Keep all NuaForma dependencies aligned. Maven's standard Central configuration and Gradle's <code>mavenCentral()</code> remain available for existing releases and third-party libraries.</p>
+      <div class="tabs" role="tablist" aria-label="Prereleases repository build tool">
+        <button id="tab-prereleases-gradle" role="tab" aria-selected="true" aria-controls="panel-prereleases-gradle" tabindex="0">Gradle (Kotlin DSL)</button>
+        <button id="tab-prereleases-maven" role="tab" aria-selected="false" aria-controls="panel-prereleases-maven" tabindex="-1">Maven</button>
+      </div>
+      <section id="panel-prereleases-gradle" role="tabpanel" aria-labelledby="tab-prereleases-gradle"><div class="code-window"><div class="code-window-bar"><span>build.gradle.kts · prereleases</span><button class="copy" type="button" data-copy="code-prereleases-gradle">Copy</button></div><pre><code id="code-prereleases-gradle">repositories {
+    mavenCentral()
+    maven {
+        name = &quot;nuaforma-prereleases&quot;
+        url = uri(&quot;https://repo.nuaforma.dev/repository/nuaforma-prereleases/&quot;)
+        content { includeGroup(&quot;dev.nuaforma&quot;) }
+        mavenContent { releasesOnly() }
+    }
+}</code></pre></div></section>
+      <section id="panel-prereleases-maven" role="tabpanel" aria-labelledby="tab-prereleases-maven" hidden><div class="code-window"><div class="code-window-bar"><span>pom.xml · prereleases</span><button class="copy" type="button" data-copy="code-prereleases-maven">Copy</button></div><pre><code id="code-prereleases-maven">&lt;repositories&gt;
+  &lt;repository&gt;
+    &lt;id&gt;nuaforma-prereleases&lt;/id&gt;
+    &lt;url&gt;https://repo.nuaforma.dev/repository/nuaforma-prereleases/&lt;/url&gt;
+    &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;
+    &lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt;
+  &lt;/repository&gt;
+&lt;/repositories&gt;</code></pre></div></section>
+      <h2 class="guide-step" id="snapshots">Use a snapshot deliberately</h2>
+      <p>Add the separate snapshot repository and use the published <code>-SNAPSHOT</code> dependency version. Maven and Gradle resolve its timestamp/build-number metadata; do not invent a timestamped filename or use a snapshot version in the prerelease repository.</p>
+      <div class="tabs" role="tablist" aria-label="Snapshots repository build tool">
+        <button id="tab-snapshots-gradle" role="tab" aria-selected="true" aria-controls="panel-snapshots-gradle" tabindex="0">Gradle (Kotlin DSL)</button>
+        <button id="tab-snapshots-maven" role="tab" aria-selected="false" aria-controls="panel-snapshots-maven" tabindex="-1">Maven</button>
+      </div>
+      <section id="panel-snapshots-gradle" role="tabpanel" aria-labelledby="tab-snapshots-gradle"><div class="code-window"><div class="code-window-bar"><span>build.gradle.kts · snapshots</span><button class="copy" type="button" data-copy="code-snapshots-gradle">Copy</button></div><pre><code id="code-snapshots-gradle">repositories {
+    mavenCentral()
+    maven {
+        name = &quot;nuaforma-snapshots&quot;
+        url = uri(&quot;https://repo.nuaforma.dev/repository/nuaforma-snapshots/&quot;)
+        content { includeGroup(&quot;dev.nuaforma&quot;) }
+        mavenContent { snapshotsOnly() }
+    }
+}</code></pre></div></section>
+      <section id="panel-snapshots-maven" role="tabpanel" aria-labelledby="tab-snapshots-maven" hidden><div class="code-window"><div class="code-window-bar"><span>pom.xml · snapshots</span><button class="copy" type="button" data-copy="code-snapshots-maven">Copy</button></div><pre><code id="code-snapshots-maven">&lt;repositories&gt;
+  &lt;repository&gt;
+    &lt;id&gt;nuaforma-snapshots&lt;/id&gt;
+    &lt;url&gt;https://repo.nuaforma.dev/repository/nuaforma-snapshots/&lt;/url&gt;
+    &lt;releases&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/releases&gt;
+    &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+  &lt;/repository&gt;
+&lt;/repositories&gt;</code></pre></div></section>
+      <p>Build tools may cache changing versions. When deliberately checking a newer snapshot generation, use <a href="https://maven.apache.org/ref/3-LATEST/maven-embedder/cli.html"><code>mvn -U verify</code></a> or <a href="https://docs.gradle.org/9.7.0/userguide/dependency_caching.html"><code>./gradlew build --refresh-dependencies</code></a>. A later build may resolve different snapshot bytes even when the declared version stays the same.</p>
+      <h2 class="guide-step">Anonymous downloads. Controlled publishing.</h2>
+      <p>No repository username, password or private token is needed to use these libraries. Publishing requires maintainer authentication. Never put publishing credentials in a consumer example or a public project.</p>
+      <p>Maintainers publish snapshots manually from a signed, green <code>develop</code> commit using <strong>Publish snapshot to Nexus (manual)</strong>. There is no automatic publication on a push. Immutable releases keep their protected approval process; only stable releases go to Central. The repository guides own the detailed checks and recovery instructions.</p>
+      <div class="link-row"><a href="https://github.com/NuaForma/NuaForma/blob/develop/docs/nexus-publishing.md">Product publication guide ↗</a><a href="https://github.com/NuaForma/image-comparison/blob/develop/docs/nexus-publishing.md">Image Comparison publication guide ↗</a><a href="index.html#developers">Embed NuaForma →</a><a href="extensions.html">Build an extension →</a><a href="image-comparison/docs/index.html">Use Image Comparison →</a></div>
+    </section>
+  </main>
+  <footer class="wrap"><span>© NuaForma contributors</span><a href="https://github.com/NuaForma/NuaForma/blob/main/LICENSE">Apache 2.0</a><a href="https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md">Third-party licenses</a><span>No cookies or analytics.</span></footer>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+</body>
+</html>

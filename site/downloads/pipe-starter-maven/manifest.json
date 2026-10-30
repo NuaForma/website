@@ -4,8 +4,8 @@
   "variant": "maven",
   "sha256": {
     "LICENSE": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
-    "README.md": "bfd67cfc4986c155611ca0a9c59c30b846e80c2192e3c5e6ab739a66e144db3e",
-    "pom.xml": "4c74fe7f8f8ca0e637ed61b1140620dd3eae2bb39abb5fc2877bfbe2a273c822",
+    "README.md": "5a3f12163a69c89fdb52e5917e86c16c6de27602fe7829e014ad24d4b359e373",
+    "pom.xml": "4f66284b411d2a40a2fccb2c5708cfc2e57c593dffb481aa71d53b27eb04763f",
     "src/main/java/example/PrefixPipe.java": "a62b87cc0964c3dbe0357fa28896da506c622f55398247f30e52bf2c680e77c3",
     "src/main/java/example/SelectPipe.java": "550451f6c3865658edafa9cb1f12c5322788e4031af1fdf2569442d9ec94e254",
     "src/main/java/example/UppercasePipe.java": "7626cae543f49043a6cc6447d0a2787a815d4ac13a075e479be583c0689f94b8",

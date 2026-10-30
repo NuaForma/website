@@ -60,4 +60,4 @@ NuaForma-authored code/examples are [Apache-2.0](LICENSE). Branding grants no tr
 
 ## Maven development channels
 
-The [public repository guide](site/repositories.html) explains stable Central releases, immutable Nexus prereleases and manual timestamped snapshots for both libraries, with anonymous Maven/Gradle configuration examples. The product and Image Comparison repositories own publication/security/approval procedures. Existing released versions, runtime references and container downloads are preserved; starter ZIPs keep their pinned Central dependency and include the channel guide link.
+The [public repository guide](site/repositories.html) explains stable Central releases, immutable Nexus prereleases and timestamped snapshots for both projects, with anonymous Maven/Gradle configuration examples. Image Comparison publishes snapshots after each green develop merge; product snapshots remain manual. The product and Image Comparison repositories own publication/security/approval procedures. Existing released versions, runtime references and container downloads are preserved; starter ZIPs keep their pinned Central dependency and include the channel guide link.

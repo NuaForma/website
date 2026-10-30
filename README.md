@@ -57,3 +57,7 @@ A product release is not fully delivered until the matching website update is de
 The migration retains original signed Git commits as unchanged ancestry instead of rewriting/re-signing old history. Historical product files are therefore visible in old commits, not in the current website tree. See [maintenance issue #88](https://github.com/NuaForma/NuaForma/issues/88).
 
 NuaForma-authored code/examples are [Apache-2.0](LICENSE). Branding grants no trademark rights; runtime components/fonts keep their own terms. See the product's [notices](https://github.com/NuaForma/NuaForma/blob/main/THIRD_PARTY.md) before redistributing images.
+
+## Maven development channels
+
+The [public repository guide](site/repositories.html) explains stable Central releases, immutable Nexus prereleases and timestamped snapshots for both projects, with anonymous Maven/Gradle configuration examples. Image Comparison publishes snapshots after each green develop merge; product snapshots remain manual. The product and Image Comparison repositories own publication/security/approval procedures. Existing released versions, runtime references and container downloads are preserved; starter ZIPs keep their pinned Central dependency and include the channel guide link.

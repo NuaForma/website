@@ -72,7 +72,7 @@ class PrefixPipe : TemplatePipe {
     }
 }</code></pre></div>
       <p>New alpha/beta/RC and snapshot library versions use separate public Nexus repositories. Existing pinned Central dependencies in the starter downloads keep working. See <a href="repositories.html">Maven and Gradle repository configuration</a> before upgrading a development version.</p>
-      <p>Compile for Java 17 for broad embedded compatibility. Use the matching published contracts, currently <code>dev.nuaforma:nuaforma-contracts:0.3.0-alpha.4</code>, preferably as a compile-only/provided dependency. Do not package duplicate NuaForma or Kotlin runtime classes. Start with the <a href="https://github.com/NuaForma/NuaForma/tree/main/examples/value-pipes">complete Kotlin extension and independent consumer</a> for build setup and executable tests.</p>
+      <p>Compile for Java 17 for broad embedded compatibility. Use the matching published contracts, currently <code>dev.nuaforma:nuaforma-contracts:0.3.0-alpha.5</code>, preferably as a compile-only/provided dependency. Do not package duplicate NuaForma or Kotlin runtime classes. Start with the <a href="https://github.com/NuaForma/NuaForma/tree/main/examples/value-pipes">complete Kotlin extension and independent consumer</a> for build setup and executable tests.</p>
       <h2 class="guide-step">2. Register it in the same JAR</h2>
       <p>Add these two resources. The service file names the implementation; the properties file declares its identity and minimum contract. Release version and contract version are separate.</p>
       <div class="code-window"><div class="code-window-bar"><span>src/main/resources/META-INF/services/dev.nuaforma.contracts.TemplatePipe</span></div><pre><code>example.PrefixPipe</code></pre></div>

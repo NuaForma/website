@@ -1,3 +1,3 @@
-FROM ghcr.io/nuaforma/nuaforma:0.3.0-alpha.6
+FROM ghcr.io/nuaforma/nuaforma:0.3.0-alpha.7
 # Retain the runtime, entrypoint, notices and non-root user.
 # Mount operator fonts at runtime rather than copying them into the image.

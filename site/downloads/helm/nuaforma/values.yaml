@@ -1,7 +1,7 @@
 image:
   repository: ghcr.io/nuaforma/nuaforma
-  tag: 0.4.0-alpha.2
-  digest: sha256:a148bfff7660c75d39c98c69109c0e1e7f5e8194578add2d833934a091240f1d
+  tag: 0.4.0-alpha.3
+  digest: sha256:e939c3f359349c2bfbc1d857e966896944e21e3ea6abffd1ba5a7d536354fa26
 fonts:
   existingClaim: ""
 extensions:

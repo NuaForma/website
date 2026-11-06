@@ -1,7 +1,7 @@
 {
   "repository": "NuaForma/NuaForma",
-  "sourceCommit": "f47b47f1ef995cf1b3075f38e584c46408e491bd",
-  "release": "0.4.0-alpha.4",
+  "sourceCommit": "3fd6104d09a61853f26aebbae23f4d4ef7c16741",
+  "release": "0.4.0-alpha.5",
   "validationBoundary": "container",
   "files": {
     "compose.yaml": "9a5c9145be8b7349de20d2c2cc3fc683f89c402e9cf2b3e21560a99f1f5613de",

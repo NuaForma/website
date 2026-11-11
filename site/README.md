@@ -1,3 +1,3 @@
 # NuaForma website
 
-Candidate 0.4.0-alpha.7. Website maintenance belongs to the repository root README. This directory is the static publication tree. Product generation and real client qualification remain in NuaForma/NuaForma, under tools/site-qualification. Preparation alone does not authorize publication.
+Candidate 0.5.0-alpha.1. Website maintenance belongs to the repository root README. This directory is the static publication tree. Product generation and real client qualification remain in NuaForma/NuaForma, under tools/site-qualification. Preparation alone does not authorize publication.
